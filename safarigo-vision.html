@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafariGo — Tourism Operating System of Tanzania</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --green-deep:  #1A3C2E;
+  --green-mid:   #2A5C46;
+  --green-light: #3D7A5F;
+  --earth:       #C4813A;
+  --gold:        #E8B84B;
+  --gold-light:  #F5D882;
+  --cream:       #F7F2E8;
+  --cream-dark:  #EDE6D6;
+  --ink:         #1C1C1C;
+  --ink-soft:    #4A4A4A;
+  --white:       #FFFFFF;
+  --blue:        #1E5FA8;
+  --blue-light:  rgba(30,95,168,0.08);
+  --red:         #C0392B;
+  --shadow-sm:   0 2px 16px rgba(26,60,46,0.08);
+  --shadow-md:   0 8px 40px rgba(26,60,46,0.14);
+  --shadow-lg:   0 16px 60px rgba(26,60,46,0.2);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.15;}
+a{text-decoration:none;color:inherit;}
+
+/* ── NAV ─────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 5%;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  transition:all 0.3s;
+}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--gold);}
+.nav-logo span{color:var(--white);}
+.nav-logo sub{font-size:0.55rem;font-weight:600;letter-spacing:0.1em;color:rgba(232,184,75,0.6);vertical-align:super;margin-left:4px;text-transform:uppercase;}
+.nav-links{display:flex;gap:1.6rem;align-items:center;}
+.nav-links a{color:rgba(255,255,255,0.5);font-size:0.78rem;font-weight:500;transition:color 0.2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{
+  background:var(--gold)!important;color:var(--green-deep)!important;
+  padding:9px 20px;border-radius:6px;font-weight:700!important;font-size:0.78rem!important;
+}
+.nav-back{color:rgba(255,255,255,0.4)!important;font-size:0.75rem!important;}
+
+/* ── HERO ─────────────────────────────────────────── */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:120px 5% 80px;
+  position:relative;overflow:hidden;
+  background:#080e09;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(26,60,46,0.8) 0%, transparent 65%),
+    radial-gradient(ellipse at 20% 100%, rgba(196,129,58,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(30,95,168,0.1) 0%, transparent 50%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+.hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto;}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(232,184,75,0.1);
+  border:1px solid rgba(232,184,75,0.25);
+  color:var(--gold);font-size:0.7rem;font-weight:700;
+  letter-spacing:0.14em;text-transform:uppercase;
+  padding:7px 18px;border-radius:100px;margin-bottom:2rem;
+}
+.hero-pill::before{content:'';width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+.hero h1{
+  font-size:clamp(2.4rem,5.5vw,4.2rem);
+  font-weight:900;color:var(--white);
+  margin-bottom:1rem;line-height:1.05;
+  letter-spacing:-0.02em;
+}
+.hero h1 em{font-style:normal;color:var(--gold);}
+.hero-sub{
+  font-size:1.1rem;color:rgba(255,255,255,0.5);
+  line-height:1.75;max-width:640px;margin:0 auto 2.5rem;
+}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-gold{
+  display:inline-block;background:var(--gold);color:var(--green-deep);
+  padding:14px 32px;border-radius:8px;font-weight:700;font-size:0.9rem;
+  transition:background 0.2s,transform 0.15s;
+}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);}
+.btn-ghost{
+  display:inline-block;background:transparent;color:rgba(255,255,255,0.7);
+  padding:14px 32px;border-radius:8px;font-weight:600;font-size:0.9rem;
+  border:1.5px solid rgba(255,255,255,0.2);
+  transition:border-color 0.2s,color 0.2s;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+.hero-scroll{
+  margin-top:60px;
+  font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(255,255,255,0.2);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,rgba(232,184,75,0.6),transparent);
+  animation:scrollLine 2s infinite;
+}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+/* ── COMPARISON STRIP ────────────────────────────── */
+.compare-strip{
+  background:rgba(255,255,255,0.03);
+  border-top:1px solid rgba(255,255,255,0.06);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:20px 5%;
+}
+.compare-inner{
+  max-width:900px;margin:0 auto;
+  display:flex;align-items:center;justify-content:center;gap:0;
+}
+.compare-item{
+  flex:1;text-align:center;padding:16px 12px;
+  border-right:1px solid rgba(255,255,255,0.06);
+}
+.compare-item:last-child{border-right:none;}
+.compare-was{font-size:0.7rem;color:rgba(255,255,255,0.25);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:5px;text-decoration:line-through;}
+.compare-is{font-size:0.85rem;font-weight:700;color:var(--gold);}
+
+/* ── SECTIONS ─────────────────────────────────────── */
+section{padding:100px 5%;}
+.section-inner{max-width:1200px;margin:0 auto;}
+.section-eyebrow{
+  font-size:0.68rem;font-weight:700;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--earth);margin-bottom:0.8rem;
+}
+.section-title{
+  font-size:clamp(1.8rem,3.2vw,2.8rem);
+  font-weight:700;color:var(--white);margin-bottom:1rem;
+}
+.section-sub{
+  font-size:0.95rem;color:rgba(255,255,255,0.45);
+  line-height:1.75;max-width:600px;
+}
+.section-header{margin-bottom:4rem;}
+
+/* ── URGENCY SECTION ─────────────────────────────── */
+.urgency{background:#0d0d0d;}
+.urgency-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.06);}
+.urgency-item{
+  background:#0d0d0d;padding:36px 32px;
+  transition:background 0.2s;
+}
+.urgency-item:hover{background:#111;}
+.urgency-num{
+  font-family:'Playfair Display',serif;
+  font-size:3rem;font-weight:900;
+  line-height:1;margin-bottom:8px;
+}
+.urgency-num.red{color:#e74c3c;}
+.urgency-num.gold{color:var(--gold);}
+.urgency-num.green{color:#2ecc71;}
+.urgency-label{font-size:0.82rem;color:rgba(255,255,255,0.4);line-height:1.55;}
+.urgency-label strong{color:rgba(255,255,255,0.75);display:block;font-size:0.9rem;margin-bottom:4px;}
+
+/* ── FEATURES GRID ───────────────────────────────── */
+.features{background:#080e09;}
+.features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+@media(max-width:800px){.features-grid{grid-template-columns:1fr;}}
+
+.feat-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:20px;padding:36px 32px;
+  position:relative;overflow:hidden;
+  transition:border-color 0.25s,background 0.25s,transform 0.25s;
+  cursor:default;
+}
+.feat-card:hover{
+  border-color:rgba(232,184,75,0.25);
+  background:rgba(255,255,255,0.05);
+  transform:translateY(-3px);
+}
+.feat-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--feat-color,var(--gold)),transparent);
+  opacity:0;transition:opacity 0.25s;
+}
+.feat-card:hover::before{opacity:1;}
+.feat-number{
+  font-family:'Playfair Display',serif;
+  font-size:4rem;font-weight:900;
+  color:rgba(255,255,255,0.04);
+  line-height:1;
+  position:absolute;top:20px;right:24px;
+}
+.feat-icon{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin-bottom:1.4rem;
+  flex-shrink:0;
+}
+.feat-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;font-weight:700;
+  color:var(--white);margin-bottom:0.6rem;
+}
+.feat-sub{
+  font-size:0.68rem;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;margin-bottom:1rem;
+}
+.feat-desc{
+  font-size:0.85rem;color:rgba(255,255,255,0.45);
+  line-height:1.7;margin-bottom:1.4rem;
+}
+.feat-points{display:flex;flex-direction:column;gap:8px;}
+.feat-point{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:0.8rem;color:rgba(255,255,255,0.5);line-height:1.5;
+}
+.feat-point-dot{
+  width:5px;height:5px;border-radius:50%;
+  flex-shrink:0;margin-top:7px;
+}
+.feat-revenue{
+  margin-top:1.4rem;padding:12px 16px;border-radius:10px;
+  font-size:0.78rem;font-weight:600;
+  display:flex;align-items:center;gap:8px;
+}
+
+/* Feature color themes */
+.feat-1{--feat-color:#2ecc71;}
+.feat-1 .feat-icon{background:rgba(46,204,113,0.1);}
+.feat-1 .feat-sub{color:#2ecc71;}
+.feat-1 .feat-point-dot{background:#2ecc71;}
+.feat-1 .feat-revenue{background:rgba(46,204,113,0.06);color:#2ecc71;border:1px solid rgba(46,204,113,0.15);}
+
+.feat-2{--feat-color:var(--gold);}
+.feat-2 .feat-icon{background:rgba(232,184,75,0.1);}
+.feat-2 .feat-sub{color:var(--gold);}
+.feat-2 .feat-point-dot{background:var(--gold);}
+.feat-2 .feat-revenue{background:rgba(232,184,75,0.06);color:var(--gold);border:1px solid rgba(232,184,75,0.15);}
+
+.feat-3{--feat-color:#3498db;}
+.feat-3 .feat-icon{background:rgba(52,152,219,0.1);}
+.feat-3 .feat-sub{color:#3498db;}
+.feat-3 .feat-point-dot{background:#3498db;}
+.feat-3 .feat-revenue{background:rgba(52,152,219,0.06);color:#3498db;border:1px solid rgba(52,152,219,0.15);}
+
+.feat-4{--feat-color:var(--earth);}
+.feat-4 .feat-icon{background:rgba(196,129,58,0.1);}
+.feat-4 .feat-sub{color:var(--earth);}
+.feat-4 .feat-point-dot{background:var(--earth);}
+.feat-4 .feat-revenue{background:rgba(196,129,58,0.06);color:var(--earth);border:1px solid rgba(196,129,58,0.15);}
+
+.feat-5{--feat-color:#27ae60;}
+.feat-5 .feat-icon{background:rgba(39,174,96,0.1);}
+.feat-5 .feat-sub{color:#27ae60;}
+.feat-5 .feat-point-dot{background:#27ae60;}
+.feat-5 .feat-revenue{background:rgba(39,174,96,0.06);color:#27ae60;border:1px solid rgba(39,174,96,0.15);}
+
+.feat-6{--feat-color:#e74c3c;}
+.feat-6 .feat-icon{background:rgba(231,76,60,0.1);}
+.feat-6 .feat-sub{color:#e74c3c;}
+.feat-6 .feat-point-dot{background:#e74c3c;}
+.feat-6 .feat-revenue{background:rgba(231,76,60,0.06);color:#e74c3c;border:1px solid rgba(231,76,60,0.15);}
+
+.feat-7{--feat-color:#9b59b6;}
+.feat-7 .feat-icon{background:rgba(155,89,182,0.1);}
+.feat-7 .feat-sub{color:#9b59b6;}
+.feat-7 .feat-point-dot{background:#9b59b6;}
+.feat-7 .feat-revenue{background:rgba(155,89,182,0.06);color:#9b59b6;border:1px solid rgba(155,89,182,0.15);}
+
+.feat-8{--feat-color:#1abc9c;}
+.feat-8 .feat-icon{background:rgba(26,188,156,0.1);}
+.feat-8 .feat-sub{color:#1abc9c;}
+.feat-8 .feat-point-dot{background:#1abc9c;}
+.feat-8 .feat-revenue{background:rgba(26,188,156,0.06);color:#1abc9c;border:1px solid rgba(26,188,156,0.15);}
+
+.feat-9{--feat-color:#f39c12;}
+.feat-9 .feat-icon{background:rgba(243,156,18,0.1);}
+.feat-9 .feat-sub{color:#f39c12;}
+.feat-9 .feat-point-dot{background:#f39c12;}
+.feat-9 .feat-revenue{background:rgba(243,156,18,0.06);color:#f39c12;border:1px solid rgba(243,156,18,0.15);}
+
+.feat-10{--feat-color:#2980b9;}
+.feat-10 .feat-icon{background:rgba(41,128,185,0.1);}
+.feat-10 .feat-sub{color:#2980b9;}
+.feat-10 .feat-point-dot{background:#2980b9;}
+.feat-10 .feat-revenue{background:rgba(41,128,185,0.06);color:#2980b9;border:1px solid rgba(41,128,185,0.15);}
+
+/* ── ECOSYSTEM MAP ───────────────────────────────── */
+.ecosystem{background:#0a0f0b;}
+.eco-ring{
+  position:relative;width:560px;height:560px;margin:0 auto;
+}
+@media(max-width:640px){.eco-ring{width:320px;height:320px;}}
+.eco-center{
+  position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:140px;height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle,var(--green-mid),var(--green-deep));
+  border:2px solid rgba(232,184,75,0.4);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 0 60px rgba(26,60,46,0.6), 0 0 120px rgba(232,184,75,0.08);
+  z-index:10;
+}
+@media(max-width:640px){.eco-center{width:80px;height:80px;}}
+.eco-center-title{font-family:'Playfair Display',serif;font-size:0.85rem;font-weight:700;color:var(--gold);text-align:center;line-height:1.2;}
+.eco-center-sub{font-size:0.55rem;color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-transform:uppercase;margin-top:3px;}
+@media(max-width:640px){.eco-center-title{font-size:0.5rem;}.eco-center-sub{display:none;}}
+.eco-orbit{
+  position:absolute;inset:0;
+  border-radius:50%;
+  border:1px dashed rgba(255,255,255,0.07);
+}
+.eco-node{
+  position:absolute;
+  width:80px;
+  text-align:center;
+  transform:translate(-50%,-50%);
+}
+@media(max-width:640px){.eco-node{width:48px;}}
+.eco-node-dot{
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;margin:0 auto 6px;
+  border:1.5px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);
+  transition:all 0.2s;cursor:default;
+}
+@media(max-width:640px){.eco-node-dot{width:28px;height:28px;font-size:0.7rem;}}
+.eco-node:hover .eco-node-dot{
+  background:rgba(232,184,75,0.1);
+  border-color:rgba(232,184,75,0.4);
+  box-shadow:0 0 20px rgba(232,184,75,0.15);
+}
+.eco-node-label{font-size:0.62rem;font-weight:600;color:rgba(255,255,255,0.4);line-height:1.3;}
+@media(max-width:640px){.eco-node-label{font-size:0.42rem;}}
+.eco-line{
+  position:absolute;top:50%;left:50%;
+  width:50%;height:1px;
+  background:linear-gradient(to right,rgba(232,184,75,0.3),transparent);
+  transform-origin:left center;
+  pointer-events:none;
+}
+
+/* ── REVENUE MODEL ───────────────────────────────── */
+.revenue{background:#080e09;}
+.revenue-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:900px){.revenue-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:500px){.revenue-grid{grid-template-columns:1fr;}}
+.rev-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:16px;padding:26px 24px;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.rev-card:hover{border-color:rgba(232,184,75,0.2);transform:translateY(-3px);}
+.rev-icon{font-size:1.5rem;margin-bottom:12px;}
+.rev-stream{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:6px;}
+.rev-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:6px;}
+.rev-desc{font-size:0.78rem;color:rgba(255,255,255,0.4);line-height:1.55;margin-bottom:12px;}
+.rev-rate{
+  font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--gold);
+}
+.rev-rate sub{font-size:0.65rem;font-weight:400;color:rgba(255,255,255,0.3);font-family:'Inter',sans-serif;margin-left:4px;}
+
+/* ── ROADMAP ─────────────────────────────────────── */
+.roadmap{background:#0a0f0b;}
+.roadmap-track{
+  position:relative;max-width:800px;margin:0 auto;
+  padding-left:48px;
+}
+.roadmap-vline{
+  position:absolute;left:16px;top:12px;bottom:12px;
+  width:2px;background:rgba(255,255,255,0.06);
+}
+.roadmap-fill{
+  position:absolute;left:16px;top:12px;
+  width:2px;background:linear-gradient(to bottom,var(--gold),var(--earth),rgba(255,255,255,0.1));
+  height:40%;transition:height 1.5s ease;
+}
+.rm-item{
+  position:relative;padding:0 0 44px;
+}
+.rm-dot{
+  position:absolute;left:-48px;top:3px;
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.72rem;font-weight:800;
+  border:2px solid rgba(255,255,255,0.1);
+  background:#0a0f0b;
+  transition:all 0.3s;
+}
+.rm-dot.done{background:var(--gold);color:var(--green-deep);border-color:var(--gold);box-shadow:0 0 16px rgba(232,184,75,0.4);}
+.rm-dot.active{background:var(--green-mid);color:var(--white);border-color:var(--green-light);box-shadow:0 0 16px rgba(42,92,70,0.5);}
+.rm-phase{
+  font-size:0.65rem;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:6px;
+}
+.rm-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:8px;}
+.rm-items{display:flex;flex-direction:column;gap:7px;}
+.rm-point{
+  display:flex;align-items:flex-start;gap:9px;
+  font-size:0.8rem;color:rgba(255,255,255,0.45);line-height:1.5;
+}
+.rm-point-dot{width:4px;height:4px;border-radius:50%;background:var(--earth);flex-shrink:0;margin-top:7px;}
+.rm-tag{
+  display:inline-block;margin-top:12px;
+  font-size:0.68rem;font-weight:700;padding:3px 12px;border-radius:100px;
+}
+.rm-tag.done{background:rgba(232,184,75,0.12);color:var(--gold);}
+.rm-tag.active{background:rgba(42,92,70,0.2);color:#6fcf97;}
+.rm-tag.future{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.3);}
+
+/* ── STAKEHOLDERS ────────────────────────────────── */
+.stakeholders{background:#080e09;}
+.stake-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+@media(max-width:900px){.stake-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.stake-grid{grid-template-columns:1fr;}}
+.stake-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:16px;padding:28px 22px;text-align:center;
+  transition:all 0.2s;
+}
+.stake-card:hover{border-color:rgba(232,184,75,0.2);background:rgba(255,255,255,0.05);}
+.stake-icon{font-size:2.2rem;margin-bottom:14px;}
+.stake-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;}
+.stake-desc{font-size:0.75rem;color:rgba(255,255,255,0.38);line-height:1.6;}
+
+/* ── VISION STATEMENT ────────────────────────────── */
+.vision{
+  background:linear-gradient(160deg,var(--green-deep) 0%,#0d1f14 100%);
+  padding:120px 5%;text-align:center;
+  position:relative;overflow:hidden;
+}
+.vision::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,0.02) 1px,transparent 1px);
+  background-size:32px 32px;
+}
+.vision-inner{max-width:800px;margin:0 auto;position:relative;z-index:1;}
+.vision-quote{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.4rem,3vw,2.2rem);
+  font-weight:700;color:var(--white);
+  line-height:1.45;margin-bottom:2rem;
+}
+.vision-quote em{font-style:normal;color:var(--gold);}
+.vision-author{font-size:0.78rem;color:rgba(255,255,255,0.3);letter-spacing:0.06em;}
+.vision-expansion{
+  margin-top:4rem;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:16px;
+}
+@media(max-width:700px){.vision-expansion{grid-template-columns:1fr 1fr;}}
+.exp-country{
+  padding:16px 12px;border-radius:12px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  text-align:center;transition:all 0.2s;
+  cursor:default;
+}
+.exp-country:hover{border-color:rgba(232,184,75,0.25);background:rgba(232,184,75,0.05);}
+.exp-flag{font-size:1.6rem;margin-bottom:6px;}
+.exp-name{font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.6);}
+.exp-status{font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:3px;}
+.exp-country:first-child .exp-status{color:#2ecc71;}
+
+/* ── CTA FINAL ───────────────────────────────────── */
+.cta-final{background:#050a06;padding:100px 5%;text-align:center;}
+.cta-final-inner{max-width:700px;margin:0 auto;}
+.cta-final h2{font-size:clamp(1.8rem,3.5vw,3rem);color:var(--white);margin-bottom:1rem;}
+.cta-final h2 em{font-style:normal;color:var(--gold);}
+.cta-final p{font-size:0.95rem;color:rgba(255,255,255,0.4);line-height:1.75;margin-bottom:2.5rem;}
+.cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer{
+  background:#020602;
+  padding:40px 5% 28px;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold);}
+.footer-logo span{color:var(--white);}
+.footer-links{display:flex;gap:1.5rem;}
+.footer-links a{font-size:0.75rem;color:rgba(255,255,255,0.25);transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{width:100%;text-align:center;font-size:0.68rem;color:rgba(255,255,255,0.12);padding-top:20px;margin-top:20px;border-top:1px solid rgba(255,255,255,0.04);}
+
+/* ── REVEAL ──────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-d1{transition-delay:0.1s;}
+.reveal-d2{transition-delay:0.2s;}
+.reveal-d3{transition-delay:0.3s;}
+.reveal-d4{transition-delay:0.4s;}
+
+@media(max-width:700px){
+  .nav-links a:not(.nav-cta):not(.nav-back){display:none;}
+  .urgency-grid{grid-template-columns:1fr;}
+  .eco-ring{width:300px;height:300px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Safari<span>Go</span> <sub>TOS</sub></div>
+  <div class="nav-links">
+    <a href="#features">The 10 Pillars</a>
+    <a href="#ecosystem">Ecosystem</a>
+    <a href="#revenue">Revenue</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="safarigo-landing.html" class="nav-back">← Main Site</a>
+    <a href="#contact" class="nav-cta">Partner With Us</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-pill">Strategic Vision 2026–2030</div>
+    <h1>
+      SafariGo is No Longer<br/>
+      a Booking App.<br/>
+      It is Tanzania's <em>Tourism<br/>Operating System.</em>
+    </h1>
+    <p class="hero-sub">
+      Ten interconnected pillars that transform a trust-and-escrow platform into the single digital backbone connecting every stakeholder in East African tourism — from national parks to international tourists, from village cooperatives to central government policy.
+    </p>
+    <div class="hero-actions">
+      <a href="#features" class="btn-gold">Explore All 10 Pillars →</a>
+      <a href="#ecosystem" class="btn-ghost">View the Ecosystem</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll to explore
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE → AFTER STRIP -->
+<div class="compare-strip">
+  <div class="compare-inner">
+    <div class="compare-item">
+      <div class="compare-was">Booking Platform</div>
+      <div class="compare-is">Trust & Escrow Engine</div>
+    </div>
+    <div class="compare-item">
+      <div class="compare-was">App for Tourists</div>
+      <div class="compare-is">National Infrastructure</div>
+    </div>
+    <div class="compare-item">
+      <div class="compare-was">Commission Revenue Only</div>
+      <div class="compare-is">7 Revenue Streams</div>
+    </div>
+    <div class="compare-item">
+      <div class="compare-was">Tanzania Only</div>
+      <div class="compare-is">Replicable Across Africa</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ URGENCY ════════════════════════════════════════ -->
+<section class="urgency" id="why">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center;max-width:600px;margin:0 auto 4rem;">
+      <div class="section-eyebrow">The Opportunity Is Now</div>
+      <h2 class="section-title">Tanzania Is Leaving Billions on the Table</h2>
+      <p class="section-sub" style="margin:0 auto;">Three data points that make the case for why this infrastructure cannot wait.</p>
+    </div>
+    <div class="urgency-grid">
+      <div class="urgency-item reveal reveal-d1">
+        <div class="urgency-num red">$2.5B+</div>
+        <div class="urgency-label"><strong>Annual Tourism Revenue</strong>Tanzania generates over $2.5 billion yearly in tourism — yet the majority of transactions remain informal, unverifiable, and untaxable.</div>
+      </div>
+      <div class="urgency-item reveal reveal-d2">
+        <div class="urgency-num red">~70%</div>
+        <div class="urgency-label"><strong>Bookings via WhatsApp</strong>Estimated share of safari bookings handled through unmonitored chat channels with zero audit trail, zero escrow, and zero statutory tax collection.</div>
+      </div>
+      <div class="urgency-item reveal reveal-d3">
+        <div class="urgency-num gold">$0</div>
+        <div class="urgency-label"><strong>Existing National Tourism OS</strong>No single digital platform today connects TANAPA, operators, tourists, banks, insurers, and government policy into one real-time data layer. SafariGo is building it first.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 10 FEATURES ════════════════════════════════════ -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center;max-width:680px;margin:0 auto 4rem;">
+      <div class="section-eyebrow">The 10 Strategic Pillars</div>
+      <h2 class="section-title">From Booking to Operating System</h2>
+      <p class="section-sub" style="margin:0 auto;">Each pillar adds a new layer of value — for tourists, operators, government, and investors. Together, they make SafariGo irreplaceable.</p>
+    </div>
+    <div class="features-grid">
+
+      <!-- 01 -->
+      <div class="feat-card feat-1 reveal reveal-d1">
+        <div class="feat-number">01</div>
+        <div class="feat-icon">🪪</div>
+        <div class="feat-title">Digital Tourist Passport</div>
+        <div class="feat-sub">Paperless Identity Layer</div>
+        <p class="feat-desc">A single secure digital wallet that consolidates every tourist document — passport copy, flight tickets, park permits, hotel vouchers, and travel insurance — into one QR-scannable identity credential valid across all SafariGo-integrated touchpoints.</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>Instant park gate entry — no paper permit queue</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Hotel check-in via QR in under 60 seconds</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Immutable digital record of full safari journey</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Emergency data instantly accessible to authorities</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: Premium "Digital Passport" upsell per booking — $5–$15 per tourist</div>
+      </div>
+
+      <!-- 02 -->
+      <div class="feat-card feat-2 reveal reveal-d2">
+        <div class="feat-number">02</div>
+        <div class="feat-icon">⭐</div>
+        <div class="feat-title">SafariGo Trust Score</div>
+        <div class="feat-sub">Dual Reputation Engine</div>
+        <p class="feat-desc">A dynamic, data-driven scoring system operating on both sides of every transaction. Operators earn trust through completed trips, response speed, and zero disputes. Tourists earn trust through payment history and cancellation behaviour. The platform self-regulates.</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>Operator score: trips completed, response time, dispute rate, licence validity</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Tourist score: payment punctuality, cancellation history, QR compliance</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>High-score operators surface first in search results</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Low-trust tourists flagged before large deposits accepted</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: Score-based premium placement fees for top operators — $49–$99/month</div>
+      </div>
+
+      <!-- 03 -->
+      <div class="feat-card feat-3 reveal reveal-d1">
+        <div class="feat-number">03</div>
+        <div class="feat-icon">🛡️</div>
+        <div class="feat-title">Insurance Marketplace</div>
+        <div class="feat-sub">Embedded Travel Protection</div>
+        <p class="feat-desc">An embedded insurance module presented at checkout — turning every booking into a potential insurance sale. Tourists select from Emergency Medical, Trip Cancellation, Baggage Loss, and Extreme Activity coverage. Policies issued instantly. Claims processed through the platform.</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>Emergency Medical from $25 per trip</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Trip Cancellation coverage from $35 per trip</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Climbing/trekking specialist plans for Kilimanjaro</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>SafariGo earns referral commission from insurance partners (15–25%)</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: 15–25% commission on every policy sold through the platform</div>
+      </div>
+
+      <!-- 04 -->
+      <div class="feat-card feat-4 reveal reveal-d2">
+        <div class="feat-number">04</div>
+        <div class="feat-icon">🌍</div>
+        <div class="feat-title">Local Economic Impact Tracker</div>
+        <div class="feat-sub">Transparent Money Flow Layer</div>
+        <p class="feat-desc">Real-time, verifiable proof of where tourist money flows inside Tanzania — across operators, lodges, TANAPA, local staff, and surrounding communities. Every booking generates a live impact receipt, giving conscious tourists evidence of the direct change their spending creates.</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>"Your safari directly supported 42 Tanzanian families"</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Community benefit % visible on every operator profile</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Shareable "Impact Certificate" for social media</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>CSR reporting data for corporate travel buyers</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: Premium CSR reporting API for corporate accounts — $199/month</div>
+      </div>
+
+      <!-- 05 -->
+      <div class="feat-card feat-5 reveal reveal-d1">
+        <div class="feat-number">05</div>
+        <div class="feat-icon">🌿</div>
+        <div class="feat-title">Carbon Footprint Dashboard</div>
+        <div class="feat-sub">European Market Gateway</div>
+        <p class="feat-desc">A carbon calculation engine that measures the climate footprint of every safari — flights, ground transport, camp energy — and presents tourists with a one-click offset option, connecting to certified Tanzanian reforestation and conservation projects. Unlocks the EU sustainable tourism market.</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>Automatic carbon calculation per booking</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>"Offset your trip for $12" — one-click at checkout</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Partnership with verified Tanzanian forest conservation NGOs</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>EU travel agency integration for "carbon neutral" certification</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: 20–30% margin on carbon offset sales + EU agency integration fees</div>
+      </div>
+
+      <!-- 06 -->
+      <div class="feat-card feat-6 reveal reveal-d2">
+        <div class="feat-number">06</div>
+        <div class="feat-icon">🆘</div>
+        <div class="feat-title">Emergency Response System</div>
+        <div class="feat-sub">Life-Safety Infrastructure</div>
+        <p class="feat-desc">A one-touch SOS system embedded in the guide's SafariGo PWA. A single button press transmits GPS coordinates, full tourist profile, medical notes, and emergency contacts simultaneously to the nearest hospital, operator headquarters, park authorities, and family. This feature alone can save lives — and attract government partnership.</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>Works offline — caches location data until signal restored</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Pre-loaded tourist medical data from Digital Passport</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Integrates with TANAPA ranger stations and medevac services</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Creates liability trail protecting operators in disputes</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: Government SLA licensing fee + medevac partnership commissions</div>
+      </div>
+
+      <!-- 07 -->
+      <div class="feat-card feat-7 reveal reveal-d1">
+        <div class="feat-number">07</div>
+        <div class="feat-icon">🏛️</div>
+        <div class="feat-title">National Tourism Data Hub</div>
+        <div class="feat-sub">Government Intelligence Layer</div>
+        <p class="feat-desc">A real-time national dashboard giving Tanzania's Ministry of Natural Resources, TANAPA, TAWA, and regional governments unprecedented visibility into tourism flows, park capacity, tax collection, and market trends — replacing fragmented manual reporting with live operational intelligence.</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>Live tourist count per park, per hour</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Regional revenue breakdown and VAT collection tracking</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Automated compliance reporting replacing manual submissions</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Park capacity alerts to prevent over-tourism</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: Annual Government SaaS licence — $50,000–$200,000/year to Ministry</div>
+      </div>
+
+      <!-- 08 -->
+      <div class="feat-card feat-8 reveal reveal-d2">
+        <div class="feat-number">08</div>
+        <div class="feat-icon">🤖</div>
+        <div class="feat-title">AI Demand Forecasting</div>
+        <div class="feat-sub">Predictive Operations Engine</div>
+        <p class="feat-desc">An AI layer trained on SafariGo's booking data that predicts demand spikes by region, season, and market origin — enabling operators to pre-position vehicles, lodges to manage inventory, and TANAPA to adjust park entry protocols before peak pressure hits.</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>90-day demand forecasting per park and per operator</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Dynamic pricing recommendations for operators</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Fleet pre-positioning alerts — "8 extra vehicles needed Serengeti, June"</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Lodge inventory optimisation reducing empty-bed losses</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: AI insights subscription for operators — $49/month per operator</div>
+      </div>
+
+      <!-- 09 -->
+      <div class="feat-card feat-9 reveal reveal-d1">
+        <div class="feat-number">09</div>
+        <div class="feat-icon">🤝</div>
+        <div class="feat-title">Community Tourism Marketplace</div>
+        <div class="feat-sub">Grassroots Economic Integration</div>
+        <p class="feat-desc">A dedicated marketplace layer connecting international tourists directly to verified local community experiences — women's craft cooperatives, Maasai cultural villages, organic farm visits, local chefs, artisans, and community-led conservation guides. Money flows to the source, not only to large operators.</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>Community groups verified and onboarded with simple mobile interface</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Escrow protection applied to community bookings too</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Integrated add-ons to existing safari packages</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>UN SDG & USAID fundable — strong donor attraction</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: 8–12% commission on community experience bookings + donor grants</div>
+      </div>
+
+      <!-- 10 -->
+      <div class="feat-card feat-10 reveal reveal-d2">
+        <div class="feat-number">10</div>
+        <div class="feat-icon">🏦</div>
+        <div class="feat-title">SafariGo Finance</div>
+        <div class="feat-sub">Data-Backed Lending Infrastructure</div>
+        <p class="feat-desc">The most transformative pillar. SafariGo's transaction data becomes the credit score for Tanzania's tourism SMEs. Operators with verified booking histories — not land titles — unlock working capital loans from banking partners, replacing "bring collateral" with "bring your SafariGo history."</p>
+        <div class="feat-points">
+          <div class="feat-point"><div class="feat-point-dot"></div>Loan eligibility based on SafariGo trip history + Trust Score</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Working capital for fleet expansion and permit pre-payment</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>Banking partner integration — CRDB, NMB, Equity Bank</div>
+          <div class="feat-point"><div class="feat-point-dot"></div>SafariGo earns loan origination fee (1–2% of loan value)</div>
+        </div>
+        <div class="feat-revenue">📈 Revenue: 1–2% loan origination fee + data licensing to banking partners</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ ECOSYSTEM MAP ══════════════════════════════════ -->
+<section class="ecosystem" id="ecosystem">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center;max-width:640px;margin:0 auto 4rem;">
+      <div class="section-eyebrow">The Connected Ecosystem</div>
+      <h2 class="section-title">One Platform. Every Stakeholder.</h2>
+      <p class="section-sub" style="margin:0 auto;">SafariGo TOS sits at the centre of every relationship in Tanzania's tourism economy — connecting stakeholders that previously operated in isolated silos.</p>
+    </div>
+
+    <div class="eco-ring reveal">
+      <!-- Orbit circle -->
+      <div class="eco-orbit"></div>
+
+      <!-- Centre -->
+      <div class="eco-center">
+        <div class="eco-center-title">SafariGo<br/>TOS</div>
+        <div class="eco-center-sub">Core Platform</div>
+      </div>
+
+      <!-- Nodes positioned around circle (r≈230px from center of 560px = 280px radius) -->
+      <!-- top -->
+      <div class="eco-node" style="top:2%;left:50%;">
+        <div class="eco-node-dot">🏛️</div>
+        <div class="eco-node-label">Government &<br/>Ministry</div>
+      </div>
+      <!-- top-right -->
+      <div class="eco-node" style="top:15%;left:82%;">
+        <div class="eco-node-dot">🏞️</div>
+        <div class="eco-node-label">TANAPA<br/>& TAWA</div>
+      </div>
+      <!-- right -->
+      <div class="eco-node" style="top:48%;left:95%;">
+        <div class="eco-node-dot">✈️</div>
+        <div class="eco-node-label">International<br/>Tourists</div>
+      </div>
+      <!-- bottom-right -->
+      <div class="eco-node" style="top:78%;left:82%;">
+        <div class="eco-node-dot">🏕️</div>
+        <div class="eco-node-label">Tour<br/>Operators</div>
+      </div>
+      <!-- bottom -->
+      <div class="eco-node" style="top:93%;left:50%;">
+        <div class="eco-node-dot">🏨</div>
+        <div class="eco-node-label">Lodges &<br/>Hotels</div>
+      </div>
+      <!-- bottom-left -->
+      <div class="eco-node" style="top:78%;left:18%;">
+        <div class="eco-node-dot">🤝</div>
+        <div class="eco-node-label">Communities<br/>& Villages</div>
+      </div>
+      <!-- left -->
+      <div class="eco-node" style="top:48%;left:5%;">
+        <div class="eco-node-dot">🏦</div>
+        <div class="eco-node-label">Banks &<br/>Insurers</div>
+      </div>
+      <!-- top-left -->
+      <div class="eco-node" style="top:15%;left:18%;">
+        <div class="eco-node-dot">🌿</div>
+        <div class="eco-node-label">Conservation<br/>NGOs</div>
+      </div>
+    </div>
+
+    <div style="max-width:800px;margin:3rem auto 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+      <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--gold);">10+</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:4px;">Stakeholder Categories Connected</div>
+      </div>
+      <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--gold);">7</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:4px;">Revenue Streams at Full Scale</div>
+      </div>
+      <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--gold);">$1B+</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:4px;">Addressable Market (East Africa)</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ REVENUE MODEL ══════════════════════════════════ -->
+<section class="revenue" id="revenue">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center;max-width:640px;margin:0 auto 4rem;">
+      <div class="section-eyebrow">Revenue Architecture</div>
+      <h2 class="section-title">Seven Streams. One Platform.</h2>
+      <p class="section-sub" style="margin:0 auto;">SafariGo TOS does not depend on a single revenue source. Each new pillar unlocks an additional monetisation layer — making the business model increasingly resilient at scale.</p>
+    </div>
+    <div class="revenue-grid">
+      <div class="rev-card reveal reveal-d1">
+        <div class="rev-icon">💳</div>
+        <div class="rev-stream">Stream 1</div>
+        <div class="rev-title">Marketplace Commission</div>
+        <div class="rev-desc">Charged to operator on every booking generated through SafariGo's tourist-facing marketplace.</div>
+        <div class="rev-rate">3–5% <sub>per booking</sub></div>
+      </div>
+      <div class="rev-card reveal reveal-d2">
+        <div class="rev-icon">💱</div>
+        <div class="rev-stream">Stream 2</div>
+        <div class="rev-title">FX Margin Capture</div>
+        <div class="rev-desc">Spread earned on USD/EUR/GBP to TZS conversion during escrow settlement window.</div>
+        <div class="rev-rate">1.5–2.5% <sub>per conversion</sub></div>
+      </div>
+      <div class="rev-card reveal reveal-d3">
+        <div class="rev-icon">🔧</div>
+        <div class="rev-stream">Stream 3</div>
+        <div class="rev-title">B2B SaaS Subscriptions</div>
+        <div class="rev-desc">Monthly fee for operators using the SafariGo Trust Widget API on their own websites.</div>
+        <div class="rev-rate">$29–$99 <sub>/month per operator</sub></div>
+      </div>
+      <div class="rev-card reveal reveal-d1">
+        <div class="rev-icon">🛡️</div>
+        <div class="rev-stream">Stream 4</div>
+        <div class="rev-title">Insurance Referral</div>
+        <div class="rev-desc">Commission on every travel insurance policy sold at checkout through insurance marketplace partners.</div>
+        <div class="rev-rate">15–25% <sub>per policy</sub></div>
+      </div>
+      <div class="rev-card reveal reveal-d2">
+        <div class="rev-icon">🏛️</div>
+        <div class="rev-stream">Stream 5</div>
+        <div class="rev-title">Government SaaS Licence</div>
+        <div class="rev-desc">Annual platform licence fee paid by Ministry of Natural Resources for National Tourism Data Hub access.</div>
+        <div class="rev-rate">$50K–$200K <sub>/year</sub></div>
+      </div>
+      <div class="rev-card reveal reveal-d3">
+        <div class="rev-icon">🌿</div>
+        <div class="rev-stream">Stream 6</div>
+        <div class="rev-title">Carbon Offset Sales</div>
+        <div class="rev-desc">Margin on carbon credits sold to tourists and EU travel agencies through the platform's offset module.</div>
+        <div class="rev-rate">20–30% <sub>margin</sub></div>
+      </div>
+      <div class="rev-card reveal reveal-d1" style="grid-column:span 1;">
+        <div class="rev-icon">🏦</div>
+        <div class="rev-stream">Stream 7</div>
+        <div class="rev-title">SafariGo Finance</div>
+        <div class="rev-desc">Loan origination fee on SME working capital loans enabled by SafariGo's transaction data.</div>
+        <div class="rev-rate">1–2% <sub>of loan value</sub></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ROADMAP ════════════════════════════════════════ -->
+<section class="roadmap" id="roadmap">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center;max-width:640px;margin:0 auto 4rem;">
+      <div class="section-eyebrow">Implementation Roadmap</div>
+      <h2 class="section-title">Building the TOS in Four Phases</h2>
+      <p class="section-sub" style="margin:0 auto;">Each phase builds on the last — from market entry to national infrastructure to continental expansion.</p>
+    </div>
+    <div class="roadmap-track">
+      <div class="roadmap-vline"></div>
+      <div class="roadmap-fill" id="rm-fill"></div>
+
+      <div class="rm-item reveal">
+        <div class="rm-dot done">✓</div>
+        <div class="rm-phase">Phase 1 · Months 0–6</div>
+        <div class="rm-title">Foundation — Trust & Escrow MVP</div>
+        <div class="rm-items">
+          <div class="rm-point"><div class="rm-point-dot"></div>Web platform, AI Itinerary Engine, Operator PWA Scanner</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Mobile money integrations: M-Pesa, Tigo Pesa, Airtel Money</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>GePG government payment gateway connection</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Onboard first 20–50 verified operators across Arusha, Kilimanjaro, Mwanza</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Issue first SafariGo Verified, Top Fleet & Elite badges</div>
+        </div>
+        <span class="rm-tag done">✓ In Progress — 2025</span>
+      </div>
+
+      <div class="rm-item reveal reveal-d1">
+        <div class="rm-dot active">2</div>
+        <div class="rm-phase">Phase 2 · Months 6–18</div>
+        <div class="rm-title">Expansion — Digital Passport + Trust Score + Insurance</div>
+        <div class="rm-items">
+          <div class="rm-point"><div class="rm-point-dot"></div>Launch Digital Tourist Passport module (Pillar 1)</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Deploy SafariGo Trust Score for operators and tourists (Pillar 2)</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Insurance Marketplace integration at checkout (Pillar 3)</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Emergency Response SOS system for all field guides (Pillar 6)</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Scale to 150+ verified operators nationally</div>
+        </div>
+        <span class="rm-tag active">● Active Build — 2026</span>
+      </div>
+
+      <div class="rm-item reveal reveal-d2">
+        <div class="rm-dot">3</div>
+        <div class="rm-phase">Phase 3 · Months 18–36</div>
+        <div class="rm-title">Government Layer — Data Hub + Community + Finance</div>
+        <div class="rm-items">
+          <div class="rm-point"><div class="rm-point-dot"></div>National Tourism Data Hub — government MOU and dashboard deployment (Pillar 7)</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Carbon Footprint Dashboard + EU travel agency integrations (Pillar 5)</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Community Tourism Marketplace — 500+ community sellers onboarded (Pillar 9)</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>SafariGo Finance pilot — banking partner MOU with CRDB or NMB (Pillar 10)</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>AI Demand Forecasting beta for operators (Pillar 8)</div>
+        </div>
+        <span class="rm-tag future">◌ Planned — 2027</span>
+      </div>
+
+      <div class="rm-item reveal reveal-d3">
+        <div class="rm-dot">4</div>
+        <div class="rm-phase">Phase 4 · Months 36+</div>
+        <div class="rm-title">Continental Scale — East African TOS Export</div>
+        <div class="rm-items">
+          <div class="rm-point"><div class="rm-point-dot"></div>Full SafariGo TOS operational in Tanzania at national scale</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Licence the model to Kenya — targeting Northern Circuit operators</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Rwanda gorilla trekking integration (high-value niche market)</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>Botswana and Namibia franchise model discussions</div>
+          <div class="rm-point"><div class="rm-point-dot"></div>African Tourism OS — replicable across 10+ countries</div>
+        </div>
+        <span class="rm-tag future">◌ Vision — 2028–2030</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ STAKEHOLDERS ═══════════════════════════════════ -->
+<section class="stakeholders" id="stakeholders">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center;max-width:640px;margin:0 auto 4rem;">
+      <div class="section-eyebrow">Who Benefits</div>
+      <h2 class="section-title">Every Stakeholder. One Platform.</h2>
+    </div>
+    <div class="stake-grid">
+      <div class="stake-card reveal reveal-d1">
+        <div class="stake-icon">✈️</div>
+        <div class="stake-name">International Tourists</div>
+        <div class="stake-desc">Zero fraud. Protected payments. Digital passport. Emergency response. Impact tracking. The safest, most transparent way to book Africa.</div>
+      </div>
+      <div class="stake-card reveal reveal-d2">
+        <div class="stake-icon">🏕️</div>
+        <div class="stake-name">Tour Operators</div>
+        <div class="stake-desc">Direct bookings without middlemen. Structured cash flow. Trust badges. Working capital loans. AI demand intelligence. Tools that help them grow.</div>
+      </div>
+      <div class="stake-card reveal reveal-d3">
+        <div class="stake-icon">🏛️</div>
+        <div class="stake-name">Government & TANAPA</div>
+        <div class="stake-desc">Real-time national tourism data. Automated tax collection. Park capacity management. Policy intelligence replacing manual surveys.</div>
+      </div>
+      <div class="stake-card reveal reveal-d4">
+        <div class="stake-icon">🏦</div>
+        <div class="stake-name">Banks & Investors</div>
+        <div class="stake-desc">Transaction data enabling SME lending. Insurance distribution. Carbon credit markets. Seven revenue streams across a $2.5B sector.</div>
+      </div>
+      <div class="stake-card reveal reveal-d1">
+        <div class="stake-icon">🤝</div>
+        <div class="stake-name">Communities</div>
+        <div class="stake-desc">Direct access to international tourists. Escrow-protected payments. Digital marketplace eliminating exploitative middlemen. Verifiable income data.</div>
+      </div>
+      <div class="stake-card reveal reveal-d2">
+        <div class="stake-icon">🌿</div>
+        <div class="stake-name">Conservation NGOs</div>
+        <div class="stake-desc">Carbon offset revenue. Reforestation funding from tourist offsets. Impact data for donor reporting. Partnership with a national platform at scale.</div>
+      </div>
+      <div class="stake-card reveal reveal-d3">
+        <div class="stake-icon">🏨</div>
+        <div class="stake-name">Lodges & Hotels</div>
+        <div class="stake-desc">AI demand forecasting. Advance booking visibility. Direct booking integration without OTA commission loss. Inventory optimisation.</div>
+      </div>
+      <div class="stake-card reveal reveal-d4">
+        <div class="stake-icon">🌍</div>
+        <div class="stake-name">Donor Agencies</div>
+        <div class="stake-desc">Measurable community economic impact. UN SDG-aligned platform. Verifiable data for USAID, GIZ, World Bank programme requirements.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VISION STATEMENT ═══════════════════════════════ -->
+<section class="vision">
+  <div class="vision-inner reveal">
+    <div class="vision-quote">
+      "SafariGo will not compete with Viator or GetYourGuide.<br/>
+      It will become the <em>infrastructure they must integrate with</em><br/>
+      to access East African tourism."
+    </div>
+    <div class="vision-author">— SafariGo Strategic Vision, 2026</div>
+
+    <div class="vision-expansion">
+      <div class="exp-country">
+        <div class="exp-flag">🇹🇿</div>
+        <div class="exp-name">Tanzania</div>
+        <div class="exp-status">● Building Now</div>
+      </div>
+      <div class="exp-country">
+        <div class="exp-flag">🇰🇪</div>
+        <div class="exp-name">Kenya</div>
+        <div class="exp-status">Phase 4 Target</div>
+      </div>
+      <div class="exp-country">
+        <div class="exp-flag">🇷🇼</div>
+        <div class="exp-name">Rwanda</div>
+        <div class="exp-status">Phase 4 Target</div>
+      </div>
+      <div class="exp-country">
+        <div class="exp-flag">🇧🇼</div>
+        <div class="exp-name">Botswana</div>
+        <div class="exp-status">Vision 2029</div>
+      </div>
+      <div class="exp-country">
+        <div class="exp-flag">🇳🇦</div>
+        <div class="exp-name">Namibia</div>
+        <div class="exp-status">Vision 2030</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FINAL CTA ═══════════════════════════════════════ -->
+<section class="cta-final" id="contact">
+  <div class="cta-final-inner reveal">
+    <div class="section-eyebrow" style="text-align:center;">Ready to Build Together?</div>
+    <h2>The Infrastructure<br/>Tanzania Has Been <em>Waiting For.</em></h2>
+    <p>We are seeking strategic partners — investors, government agencies, banking institutions, conservation organisations, and technology co-builders — to bring the full SafariGo TOS vision to operational reality. The window to be a founding partner is now.</p>
+    <div class="cta-buttons">
+      <a href="safarigo-operator.html" class="btn-gold">Join as Operator →</a>
+      <a href="safarigo-landing.html" class="btn-ghost">View Main Platform</a>
+    </div>
+    <div style="margin-top:2.5rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,0.06);">
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.2);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:1rem;">Technology Partner</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,0.4);">TEUS Technology, Tanzania</div>
+      <div style="font-size:0.75rem;color:rgba(255,255,255,0.2);margin-top:4px;">Chief Strategist: Sado Faraji</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Safari<span>Go</span></div>
+      <div style="font-size:0.68rem;color:rgba(255,255,255,0.2);margin-top:4px;">Tourism Operating System — Tanzania</div>
+    </div>
+    <div class="footer-links">
+      <a href="safarigo-landing.html">Home</a>
+      <a href="safarigo-operators.html">Operators</a>
+      <a href="safarigo-operator.html">Join Network</a>
+      <a href="safarigo-admin.html">Admin</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2025 SafariGo. Strategic Vision Document. Built with TEUS Technology, Tanzania. Prepared by Sado Faraji.</div>
+</footer>
+
+<script>
+// ── SCROLL REVEAL ──────────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('visible'); ro.unobserve(e.target); }
+  });
+},{threshold:0.1});
+reveals.forEach(el => ro.observe(el));
+
+// ── ROADMAP FILL ───────────────────────────────────
+const fill = document.getElementById('rm-fill');
+window.addEventListener('scroll', () => {
+  const rm = document.querySelector('.roadmap-track');
+  if(!rm) return;
+  const rect = rm.getBoundingClientRect();
+  const windowH = window.innerHeight;
+  const progress = Math.max(0, Math.min(1, (windowH - rect.top) / (rect.height + windowH)));
+  fill.style.height = (progress * 100) + '%';
+});
+
+// ── NAV SCROLL EFFECT ──────────────────────────────
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.background =
+    window.scrollY > 60 ? 'rgba(5,5,5,0.97)' : 'rgba(10,10,10,0.92)';
+});
+</script>
+</body>
+</html>
