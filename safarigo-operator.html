@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SafariGo — Operator Verification Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --green-deep: #1A3C2E; --green-mid: #2A5C46; --green-light: #3D7A5F;
+    --earth: #C4813A; --gold: #E8B84B; --gold-light: #F5D882;
+    --cream: #F7F2E8; --cream-dark: #EDE6D6;
+    --ink: #1C1C1C; --ink-soft: #4A4A4A; --white: #FFFFFF;
+    --red: #D94F4F; --success: #2E7D5B;
+    --shadow: 0 4px 32px rgba(26,60,46,0.10);
+    --shadow-md: 0 8px 48px rgba(26,60,46,0.16);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--ink); }
+  h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+  a { text-decoration: none; color: inherit; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 5%;
+    background: rgba(26,60,46,0.97);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); }
+  .nav-logo span { color: var(--white); }
+  .nav-back { color: rgba(255,255,255,0.6); font-size: 0.82rem; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .nav-back:hover { color: var(--gold); }
+
+  /* PAGE HEADER */
+  .page-header {
+    background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 100%);
+    padding: 60px 5% 50px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .page-header::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .page-header-inner { position: relative; z-index: 1; }
+  .page-header-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(232,184,75,0.15); border: 1px solid rgba(232,184,75,0.3);
+    color: var(--gold); font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 100px; margin-bottom: 1.2rem;
+  }
+  .page-header h1 { font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--white); margin-bottom: 0.75rem; }
+  .page-header p { color: rgba(255,255,255,0.6); font-size: 0.95rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+  /* STEPS INDICATOR */
+  .steps-bar {
+    background: var(--white);
+    padding: 0 5%;
+    border-bottom: 1px solid var(--cream-dark);
+    position: sticky; top: 57px; z-index: 90;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .steps-inner {
+    max-width: 800px; margin: 0 auto;
+    display: flex; align-items: stretch;
+  }
+  .step-tab {
+    flex: 1; padding: 18px 12px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 3px solid transparent;
+    cursor: pointer; transition: all 0.2s;
+    color: var(--ink-soft); opacity: 0.5;
+  }
+  .step-tab.active { border-bottom-color: var(--gold); opacity: 1; color: var(--ink); }
+  .step-tab.done { opacity: 0.8; color: var(--success); }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--cream-dark); color: var(--ink-soft);
+    font-size: 0.72rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step-tab.active .step-num { background: var(--gold); color: var(--green-deep); }
+  .step-tab.done .step-num { background: var(--success); color: white; }
+  .step-tab.done .step-num::after { content: '✓'; }
+  .step-label { font-size: 0.78rem; font-weight: 600; }
+  @media (max-width: 600px) { .step-label { display: none; } }
+
+  /* MAIN CONTENT */
+  .portal-body {
+    max-width: 800px; margin: 0 auto;
+    padding: 40px 5% 80px;
+  }
+
+  /* FORM PANELS */
+  .form-panel { display: none; }
+  .form-panel.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+  .panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--green-deep);
+    margin-bottom: 0.4rem;
+  }
+  .panel-sub { font-size: 0.875rem; color: var(--ink-soft); margin-bottom: 2rem; line-height: 1.6; }
+
+  /* FORM ELEMENTS */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .form-grid.full { grid-template-columns: 1fr; }
+  @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.span-2 { grid-column: span 2; }
+  @media (max-width: 600px) { .form-group.span-2 { grid-column: span 1; } }
+
+  label {
+    font-size: 0.78rem; font-weight: 600; color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  label .req { color: var(--earth); margin-left: 2px; }
+  label .hint { color: var(--ink-soft); font-weight: 400; margin-left: 4px; font-size: 0.72rem; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--ink);
+    background: var(--white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--green-light);
+    box-shadow: 0 0 0 3px rgba(61,122,95,0.1);
+  }
+  input.error { border-color: var(--red); }
+  textarea { resize: vertical; min-height: 90px; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A4A4A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+  .error-msg { font-size: 0.72rem; color: var(--red); display: none; }
+  .form-group.has-error .error-msg { display: block; }
+  .form-group.has-error input,
+  .form-group.has-error select { border-color: var(--red); }
+
+  /* UPLOAD ZONE */
+  .upload-zone {
+    border: 2px dashed var(--cream-dark);
+    border-radius: 12px;
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--cream);
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--green-light);
+    background: rgba(61,122,95,0.04);
+  }
+  .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .upload-icon { font-size: 2rem; margin-bottom: 8px; }
+  .upload-title { font-size: 0.875rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .upload-sub { font-size: 0.75rem; color: var(--ink-soft); }
+  .upload-accept { font-size: 0.7rem; color: var(--green-light); margin-top: 6px; font-weight: 500; }
+  .upload-list { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .upload-file {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--white); border: 1px solid var(--cream-dark);
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+  .upload-file-icon { font-size: 1rem; }
+  .upload-file-name { flex: 1; color: var(--ink); font-weight: 500; }
+  .upload-file-size { color: var(--ink-soft); font-size: 0.72rem; }
+  .upload-file-remove { cursor: pointer; color: var(--red); font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; }
+  .upload-file-remove:hover { background: rgba(217,79,79,0.1); }
+
+  /* CHECKBOX GROUP */
+  .checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 500px) { .checkbox-grid { grid-template-columns: 1fr; } }
+  .checkbox-item {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--white); border: 1.5px solid var(--cream-dark);
+    border-radius: 8px; padding: 12px 14px;
+    cursor: pointer; transition: border-color 0.2s;
+    user-select: none;
+  }
+  .checkbox-item:has(input:checked) { border-color: var(--green-light); background: rgba(61,122,95,0.04); }
+  .checkbox-item input { width: 16px; height: 16px; accent-color: var(--green-mid); flex-shrink: 0; cursor: pointer; }
+  .checkbox-item span { font-size: 0.82rem; font-weight: 500; color: var(--ink); }
+
+  /* DIVIDER */
+  .form-divider { height: 1px; background: var(--cream-dark); margin: 28px 0; }
+  .form-section-label {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--earth);
+    margin-bottom: 16px;
+  }
+
+  /* INFO BOX */
+  .info-box {
+    background: rgba(61,122,95,0.06);
+    border: 1px solid rgba(61,122,95,0.2);
+    border-radius: 10px; padding: 16px 18px;
+    display: flex; gap: 12px; align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .info-box-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .info-box p { font-size: 0.82rem; color: var(--green-mid); line-height: 1.55; }
+  .info-box strong { color: var(--green-deep); }
+
+  /* REVIEW SUMMARY */
+  .review-block {
+    background: var(--white);
+    border-radius: 14px;
+    border: 1px solid var(--cream-dark);
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .review-block-header {
+    background: var(--green-deep);
+    padding: 14px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .review-block-title { font-size: 0.82rem; font-weight: 700; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; }
+  .review-edit { font-size: 0.75rem; color: rgba(255,255,255,0.5); cursor: pointer; }
+  .review-edit:hover { color: var(--gold); }
+  .review-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 12px 20px; border-bottom: 1px solid var(--cream);
+    gap: 16px;
+  }
+  .review-row:last-child { border-bottom: none; }
+  .review-key { font-size: 0.78rem; color: var(--ink-soft); flex-shrink: 0; width: 140px; }
+  .review-val { font-size: 0.82rem; font-weight: 600; color: var(--ink); text-align: right; }
+  .review-tag {
+    display: inline-block; font-size: 0.7rem; padding: 2px 10px;
+    border-radius: 100px; background: rgba(61,122,95,0.1);
+    color: var(--green-mid); font-weight: 600; margin: 2px;
+  }
+
+  /* TERMS */
+  .terms-box {
+    border: 1.5px solid var(--cream-dark); border-radius: 10px;
+    padding: 20px; max-height: 160px; overflow-y: auto;
+    background: var(--white); font-size: 0.78rem;
+    color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px;
+  }
+  .terms-box p { margin-bottom: 10px; }
+  .terms-agree { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+  .terms-agree input { width: 18px; height: 18px; accent-color: var(--green-mid); margin-top: 1px; flex-shrink: 0; }
+  .terms-agree span { font-size: 0.82rem; color: var(--ink); line-height: 1.5; }
+
+  /* NAVIGATION BUTTONS */
+  .form-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 36px; padding-top: 24px;
+    border-top: 1px solid var(--cream-dark);
+  }
+  .btn-prev {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--cream-dark); color: var(--ink-soft);
+    padding: 12px 22px; border-radius: 8px;
+    font-weight: 600; font-size: 0.875rem; border: none; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-prev:hover { background: #ddd6c6; }
+  .btn-next {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--green-deep); color: var(--white);
+    padding: 12px 28px; border-radius: 8px;
+    font-weight: 600; font-size: 0.875rem; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    margin-left: auto;
+  }
+  .btn-next:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .btn-submit {
+    background: var(--gold); color: var(--green-deep);
+    padding: 14px 32px; border-radius: 8px;
+    font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: flex; align-items: center; gap: 8px;
+    margin-left: auto;
+  }
+  .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* SUCCESS STATE */
+  .success-screen {
+    display: none; text-align: center; padding: 60px 20px;
+    animation: fadeIn 0.4s ease;
+  }
+  .success-screen.show { display: block; }
+  .success-icon { font-size: 4rem; margin-bottom: 1.5rem; }
+  .success-title { font-size: 2rem; color: var(--green-deep); margin-bottom: 1rem; }
+  .success-sub { font-size: 0.95rem; color: var(--ink-soft); max-width: 460px; margin: 0 auto 2.5rem; line-height: 1.7; }
+  .success-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(46,125,91,0.08); border: 1.5px solid rgba(46,125,91,0.25);
+    padding: 14px 24px; border-radius: 12px;
+    font-size: 0.875rem; font-weight: 600; color: var(--success);
+  }
+  .success-steps { margin-top: 2.5rem; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .success-step {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 12px 0; border-bottom: 1px solid var(--cream-dark);
+  }
+  .success-step:last-child { border: none; }
+  .success-step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--green-deep); color: var(--gold);
+    font-size: 0.72rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .success-step-text { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.55; }
+  .success-step-text strong { color: var(--ink); display: block; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Safari<span>Go</span></div>
+  <a href="safarigo-operators.html" style="color:rgba(255,255,255,0.6);font-size:0.82rem;font-weight:500;margin-right:1rem;">Browse Operators</a><a href="safarigo-landing.html" class="nav-back">← Home</a>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="page-header-badge">🏕️ Operator Verification</div>
+    <h1>Join the SafariGo Network</h1>
+    <p>Complete this application to receive your SafariGo Verified badge and start accepting direct, fraud-protected bookings from international tourists.</p>
+  </div>
+</div>
+
+<!-- STEPS BAR -->
+<div class="steps-bar">
+  <div class="steps-inner">
+    <div class="step-tab active" data-step="1">
+      <div class="step-num">1</div>
+      <div class="step-label">Business Info</div>
+    </div>
+    <div class="step-tab" data-step="2">
+      <div class="step-num">2</div>
+      <div class="step-label">Services</div>
+    </div>
+    <div class="step-tab" data-step="3">
+      <div class="step-num">3</div>
+      <div class="step-label">Documents</div>
+    </div>
+    <div class="step-tab" data-step="4">
+      <div class="step-num">4</div>
+      <div class="step-label">Review</div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTAL BODY -->
+<div class="portal-body">
+
+  <!-- STEP 1 — BUSINESS INFO -->
+  <div class="form-panel active" id="panel-1">
+    <div class="panel-title">Business Information</div>
+    <p class="panel-sub">Provide your registered company details. These will be used to verify your BRELA registration and TALA tourism license.</p>
+
+    <div class="info-box">
+      <div class="info-box-icon">ℹ️</div>
+      <p><strong>All fields marked with * are required.</strong> Information submitted here is used strictly for compliance verification and will never be shared with third parties.</p>
+    </div>
+
+    <div class="form-section-label">Company Details</div>
+    <div class="form-grid">
+      <div class="form-group" id="g-company-name">
+        <label>Company Name <span class="req">*</span></label>
+        <input type="text" id="company-name" placeholder="e.g. Serengeti Trail Adventures Ltd" />
+        <span class="error-msg">Please enter your company name</span>
+      </div>
+      <div class="form-group" id="g-brela">
+        <label>BRELA Registration No. <span class="req">*</span></label>
+        <input type="text" id="brela" placeholder="e.g. 00123456" />
+        <span class="error-msg">Please enter your BRELA number</span>
+      </div>
+      <div class="form-group" id="g-tala">
+        <label>TALA Tourism License No. <span class="req">*</span></label>
+        <input type="text" id="tala" placeholder="e.g. TZ-TALA-2024-0XXX" />
+        <span class="error-msg">Please enter your TALA license number</span>
+      </div>
+      <div class="form-group" id="g-founded">
+        <label>Year Established <span class="req">*</span></label>
+        <select id="founded">
+          <option value="">Select year</option>
+          <option>2024</option><option>2023</option><option>2022</option>
+          <option>2021</option><option>2020</option><option>2019</option>
+          <option>2018</option><option>2017</option><option>Before 2017</option>
+        </select>
+        <span class="error-msg">Please select year</span>
+      </div>
+      <div class="form-group span-2" id="g-address">
+        <label>Registered Business Address <span class="req">*</span></label>
+        <input type="text" id="address" placeholder="Street, City, Region — e.g. Sokoine Road, Arusha, Arusha Region" />
+        <span class="error-msg">Please enter your business address</span>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+    <div class="form-section-label">Primary Contact Person</div>
+    <div class="form-grid">
+      <div class="form-group" id="g-contact-name">
+        <label>Full Name <span class="req">*</span></label>
+        <input type="text" id="contact-name" placeholder="Full legal name" />
+        <span class="error-msg">Required</span>
+      </div>
+      <div class="form-group" id="g-role">
+        <label>Role / Title <span class="req">*</span></label>
+        <input type="text" id="role" placeholder="e.g. Director, Operations Manager" />
+        <span class="error-msg">Required</span>
+      </div>
+      <div class="form-group" id="g-email">
+        <label>Email Address <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="your@company.co.tz" />
+        <span class="error-msg">Valid email required</span>
+      </div>
+      <div class="form-group" id="g-phone">
+        <label>WhatsApp / Phone <span class="req">*</span></label>
+        <input type="tel" id="phone" placeholder="+255 7XX XXX XXX" />
+        <span class="error-msg">Required</span>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+    <div class="form-section-label">Online Presence <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:0.72rem;">(Optional but recommended)</span></div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Website URL <span class="hint">(if any)</span></label>
+        <input type="url" placeholder="https://yourcompany.co.tz" />
+      </div>
+      <div class="form-group">
+        <label>Instagram Handle <span class="hint">(if any)</span></label>
+        <input type="text" placeholder="@yourcompany" />
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <div></div>
+      <button class="btn-next" onclick="nextStep(1)">Continue → Services</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 — SERVICES -->
+  <div class="form-panel" id="panel-2">
+    <div class="panel-title">Services & Operations</div>
+    <p class="panel-sub">Tell us about the safari experiences you offer and how your fleet and team are structured.</p>
+
+    <div class="form-section-label">Safari Regions</div>
+    <p style="font-size:0.8rem;color:var(--ink-soft);margin-bottom:12px;">Which national parks and regions do you operate in? <span style="color:var(--red)">*</span></p>
+    <div class="checkbox-grid" id="g-regions" style="margin-bottom:24px;">
+      <label class="checkbox-item"><input type="checkbox" value="serengeti" /><span>🦁 Serengeti National Park</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="kilimanjaro" /><span>🏔️ Mount Kilimanjaro</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="ngorongoro" /><span>🦏 Ngorongoro Crater</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="tarangire" /><span>🐘 Tarangire National Park</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="zanzibar" /><span>🏝️ Zanzibar / Coastal</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="selous" /><span>🌿 Selous / Nyerere GR</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="manyara" /><span>🦩 Lake Manyara NP</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="ruaha" /><span>🦬 Ruaha National Park</span></label>
+    </div>
+    <span class="error-msg" id="err-regions" style="display:none;color:var(--red);font-size:0.75rem;">Please select at least one region</span>
+
+    <div class="form-divider"></div>
+    <div class="form-section-label">Tour Types Offered</div>
+    <div class="checkbox-grid" style="margin-bottom:24px;">
+      <label class="checkbox-item"><input type="checkbox" /><span>🚗 Game Drive Safaris</span></label>
+      <label class="checkbox-item"><input type="checkbox" /><span>🥾 Trekking & Climbing</span></label>
+      <label class="checkbox-item"><input type="checkbox" /><span>🤿 Beach & Coastal Tours</span></label>
+      <label class="checkbox-item"><input type="checkbox" /><span>🌄 Cultural Village Tours</span></label>
+      <label class="checkbox-item"><input type="checkbox" /><span>💒 Honeymoon Packages</span></label>
+      <label class="checkbox-item"><input type="checkbox" /><span>🏕️ Camping Expeditions</span></label>
+      <label class="checkbox-item"><input type="checkbox" /><span>✈️ MICE / Group Travel</span></label>
+      <label class="checkbox-item"><input type="checkbox" /><span>🐾 Conservation Stays</span></label>
+    </div>
+
+    <div class="form-divider"></div>
+    <div class="form-grid">
+      <div class="form-group" id="g-fleet">
+        <label>Fleet Size <span class="req">*</span><span class="hint">(safari vehicles)</span></label>
+        <select id="fleet-size">
+          <option value="">Select</option>
+          <option>1–2 vehicles</option>
+          <option>3–5 vehicles</option>
+          <option>6–10 vehicles</option>
+          <option>11–20 vehicles</option>
+          <option>20+ vehicles</option>
+        </select>
+        <span class="error-msg">Required</span>
+      </div>
+      <div class="form-group" id="g-guides">
+        <label>Number of Certified Guides <span class="req">*</span></label>
+        <select id="guide-count">
+          <option value="">Select</option>
+          <option>1–3 guides</option>
+          <option>4–8 guides</option>
+          <option>9–15 guides</option>
+          <option>16+ guides</option>
+        </select>
+        <span class="error-msg">Required</span>
+      </div>
+      <div class="form-group" id="g-capacity">
+        <label>Monthly Booking Capacity <span class="req">*</span></label>
+        <select id="capacity">
+          <option value="">Select</option>
+          <option>1–5 bookings/month</option>
+          <option>6–15 bookings/month</option>
+          <option>16–30 bookings/month</option>
+          <option>30+ bookings/month</option>
+        </select>
+        <span class="error-msg">Required</span>
+      </div>
+      <div class="form-group" id="g-languages">
+        <label>Languages Spoken <span class="req">*</span></label>
+        <input type="text" id="languages" placeholder="e.g. Swahili, English, French" />
+        <span class="error-msg">Required</span>
+      </div>
+      <div class="form-group span-2">
+        <label>Brief Company Description</label>
+        <textarea placeholder="Describe your specialization, unique selling points, and typical client base (max 300 words)..." style="min-height:110px;"></textarea>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-prev" onclick="prevStep(2)">← Back</button>
+      <button class="btn-next" onclick="nextStep(2)">Continue → Documents</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 — DOCUMENTS -->
+  <div class="form-panel" id="panel-3">
+    <div class="panel-title">Compliance Documents</div>
+    <p class="panel-sub">Upload clear, legible copies of the following documents. All uploads are encrypted and reviewed only by our compliance team.</p>
+
+    <div class="info-box">
+      <div class="info-box-icon">🔒</div>
+      <p><strong>Document Security:</strong> All files are encrypted at rest using AES-256. Access is restricted to SafariGo compliance officers only. We accept PDF, JPG, or PNG — max 10MB per file.</p>
+    </div>
+
+    <div class="form-section-label">Required Documents</div>
+
+    <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:28px;">
+
+      <div>
+        <label style="display:block;margin-bottom:8px;">BRELA Certificate of Incorporation <span class="req">*</span></label>
+        <div class="upload-zone" id="zone-brela" onclick="triggerUpload('upload-brela')">
+          <input type="file" id="upload-brela" accept=".pdf,.jpg,.png" onchange="handleUpload(this,'zone-brela','list-brela')" />
+          <div class="upload-icon">📄</div>
+          <div class="upload-title">Click to upload or drag & drop</div>
+          <div class="upload-sub">Certificate of Incorporation from BRELA</div>
+          <div class="upload-accept">PDF, JPG, PNG — max 10MB</div>
+        </div>
+        <div class="upload-list" id="list-brela"></div>
+      </div>
+
+      <div>
+        <label style="display:block;margin-bottom:8px;">TALA Tourism License <span class="req">*</span></label>
+        <div class="upload-zone" id="zone-tala" onclick="triggerUpload('upload-tala')">
+          <input type="file" id="upload-tala" accept=".pdf,.jpg,.png" onchange="handleUpload(this,'zone-tala','list-tala')" />
+          <div class="upload-icon">🏷️</div>
+          <div class="upload-title">Click to upload or drag & drop</div>
+          <div class="upload-sub">Current valid TALA tourism operator license</div>
+          <div class="upload-accept">PDF, JPG, PNG — max 10MB</div>
+        </div>
+        <div class="upload-list" id="list-tala"></div>
+      </div>
+
+      <div>
+        <label style="display:block;margin-bottom:8px;">TIN Certificate / Tax Compliance <span class="req">*</span></label>
+        <div class="upload-zone" id="zone-tin" onclick="triggerUpload('upload-tin')">
+          <input type="file" id="upload-tin" accept=".pdf,.jpg,.png" onchange="handleUpload(this,'zone-tin','list-tin')" />
+          <div class="upload-icon">🧾</div>
+          <div class="upload-title">Click to upload or drag & drop</div>
+          <div class="upload-sub">TRA Tax Identification Number certificate</div>
+          <div class="upload-accept">PDF, JPG, PNG — max 10MB</div>
+        </div>
+        <div class="upload-list" id="list-tin"></div>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+    <div class="form-section-label">Optional Supporting Documents</div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div>
+        <label style="display:block;margin-bottom:8px;">Insurance Certificate <span class="hint">(recommended)</span></label>
+        <div class="upload-zone" onclick="triggerUpload('upload-ins')">
+          <input type="file" id="upload-ins" accept=".pdf,.jpg,.png" onchange="handleUpload(this,'','list-ins')" />
+          <div class="upload-icon">🛡️</div>
+          <div class="upload-title">Liability / Vehicle Insurance</div>
+          <div class="upload-accept">PDF, JPG, PNG — max 10MB</div>
+        </div>
+        <div class="upload-list" id="list-ins"></div>
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:8px;">Reference Letters <span class="hint">(from lodges, TANAPA, or international agents)</span></label>
+        <div class="upload-zone" onclick="triggerUpload('upload-ref')">
+          <input type="file" id="upload-ref" accept=".pdf,.jpg,.png" multiple onchange="handleUpload(this,'','list-ref')" />
+          <div class="upload-icon">✉️</div>
+          <div class="upload-title">Supporting Reference Letters</div>
+          <div class="upload-accept">Multiple files allowed</div>
+        </div>
+        <div class="upload-list" id="list-ref"></div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-prev" onclick="prevStep(3)">← Back</button>
+      <button class="btn-next" onclick="nextStep(3)">Continue → Review</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 — REVIEW -->
+  <div class="form-panel" id="panel-4">
+    <div class="panel-title">Review & Submit</div>
+    <p class="panel-sub">Review your application before submitting. Our compliance team reviews within 3–5 business days.</p>
+
+    <div class="review-block">
+      <div class="review-block-header">
+        <div class="review-block-title">Business Information</div>
+        <div class="review-edit" onclick="goToStep(1)">Edit</div>
+      </div>
+      <div class="review-row"><div class="review-key">Company Name</div><div class="review-val" id="rv-company">—</div></div>
+      <div class="review-row"><div class="review-key">BRELA No.</div><div class="review-val" id="rv-brela">—</div></div>
+      <div class="review-row"><div class="review-key">TALA No.</div><div class="review-val" id="rv-tala">—</div></div>
+      <div class="review-row"><div class="review-key">Contact Person</div><div class="review-val" id="rv-contact">—</div></div>
+      <div class="review-row"><div class="review-key">Email</div><div class="review-val" id="rv-email">—</div></div>
+      <div class="review-row"><div class="review-key">Phone</div><div class="review-val" id="rv-phone">—</div></div>
+    </div>
+
+    <div class="review-block">
+      <div class="review-block-header">
+        <div class="review-block-title">Services</div>
+        <div class="review-edit" onclick="goToStep(2)">Edit</div>
+      </div>
+      <div class="review-row"><div class="review-key">Regions</div><div class="review-val" id="rv-regions">—</div></div>
+      <div class="review-row"><div class="review-key">Fleet Size</div><div class="review-val" id="rv-fleet">—</div></div>
+      <div class="review-row"><div class="review-key">Guides</div><div class="review-val" id="rv-guides">—</div></div>
+      <div class="review-row"><div class="review-key">Languages</div><div class="review-val" id="rv-langs">—</div></div>
+    </div>
+
+    <div class="review-block">
+      <div class="review-block-header">
+        <div class="review-block-title">Documents</div>
+        <div class="review-edit" onclick="goToStep(3)">Edit</div>
+      </div>
+      <div class="review-row"><div class="review-key">BRELA Certificate</div><div class="review-val" id="rv-doc-brela">⏳ Not uploaded</div></div>
+      <div class="review-row"><div class="review-key">TALA License</div><div class="review-val" id="rv-doc-tala">⏳ Not uploaded</div></div>
+      <div class="review-row"><div class="review-key">TIN Certificate</div><div class="review-val" id="rv-doc-tin">⏳ Not uploaded</div></div>
+    </div>
+
+    <div class="form-divider"></div>
+    <div class="form-section-label">Terms & Conditions</div>
+    <div class="terms-box">
+      <p><strong>SafariGo Operator Agreement Summary</strong></p>
+      <p>By submitting this application, you certify that all information and documents provided are accurate and legally valid. You agree to maintain active TALA and BRELA registrations for the duration of your SafariGo membership.</p>
+      <p>You acknowledge that SafariGo may conduct background verification checks on your business registration, tax compliance status, and operational history with TANAPA/TAWA. False information may result in permanent platform removal.</p>
+      <p>You agree to the SafariGo Milestone Escrow terms: funds will be released according to the three-milestone framework, and QR checkpoint scans constitute legally binding proof of service delivery.</p>
+      <p>SafariGo charges a 3–5% commission on bookings generated through the marketplace. B2B API usage is governed by a separate SaaS agreement. FX conversion rates are published transparently at the time of each transaction.</p>
+      <p>Operators must respond to all tourist inquiries within 24 hours and maintain a minimum 4.0 star rating. SafariGo reserves the right to suspend operators with sustained ratings below this threshold.</p>
+    </div>
+    <label class="terms-agree" style="margin-bottom:24px;">
+      <input type="checkbox" id="terms-check" />
+      <span>I have read and agree to the SafariGo Operator Agreement and Platform Terms of Service. I confirm all submitted information is accurate and my documents are legally valid.</span>
+    </label>
+
+    <div class="form-nav">
+      <button class="btn-prev" onclick="prevStep(4)">← Back</button>
+      <button class="btn-submit" onclick="submitApplication()">
+        Submit Application 🏕️
+      </button>
+    </div>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✅</div>
+    <h2 class="success-title">Application Received!</h2>
+    <p class="success-sub">Thank you for applying to join the SafariGo Verified Network. Your application has been securely received and assigned to our compliance team.</p>
+    <div class="success-badge">
+      🏷️ Application Reference: SG-<span id="ref-num">2025-XXXX</span>
+    </div>
+    <div class="success-steps">
+      <div class="success-step">
+        <div class="success-step-num">1</div>
+        <div class="success-step-text"><strong>Document Verification (Days 1–2)</strong>Our compliance team reviews your BRELA, TALA, and TIN documents for authenticity.</div>
+      </div>
+      <div class="success-step">
+        <div class="success-step-num">2</div>
+        <div class="success-step-text"><strong>Background Check (Days 2–4)</strong>We cross-reference your registration with TANAPA/TAWA operational records and TRA compliance status.</div>
+      </div>
+      <div class="success-step">
+        <div class="success-step-num">3</div>
+        <div class="success-step-text"><strong>Onboarding Call (Day 4–5)</strong>A SafariGo onboarding officer will contact you via the email and phone provided to complete verification.</div>
+      </div>
+      <div class="success-step">
+        <div class="success-step-num">4</div>
+        <div class="success-step-text"><strong>Trust Seal Issuance</strong>Upon approval, you receive your SafariGo Verified badge and API access credentials.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentStep = 1;
+
+  function goToStep(n) {
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    document.querySelectorAll('.step-tab').forEach((t, i) => {
+      t.classList.remove('active', 'done');
+      if (i + 1 < n) t.classList.add('done');
+      else if (i + 1 === n) t.classList.add('active');
+    });
+    currentStep = n;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function validateStep1() {
+    let valid = true;
+    const fields = [
+      { id: 'company-name', gid: 'g-company-name' },
+      { id: 'brela', gid: 'g-brela' },
+      { id: 'tala', gid: 'g-tala' },
+      { id: 'founded', gid: 'g-founded' },
+      { id: 'address', gid: 'g-address' },
+      { id: 'contact-name', gid: 'g-contact-name' },
+      { id: 'role', gid: 'g-role' },
+      { id: 'phone', gid: 'g-phone' },
+    ];
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const g = document.getElementById(f.gid);
+      if (!el.value.trim()) { g.classList.add('has-error'); valid = false; }
+      else g.classList.remove('has-error');
+    });
+    // Email
+    const em = document.getElementById('email');
+    const eg = document.getElementById('g-email');
+    if (!em.value.includes('@') || !em.value.includes('.')) { eg.classList.add('has-error'); valid = false; }
+    else eg.classList.remove('has-error');
+    return valid;
+  }
+
+  function validateStep2() {
+    let valid = true;
+    const regions = document.querySelectorAll('#g-regions input:checked');
+    if (regions.length === 0) { document.getElementById('err-regions').style.display = 'block'; valid = false; }
+    else document.getElementById('err-regions').style.display = 'none';
+    ['fleet', 'guides', 'capacity', 'languages'].forEach(id => {
+      const el = document.getElementById(id === 'fleet' ? 'fleet-size' : id === 'guides' ? 'guide-count' : id === 'capacity' ? 'capacity' : 'languages');
+      const g = document.getElementById('g-' + id);
+      if (!el || !el.value.trim()) { if(g) g.classList.add('has-error'); valid = false; }
+      else if(g) g.classList.remove('has-error');
+    });
+    return valid;
+  }
+
+  function nextStep(from) {
+    if (from === 1 && !validateStep1()) { scrollToFirstError(); return; }
+    if (from === 2 && !validateStep2()) { return; }
+    if (from === 3) { populateReview(); }
+    goToStep(from + 1);
+  }
+
+  function prevStep(from) { goToStep(from - 1); }
+
+  function scrollToFirstError() {
+    const el = document.querySelector('.has-error input, .has-error select');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function populateReview() {
+    const v = (id) => document.getElementById(id)?.value || '—';
+    document.getElementById('rv-company').textContent = v('company-name');
+    document.getElementById('rv-brela').textContent = v('brela');
+    document.getElementById('rv-tala').textContent = v('tala');
+    document.getElementById('rv-contact').textContent = v('contact-name') + ' (' + v('role') + ')';
+    document.getElementById('rv-email').textContent = v('email');
+    document.getElementById('rv-phone').textContent = v('phone');
+    document.getElementById('rv-fleet').textContent = document.getElementById('fleet-size')?.value || '—';
+    document.getElementById('rv-guides').textContent = document.getElementById('guide-count')?.value || '—';
+    document.getElementById('rv-langs').textContent = v('languages');
+    const regions = [...document.querySelectorAll('#g-regions input:checked')].map(i => i.value);
+    const regionNames = { serengeti:'Serengeti', kilimanjaro:'Kilimanjaro', ngorongoro:'Ngorongoro', tarangire:'Tarangire', zanzibar:'Zanzibar', selous:'Selous/Nyerere', manyara:'L. Manyara', ruaha:'Ruaha' };
+    document.getElementById('rv-regions').innerHTML = regions.map(r => `<span class="review-tag">${regionNames[r]||r}</span>`).join('') || '—';
+    // Docs
+    ['brela','tala','tin'].forEach(d => {
+      const list = document.getElementById('list-' + d);
+      const el = document.getElementById('rv-doc-' + d);
+      if (list && list.children.length > 0) el.innerHTML = '<span style="color:var(--success)">✓ Uploaded</span>';
+      else el.textContent = '⏳ Not uploaded';
+    });
+  }
+
+  function submitApplication() {
+    if (!document.getElementById('terms-check').checked) {
+      alert('Please agree to the Terms & Conditions before submitting.'); return;
+    }
+    const ref = 'SG-2025-' + Math.floor(1000 + Math.random() * 9000);
+    document.getElementById('ref-num').textContent = ref.split('-').slice(1).join('-');
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('success-screen').classList.add('show');
+    document.querySelectorAll('.step-tab').forEach(t => t.classList.add('done'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Upload helpers
+  function triggerUpload(id) {}
+  function handleUpload(input, zoneId, listId) {
+    const list = document.getElementById(listId);
+    if (!list || !input.files.length) return;
+    list.innerHTML = '';
+    [...input.files].forEach(f => {
+      const div = document.createElement('div');
+      div.className = 'upload-file';
+      div.innerHTML = `<span class="upload-file-icon">📎</span><span class="upload-file-name">${f.name}</span><span class="upload-file-size">${(f.size/1024/1024).toFixed(2)} MB</span><span class="upload-file-remove" onclick="this.parentElement.remove()">✕ Remove</span>`;
+      list.appendChild(div);
+    });
+    if (zoneId) {
+      const zone = document.getElementById(zoneId);
+      if (zone) zone.style.borderColor = 'var(--green-light)';
+    }
+  }
+
+  // Drag and drop
+  document.querySelectorAll('.upload-zone').forEach(zone => {
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); });
+  });
+</script>
+</body>
+</html>
