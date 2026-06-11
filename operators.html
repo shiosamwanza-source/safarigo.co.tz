@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafariGo — Tour Operators Directory</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ─── TOKENS ─────────────────────────────────────── */
+:root {
+  --green-deep:  #1A3C2E;
+  --green-mid:   #2A5C46;
+  --green-light: #3D7A5F;
+  --earth:       #C4813A;
+  --gold:        #E8B84B;
+  --gold-light:  #F5D882;
+  --cream:       #F7F2E8;
+  --cream-dark:  #EDE6D6;
+  --ink:         #1C1C1C;
+  --ink-soft:    #4A4A4A;
+  --white:       #FFFFFF;
+  --badge-green: #2E7D5B;
+  --badge-blue:  #1E5FA8;
+  --badge-gold:  #92680a;
+  --shadow-sm:   0 2px 12px rgba(26,60,46,0.08);
+  --shadow-md:   0 6px 32px rgba(26,60,46,0.13);
+  --shadow-lg:   0 12px 48px rgba(26,60,46,0.18);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.2;}
+a{text-decoration:none;color:inherit;}
+button{font-family:'Inter',sans-serif;cursor:pointer;}
+img{max-width:100%;display:block;}
+
+/* ─── NAV ─────────────────────────────────────────── */
+nav{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:15px 5%;
+  background:rgba(26,60,46,0.97);
+  backdrop-filter:blur(14px);
+  box-shadow:0 2px 20px rgba(0,0,0,0.2);
+}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--gold);}
+.nav-logo span{color:var(--white);}
+.nav-links{display:flex;gap:1.8rem;align-items:center;}
+.nav-links a{color:rgba(255,255,255,0.65);font-size:0.82rem;font-weight:500;transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.nav-cta{
+  background:var(--gold);color:var(--green-deep)!important;
+  padding:9px 20px;border-radius:6px;font-weight:700!important;
+  font-size:0.82rem!important;transition:background 0.2s!important;
+}
+.nav-cta:hover{background:var(--gold-light)!important;}
+
+/* ─── DIRECTORY VIEW ─────────────────────────────── */
+#dir-view{}
+#profile-view{display:none;}
+
+/* ─── DIRECTORY HEADER ───────────────────────────── */
+.dir-hero{
+  background:linear-gradient(155deg, var(--green-deep) 0%, #1e3528 60%, #2a4a35 100%);
+  padding:52px 5% 44px;
+  position:relative;overflow:hidden;
+}
+.dir-hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:30px 30px;pointer-events:none;
+}
+.dir-hero::after{
+  content:'🦁';
+  position:absolute;right:6%;bottom:-10px;
+  font-size:9rem;opacity:0.06;
+  pointer-events:none;
+}
+.dir-hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1;}
+.dir-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(232,184,75,0.12);border:1px solid rgba(232,184,75,0.28);
+  color:var(--gold);font-size:0.68rem;font-weight:700;
+  letter-spacing:0.14em;text-transform:uppercase;
+  padding:5px 14px;border-radius:100px;margin-bottom:1rem;
+}
+.dir-hero h1{font-size:clamp(1.8rem,3.2vw,2.8rem);color:var(--white);margin-bottom:0.6rem;}
+.dir-hero p{color:rgba(255,255,255,0.55);font-size:0.92rem;max-width:520px;line-height:1.65;margin-bottom:1.8rem;}
+.dir-stats{display:flex;gap:28px;flex-wrap:wrap;}
+.dir-stat{text-align:left;}
+.dir-stat-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold);}
+.dir-stat-label{font-size:0.7rem;color:rgba(255,255,255,0.38);margin-top:1px;letter-spacing:0.04em;}
+
+/* ─── BADGE LEGEND ───────────────────────────────── */
+.badge-legend{
+  background:var(--white);
+  border-bottom:1px solid var(--cream-dark);
+  padding:16px 5%;
+}
+.badge-legend-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+}
+.legend-label{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);}
+.trust-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 14px;border-radius:100px;
+  font-size:0.72rem;font-weight:700;letter-spacing:0.03em;
+  cursor:default;transition:transform 0.15s;user-select:none;
+}
+.trust-badge:hover{transform:scale(1.04);}
+.badge-verified{
+  background:rgba(46,125,91,0.1);
+  border:1.5px solid rgba(46,125,91,0.35);
+  color:var(--badge-green);
+}
+.badge-fleet{
+  background:rgba(30,95,168,0.08);
+  border:1.5px solid rgba(30,95,168,0.3);
+  color:var(--badge-blue);
+}
+.badge-elite{
+  background:rgba(232,184,75,0.12);
+  border:1.5px solid rgba(232,184,75,0.45);
+  color:var(--badge-gold);
+}
+.badge-verified::before{content:'✦';font-size:0.6rem;}
+.badge-fleet::before{content:'✦';font-size:0.6rem;}
+.badge-elite::before{content:'✦';font-size:0.6rem;}
+
+/* ─── FILTER BAR ─────────────────────────────────── */
+.filter-bar{
+  background:var(--cream-dark);
+  padding:18px 5%;
+  position:sticky;top:55px;z-index:100;
+  border-bottom:1px solid #ddd5c0;
+}
+.filter-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.search-box{
+  display:flex;align-items:center;gap:8px;
+  background:var(--white);border:1.5px solid var(--cream-dark);
+  border-radius:8px;padding:9px 14px;
+  flex:1;min-width:200px;max-width:320px;
+  transition:border-color 0.2s;
+}
+.search-box:focus-within{border-color:var(--green-light);}
+.search-box input{
+  border:none;outline:none;font-family:'Inter',sans-serif;
+  font-size:0.82rem;color:var(--ink);background:transparent;width:100%;
+}
+.filter-chip{
+  padding:8px 16px;border-radius:100px;
+  font-size:0.75rem;font-weight:600;
+  border:1.5px solid var(--cream-dark);
+  background:var(--white);color:var(--ink-soft);
+  cursor:pointer;transition:all 0.15s;
+}
+.filter-chip:hover{border-color:var(--green-light);color:var(--green-mid);}
+.filter-chip.active{
+  background:var(--green-deep);color:var(--white);
+  border-color:var(--green-deep);
+}
+.filter-badge-chip{
+  padding:7px 14px;border-radius:100px;
+  font-size:0.72rem;font-weight:700;
+  cursor:pointer;transition:all 0.15s;
+  border:1.5px solid transparent;
+}
+.filter-badge-chip.f-verified{background:rgba(46,125,91,0.08);color:var(--badge-green);border-color:rgba(46,125,91,0.2);}
+.filter-badge-chip.f-verified.active{background:var(--badge-green);color:white;}
+.filter-badge-chip.f-fleet{background:rgba(30,95,168,0.06);color:var(--badge-blue);border-color:rgba(30,95,168,0.18);}
+.filter-badge-chip.f-fleet.active{background:var(--badge-blue);color:white;}
+.filter-badge-chip.f-elite{background:rgba(232,184,75,0.1);color:var(--badge-gold);border-color:rgba(232,184,75,0.3);}
+.filter-badge-chip.f-elite.active{background:var(--gold);color:var(--green-deep);}
+
+/* ─── DIRECTORY GRID ─────────────────────────────── */
+.dir-body{max-width:1200px;margin:0 auto;padding:32px 5% 80px;}
+.dir-result-meta{
+  font-size:0.78rem;color:var(--ink-soft);
+  margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+.dir-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+@media(max-width:1000px){.dir-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.dir-grid{grid-template-columns:1fr;}}
+
+/* ─── OPERATOR CARD ──────────────────────────────── */
+.op-card{
+  background:var(--white);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  transition:transform 0.22s,box-shadow 0.22s;
+  cursor:pointer;
+  border:1.5px solid transparent;
+}
+.op-card:hover{
+  transform:translateY(-5px);
+  box-shadow:var(--shadow-lg);
+  border-color:rgba(61,122,95,0.18);
+}
+.op-card-banner{
+  height:110px;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.op-card-banner-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--green-deep),var(--green-mid));
+}
+.op-card-banner-emoji{
+  font-size:3.2rem;position:relative;z-index:1;opacity:0.9;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+}
+.op-card-banner-badges{
+  position:absolute;top:10px;right:10px;
+  display:flex;flex-direction:column;gap:5px;align-items:flex-end;
+  z-index:2;
+}
+.op-card-banner-badge{
+  display:flex;align-items:center;gap:4px;
+  padding:3px 9px;border-radius:100px;
+  font-size:0.62rem;font-weight:800;letter-spacing:0.04em;
+  backdrop-filter:blur(8px);white-space:nowrap;
+}
+.bb-verified{background:rgba(46,125,91,0.85);color:white;}
+.bb-fleet{background:rgba(30,95,168,0.85);color:white;}
+.bb-elite{background:rgba(196,129,58,0.9);color:white;}
+
+.op-card-body{padding:18px 18px 16px;}
+.op-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+.op-avatar-wrap{
+  width:44px;height:44px;border-radius:11px;
+  background:var(--green-deep);color:var(--gold);
+  font-weight:800;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-family:'Playfair Display',serif;
+}
+.op-card-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);line-height:1.25;}
+.op-card-region{font-size:0.72rem;color:var(--ink-soft);margin-top:3px;display:flex;align-items:center;gap:4px;}
+.op-card-stats{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:0;
+  border-top:1px solid var(--cream);
+  border-bottom:1px solid var(--cream);
+  padding:10px 0;margin:10px 0;
+}
+.op-stat{text-align:center;padding:0 8px;border-right:1px solid var(--cream);}
+.op-stat:last-child{border-right:none;}
+.op-stat-num{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--green-deep);}
+.op-stat-label{font-size:0.6rem;color:var(--ink-soft);margin-top:1px;letter-spacing:0.04em;text-transform:uppercase;}
+.op-card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
+.op-tag{
+  font-size:0.62rem;font-weight:600;padding:3px 8px;
+  border-radius:5px;background:var(--cream);color:var(--ink-soft);
+}
+.op-card-footer{display:flex;justify-content:space-between;align-items:center;}
+.op-rating{display:flex;align-items:center;gap:5px;}
+.op-stars{color:var(--gold);font-size:0.72rem;letter-spacing:1px;}
+.op-rating-num{font-size:0.78rem;font-weight:700;color:var(--ink);}
+.op-rating-count{font-size:0.68rem;color:var(--ink-soft);}
+.btn-view-profile{
+  padding:8px 16px;border-radius:7px;
+  background:var(--green-deep);color:var(--white);
+  font-size:0.75rem;font-weight:700;border:none;
+  transition:background 0.15s;
+}
+.btn-view-profile:hover{background:var(--green-mid);}
+
+/* ─── NO RESULTS ─────────────────────────────────── */
+.no-results{
+  grid-column:1/-1;text-align:center;padding:60px 20px;
+  display:none;
+}
+.no-results-icon{font-size:3rem;margin-bottom:1rem;}
+.no-results h3{font-size:1.2rem;color:var(--green-deep);margin-bottom:0.5rem;}
+.no-results p{font-size:0.875rem;color:var(--ink-soft);}
+
+/* ════════════════════════════════════════════════════
+   PROFILE PAGE
+════════════════════════════════════════════════════ */
+#profile-view{}
+
+/* PROFILE HERO */
+.profile-hero{
+  background:linear-gradient(150deg,var(--green-deep) 0%,#213d2e 55%,#1a2e22 100%);
+  padding:40px 5% 0;
+  position:relative;overflow:hidden;
+}
+.profile-hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,0.02) 1px,transparent 1px);
+  background-size:26px 26px;pointer-events:none;
+}
+.profile-back{
+  display:inline-flex;align-items:center;gap:7px;
+  color:rgba(255,255,255,0.5);font-size:0.78rem;font-weight:500;
+  margin-bottom:20px;cursor:pointer;transition:color 0.2s;
+  position:relative;z-index:1;
+}
+.profile-back:hover{color:var(--gold);}
+.profile-identity{
+  display:flex;align-items:flex-end;gap:24px;
+  position:relative;z-index:1;
+  padding-bottom:0;
+}
+.profile-logo{
+  width:80px;height:80px;border-radius:18px;
+  background:rgba(255,255,255,0.06);
+  border:2px solid rgba(255,255,255,0.12);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;font-weight:800;color:var(--gold);
+  flex-shrink:0;
+}
+.profile-info{flex:1;padding-bottom:24px;}
+.profile-name{
+  font-size:clamp(1.5rem,3vw,2.2rem);
+  font-weight:900;color:var(--white);margin-bottom:4px;
+}
+.profile-location{color:rgba(255,255,255,0.5);font-size:0.85rem;display:flex;align-items:center;gap:5px;margin-bottom:12px;}
+.profile-badges{display:flex;gap:8px;flex-wrap:wrap;}
+.profile-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:100px;
+  font-size:0.72rem;font-weight:700;letter-spacing:0.03em;
+  border:1.5px solid transparent;
+}
+.pb-verified{background:rgba(46,125,91,0.18);border-color:rgba(46,125,91,0.45);color:#6fcf97;}
+.pb-fleet{background:rgba(30,95,168,0.18);border-color:rgba(30,95,168,0.4);color:#90caf9;}
+.pb-elite{
+  background:rgba(232,184,75,0.15);border-color:rgba(232,184,75,0.5);color:var(--gold);
+  animation:shine 3s infinite;
+}
+@keyframes shine{
+  0%,100%{box-shadow:0 0 0 rgba(232,184,75,0);}
+  50%{box-shadow:0 0 14px rgba(232,184,75,0.25);}
+}
+.profile-badge-icon{font-size:0.75rem;}
+
+/* PROFILE TABS */
+.profile-tabs{
+  background:rgba(0,0,0,0.25);
+  display:flex;gap:0;
+  border-top:1px solid rgba(255,255,255,0.07);
+  position:relative;z-index:1;
+}
+.ptab{
+  padding:14px 22px;
+  color:rgba(255,255,255,0.45);font-size:0.8rem;font-weight:600;
+  cursor:pointer;transition:all 0.2s;
+  border-bottom:2px solid transparent;
+}
+.ptab:hover{color:rgba(255,255,255,0.75);}
+.ptab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* PROFILE BODY */
+.profile-body{max-width:1100px;margin:0 auto;padding:32px 5% 80px;}
+.profile-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;}
+@media(max-width:880px){.profile-grid{grid-template-columns:1fr;}}
+
+/* TAB PANELS */
+.tab-panel{display:none;}
+.tab-panel.active{display:block;animation:fadeUp 0.25s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* SECTION CARD */
+.p-card{background:var(--white);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:20px;}
+.p-card-header{
+  padding:18px 22px 14px;
+  border-bottom:1px solid var(--cream);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.p-card-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--green-deep);}
+.p-card-body{padding:20px 22px;}
+
+/* QUICK STATS (sidebar) */
+.quick-stats{background:var(--white);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:20px;position:sticky;top:120px;}
+.qs-header{background:var(--green-deep);padding:16px 20px;}
+.qs-header-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--gold);}
+.qs-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 20px;border-bottom:1px solid var(--cream);
+}
+.qs-row:last-child{border-bottom:none;}
+.qs-key{font-size:0.75rem;color:var(--ink-soft);}
+.qs-val{font-size:0.82rem;font-weight:700;color:var(--ink);}
+
+/* PACKAGE CARDS */
+.pkg-card{
+  border:1.5px solid var(--cream-dark);border-radius:14px;
+  overflow:hidden;margin-bottom:16px;
+  transition:box-shadow 0.2s,border-color 0.2s;
+}
+.pkg-card:hover{box-shadow:var(--shadow-md);border-color:rgba(61,122,95,0.25);}
+.pkg-banner{
+  height:88px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:flex-end;
+  padding-right:20px;
+}
+.pkg-banner-bg{position:absolute;inset:0;background:linear-gradient(110deg,var(--green-deep),var(--earth));}
+.pkg-banner-emoji{font-size:2.4rem;position:relative;z-index:1;opacity:0.9;}
+.pkg-banner-price{
+  position:absolute;left:20px;top:50%;transform:translateY(-50%);
+  z-index:1;
+}
+.pkg-price-amount{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold);}
+.pkg-price-per{font-size:0.7rem;color:rgba(255,255,255,0.5);}
+.pkg-body{padding:16px 18px;}
+.pkg-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:5px;}
+.pkg-meta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;}
+.pkg-meta-item{font-size:0.72rem;color:var(--ink-soft);display:flex;align-items:center;gap:4px;}
+.pkg-includes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.pkg-include{font-size:0.65rem;font-weight:600;padding:3px 9px;background:var(--cream);color:var(--ink-soft);border-radius:5px;}
+.pkg-footer{display:flex;justify-content:space-between;align-items:center;}
+.pkg-availability{font-size:0.72rem;color:var(--badge-green);font-weight:600;}
+.btn-book{
+  padding:9px 20px;border-radius:8px;
+  background:var(--gold);color:var(--green-deep);
+  font-size:0.78rem;font-weight:700;border:none;
+  transition:background 0.15s,transform 0.15s;
+}
+.btn-book:hover{background:var(--gold-light);transform:translateY(-1px);}
+
+/* REVIEWS */
+.review-card{
+  padding:18px 0;border-bottom:1px solid var(--cream);
+}
+.review-card:last-child{border-bottom:none;}
+.review-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;}
+.reviewer-info{display:flex;align-items:center;gap:10px;}
+.reviewer-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green-deep),var(--green-light));
+  color:var(--gold);font-weight:700;font-size:0.85rem;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.reviewer-name{font-size:0.85rem;font-weight:700;color:var(--ink);}
+.reviewer-meta{font-size:0.68rem;color:var(--ink-soft);margin-top:2px;display:flex;align-items:center;gap:6px;}
+.review-stars{color:var(--gold);font-size:0.8rem;}
+.review-verified-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:0.62rem;font-weight:700;padding:2px 9px;border-radius:100px;
+  background:rgba(46,125,91,0.1);color:var(--badge-green);
+  flex-shrink:0;
+}
+.review-text{font-size:0.82rem;color:var(--ink-soft);line-height:1.65;}
+.review-trip-tag{
+  margin-top:8px;font-size:0.68rem;color:var(--ink-soft);
+  display:flex;align-items:center;gap:5px;
+}
+.review-trip-tag span{color:var(--earth);font-weight:600;}
+
+/* FLEET & GUIDES */
+.fleet-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:500px){.fleet-grid{grid-template-columns:1fr;}}
+.fleet-item{
+  padding:14px 16px;border-radius:12px;
+  border:1.5px solid var(--cream-dark);background:var(--cream);
+}
+.fleet-icon{font-size:1.4rem;margin-bottom:6px;}
+.fleet-name{font-size:0.82rem;font-weight:700;color:var(--ink);}
+.fleet-detail{font-size:0.72rem;color:var(--ink-soft);margin-top:2px;line-height:1.5;}
+.fleet-tag{
+  display:inline-block;margin-top:6px;
+  font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:4px;
+}
+.ft-ok{background:rgba(46,125,91,0.1);color:var(--badge-green);}
+.ft-cert{background:rgba(30,95,168,0.08);color:var(--badge-blue);}
+
+.guide-card{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--cream);
+}
+.guide-card:last-child{border-bottom:none;}
+.guide-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--green-mid);color:var(--gold);
+  font-weight:800;font-size:0.9rem;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.guide-name{font-size:0.88rem;font-weight:700;color:var(--ink);}
+.guide-spec{font-size:0.72rem;color:var(--ink-soft);margin-top:2px;}
+.guide-certs{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
+.guide-cert{font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(30,95,168,0.08);color:var(--badge-blue);}
+
+/* BADGE INFO MODAL */
+.badge-modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.55);
+  z-index:500;display:none;align-items:center;justify-content:center;
+  padding:20px;
+}
+.badge-modal-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+.badge-modal{
+  background:var(--white);border-radius:20px;
+  max-width:520px;width:100%;padding:36px 32px;
+  position:relative;animation:slideUp 0.25s ease;
+}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--cream);border:none;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background 0.15s;
+}
+.modal-close:hover{background:var(--cream-dark);}
+.modal-badge-icon{font-size:3rem;margin-bottom:1rem;}
+.modal-badge-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--green-deep);margin-bottom:0.5rem;}
+.modal-badge-sub{font-size:0.78rem;color:var(--ink-soft);margin-bottom:1.4rem;line-height:1.6;}
+.modal-requirements{display:flex;flex-direction:column;gap:10px;}
+.modal-req{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:12px 14px;border-radius:10px;background:var(--cream);
+}
+.modal-req-icon{font-size:0.9rem;margin-top:1px;flex-shrink:0;}
+.modal-req-text{font-size:0.8rem;color:var(--ink-soft);line-height:1.5;}
+.modal-req-text strong{color:var(--ink);}
+
+/* BOOK NOW SIDEBAR CTA */
+.book-cta{
+  background:var(--green-deep);border-radius:16px;
+  padding:24px 22px;margin-bottom:20px;
+}
+.book-cta-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--white);margin-bottom:6px;}
+.book-cta-sub{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:18px;line-height:1.55;}
+.btn-book-full{
+  width:100%;padding:13px;border-radius:9px;
+  background:var(--gold);color:var(--green-deep);
+  font-size:0.875rem;font-weight:700;border:none;
+  transition:background 0.15s;
+}
+.btn-book-full:hover{background:var(--gold-light);}
+.book-cta-note{font-size:0.68rem;color:rgba(255,255,255,0.3);text-align:center;margin-top:10px;}
+
+/* CONTACT CARD */
+.contact-card{background:var(--white);border-radius:16px;box-shadow:var(--shadow-sm);padding:20px 22px;margin-bottom:20px;}
+.contact-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--cream);}
+.contact-row:last-child{border-bottom:none;}
+.contact-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0;}
+.contact-text{font-size:0.8rem;color:var(--ink-soft);}
+.contact-val{font-size:0.8rem;font-weight:600;color:var(--ink);}
+
+/* FOOTER */
+footer{background:var(--ink);padding:40px 5% 28px;}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold);}
+.footer-logo span{color:var(--white);}
+.footer-copy{font-size:0.72rem;color:rgba(255,255,255,0.2);width:100%;text-align:center;padding-top:20px;margin-top:20px;border-top:1px solid rgba(255,255,255,0.06);}
+
+/* RESPONSIVE NAV */
+@media(max-width:700px){
+  .nav-links{gap:1rem;}
+  .nav-links a:not(.nav-cta){display:none;}
+  .filter-inner{gap:8px;}
+  .profile-identity{flex-direction:column;align-items:flex-start;}
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Safari<span>Go</span></div>
+  <div class="nav-links">
+    <a href="safarigo-landing.html">Home</a>
+    <a href="safarigo-operators.html" class="active">Operators</a>
+    <a href="safarigo-operator.html" class="nav-cta">Join as Operator</a>
+  </div>
+</nav>
+
+<!-- ════ DIRECTORY VIEW ════════════════════════════ -->
+<div id="dir-view">
+
+  <!-- HERO -->
+  <div class="dir-hero">
+    <div class="dir-hero-inner">
+      <div class="dir-eyebrow">🏕️ Verified Network</div>
+      <h1>Find Your Safari Operator</h1>
+      <p>Every operator here has been personally verified by SafariGo — BRELA registered, TALA licensed, and operating under our Tiered Milestone Escrow. Your money is protected before a single shilling moves.</p>
+      <div class="dir-stats">
+        <div class="dir-stat"><div class="dir-stat-num">38</div><div class="dir-stat-label">Verified Operators</div></div>
+        <div class="dir-stat"><div class="dir-stat-num">7</div><div class="dir-stat-label">Regions Covered</div></div>
+        <div class="dir-stat"><div class="dir-stat-num">4.6★</div><div class="dir-stat-label">Avg QR-Verified Rating</div></div>
+        <div class="dir-stat"><div class="dir-stat-num">0</div><div class="dir-stat-label">Fraud Incidents</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BADGE LEGEND -->
+  <div class="badge-legend">
+    <div class="badge-legend-inner">
+      <span class="legend-label">Badge Guide:</span>
+      <div class="trust-badge badge-verified" onclick="openBadgeModal('verified')" title="Click to learn more">✦ SafariGo Verified</div>
+      <div class="trust-badge badge-fleet" onclick="openBadgeModal('fleet')" title="Click to learn more">✦ Top Guide & Fleet</div>
+      <div class="trust-badge badge-elite" onclick="openBadgeModal('elite')" title="Click to learn more">✦ Elite Escrow Performer</div>
+      <span style="font-size:0.68rem;color:var(--ink-soft);margin-left:auto;">Click any badge to learn what it means →</span>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-inner">
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" placeholder="Search operators or regions..." id="search-input" oninput="filterCards()"/>
+      </div>
+      <div class="filter-chip active" onclick="setRegion('all',this)">All Regions</div>
+      <div class="filter-chip" onclick="setRegion('serengeti',this)">🦁 Serengeti</div>
+      <div class="filter-chip" onclick="setRegion('kilimanjaro',this)">🏔️ Kilimanjaro</div>
+      <div class="filter-chip" onclick="setRegion('zanzibar',this)">🏝️ Zanzibar</div>
+      <div class="filter-chip" onclick="setRegion('ngorongoro',this)">🦏 Ngorongoro</div>
+      <div class="filter-badge-chip f-elite" onclick="toggleBadgeFilter('elite',this)" id="ff-elite">✦ Elite Only</div>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="dir-body">
+    <div class="dir-result-meta">
+      <span id="result-count">Showing <strong>8</strong> verified operators</span>
+      <span style="font-size:0.72rem;color:var(--ink-soft);">QR-verified reviews only · Zero fake ratings</span>
+    </div>
+    <div class="dir-grid" id="op-grid">
+
+      <!-- CARD 1 — ELITE -->
+      <div class="op-card" data-region="serengeti" data-badge="elite" onclick="openProfile('serengeti-trail')">
+        <div class="op-card-banner">
+          <div class="op-card-banner-bg" style="background:linear-gradient(135deg,#1A3C2E,#3D7A5F);"></div>
+          <div class="op-card-banner-emoji">🦁</div>
+          <div class="op-card-banner-badges">
+            <div class="op-card-banner-badge bb-elite">✦ Elite Performer</div>
+            <div class="op-card-banner-badge bb-fleet">✦ Top Fleet</div>
+            <div class="op-card-banner-badge bb-verified">✓ Verified</div>
+          </div>
+        </div>
+        <div class="op-card-body">
+          <div class="op-card-header">
+            <div class="op-avatar-wrap">ST</div>
+            <div>
+              <div class="op-card-name">Serengeti Trail Adventures</div>
+              <div class="op-card-region">📍 Arusha · Serengeti NP</div>
+            </div>
+          </div>
+          <div class="op-card-stats">
+            <div class="op-stat"><div class="op-stat-num">127</div><div class="op-stat-label">Trips</div></div>
+            <div class="op-stat"><div class="op-stat-num">12</div><div class="op-stat-label">Vehicles</div></div>
+            <div class="op-stat"><div class="op-stat-num">4.9★</div><div class="op-stat-label">Rating</div></div>
+          </div>
+          <div class="op-card-tags">
+            <span class="op-tag">Game Drive</span><span class="op-tag">Migration</span><span class="op-tag">Honeymoon</span><span class="op-tag">MICE</span>
+          </div>
+          <div class="op-card-footer">
+            <div class="op-rating">
+              <div class="op-stars">★★★★★</div>
+              <div class="op-rating-num">4.9</div>
+              <div class="op-rating-count">(89 reviews)</div>
+            </div>
+            <button class="btn-view-profile">View Profile →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 — ELITE -->
+      <div class="op-card" data-region="kilimanjaro" data-badge="elite" onclick="openProfile('kili-summit')">
+        <div class="op-card-banner">
+          <div class="op-card-banner-bg" style="background:linear-gradient(135deg,#1c3246,#2a5070);"></div>
+          <div class="op-card-banner-emoji">🏔️</div>
+          <div class="op-card-banner-badges">
+            <div class="op-card-banner-badge bb-elite">✦ Elite Performer</div>
+            <div class="op-card-banner-badge bb-verified">✓ Verified</div>
+          </div>
+        </div>
+        <div class="op-card-body">
+          <div class="op-card-header">
+            <div class="op-avatar-wrap" style="background:#1c3246;">KS</div>
+            <div>
+              <div class="op-card-name">Kili Summit Co.</div>
+              <div class="op-card-region">📍 Moshi · Kilimanjaro Region</div>
+            </div>
+          </div>
+          <div class="op-card-stats">
+            <div class="op-stat"><div class="op-stat-num">94</div><div class="op-stat-label">Trips</div></div>
+            <div class="op-stat"><div class="op-stat-num">6</div><div class="op-stat-label">Vehicles</div></div>
+            <div class="op-stat"><div class="op-stat-num">4.8★</div><div class="op-stat-label">Rating</div></div>
+          </div>
+          <div class="op-card-tags">
+            <span class="op-tag">Trekking</span><span class="op-tag">Climbing</span><span class="op-tag">Cultural</span>
+          </div>
+          <div class="op-card-footer">
+            <div class="op-rating">
+              <div class="op-stars">★★★★★</div>
+              <div class="op-rating-num">4.8</div>
+              <div class="op-rating-count">(62 reviews)</div>
+            </div>
+            <button class="btn-view-profile">View Profile →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="op-card" data-region="ngorongoro" data-badge="fleet" onclick="openProfile('serengeti-trail')">
+        <div class="op-card-banner">
+          <div class="op-card-banner-bg" style="background:linear-gradient(135deg,#3a2010,#7a4020);"></div>
+          <div class="op-card-banner-emoji">🦏</div>
+          <div class="op-card-banner-badges">
+            <div class="op-card-banner-badge bb-fleet">✦ Top Fleet</div>
+            <div class="op-card-banner-badge bb-verified">✓ Verified</div>
+          </div>
+        </div>
+        <div class="op-card-body">
+          <div class="op-card-header">
+            <div class="op-avatar-wrap" style="background:#3a2010;">NC</div>
+            <div>
+              <div class="op-card-name">Ngorongoro Crater Lodge</div>
+              <div class="op-card-region">📍 Karatu · Ngorongoro</div>
+            </div>
+          </div>
+          <div class="op-card-stats">
+            <div class="op-stat"><div class="op-stat-num">58</div><div class="op-stat-label">Trips</div></div>
+            <div class="op-stat"><div class="op-stat-num">8</div><div class="op-stat-label">Vehicles</div></div>
+            <div class="op-stat"><div class="op-stat-num">4.7★</div><div class="op-stat-label">Rating</div></div>
+          </div>
+          <div class="op-card-tags">
+            <span class="op-tag">Crater Drive</span><span class="op-tag">Conservation</span><span class="op-tag">Luxury</span>
+          </div>
+          <div class="op-card-footer">
+            <div class="op-rating">
+              <div class="op-stars">★★★★★</div>
+              <div class="op-rating-num">4.7</div>
+              <div class="op-rating-count">(41 reviews)</div>
+            </div>
+            <button class="btn-view-profile">View Profile →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="op-card" data-region="zanzibar" data-badge="verified" onclick="openProfile('serengeti-trail')">
+        <div class="op-card-banner">
+          <div class="op-card-banner-bg" style="background:linear-gradient(135deg,#0a2a40,#0d4a6e);"></div>
+          <div class="op-card-banner-emoji">🏝️</div>
+          <div class="op-card-banner-badges">
+            <div class="op-card-banner-badge bb-verified">✓ Verified</div>
+          </div>
+        </div>
+        <div class="op-card-body">
+          <div class="op-card-header">
+            <div class="op-avatar-wrap" style="background:#0a2a40;">ZB</div>
+            <div>
+              <div class="op-card-name">Zanzibar Blue Horizons</div>
+              <div class="op-card-region">📍 Stone Town · Zanzibar</div>
+            </div>
+          </div>
+          <div class="op-card-stats">
+            <div class="op-stat"><div class="op-stat-num">32</div><div class="op-stat-label">Trips</div></div>
+            <div class="op-stat"><div class="op-stat-num">3</div><div class="op-stat-label">Vehicles</div></div>
+            <div class="op-stat"><div class="op-stat-num">4.6★</div><div class="op-stat-label">Rating</div></div>
+          </div>
+          <div class="op-card-tags">
+            <span class="op-tag">Beach</span><span class="op-tag">Snorkeling</span><span class="op-tag">Spice Tour</span>
+          </div>
+          <div class="op-card-footer">
+            <div class="op-rating">
+              <div class="op-stars">★★★★★</div>
+              <div class="op-rating-num">4.6</div>
+              <div class="op-rating-count">(27 reviews)</div>
+            </div>
+            <button class="btn-view-profile">View Profile →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="op-card" data-region="serengeti" data-badge="fleet" onclick="openProfile('serengeti-trail')">
+        <div class="op-card-banner">
+          <div class="op-card-banner-bg" style="background:linear-gradient(135deg,#2c1a08,#5a3a10);"></div>
+          <div class="op-card-banner-emoji">🐘</div>
+          <div class="op-card-banner-badges">
+            <div class="op-card-banner-badge bb-fleet">✦ Top Fleet</div>
+            <div class="op-card-banner-badge bb-verified">✓ Verified</div>
+          </div>
+        </div>
+        <div class="op-card-body">
+          <div class="op-card-header">
+            <div class="op-avatar-wrap" style="background:#2c1a08;">TW</div>
+            <div>
+              <div class="op-card-name">Tanzania Wild Expeditions</div>
+              <div class="op-card-region">📍 Arusha · Multi-Region</div>
+            </div>
+          </div>
+          <div class="op-card-stats">
+            <div class="op-stat"><div class="op-stat-num">76</div><div class="op-stat-label">Trips</div></div>
+            <div class="op-stat"><div class="op-stat-num">15</div><div class="op-stat-label">Vehicles</div></div>
+            <div class="op-stat"><div class="op-stat-num">4.5★</div><div class="op-stat-label">Rating</div></div>
+          </div>
+          <div class="op-card-tags">
+            <span class="op-tag">Game Drive</span><span class="op-tag">Tarangire</span><span class="op-tag">Group Tours</span>
+          </div>
+          <div class="op-card-footer">
+            <div class="op-rating">
+              <div class="op-stars">★★★★½</div>
+              <div class="op-rating-num">4.5</div>
+              <div class="op-rating-count">(53 reviews)</div>
+            </div>
+            <button class="btn-view-profile">View Profile →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="op-card" data-region="kilimanjaro" data-badge="verified" onclick="openProfile('serengeti-trail')">
+        <div class="op-card-banner">
+          <div class="op-card-banner-bg" style="background:linear-gradient(135deg,#1e3040,#2a5060);"></div>
+          <div class="op-card-banner-emoji">🥾</div>
+          <div class="op-card-banner-badges">
+            <div class="op-card-banner-badge bb-verified">✓ Verified</div>
+          </div>
+        </div>
+        <div class="op-card-body">
+          <div class="op-card-header">
+            <div class="op-avatar-wrap" style="background:#1e3040;">KG</div>
+            <div>
+              <div class="op-card-name">Kilimanjaro Guides Assoc.</div>
+              <div class="op-card-region">📍 Moshi · Kilimanjaro Region</div>
+            </div>
+          </div>
+          <div class="op-card-stats">
+            <div class="op-stat"><div class="op-stat-num">44</div><div class="op-stat-label">Trips</div></div>
+            <div class="op-stat"><div class="op-stat-num">5</div><div class="op-stat-label">Vehicles</div></div>
+            <div class="op-stat"><div class="op-stat-num">4.4★</div><div class="op-stat-label">Rating</div></div>
+          </div>
+          <div class="op-card-tags">
+            <span class="op-tag">Trekking</span><span class="op-tag">Budget</span><span class="op-tag">Local</span>
+          </div>
+          <div class="op-card-footer">
+            <div class="op-rating">
+              <div class="op-stars">★★★★½</div>
+              <div class="op-rating-num">4.4</div>
+              <div class="op-rating-count">(31 reviews)</div>
+            </div>
+            <button class="btn-view-profile">View Profile →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-results" id="no-results">
+        <div class="no-results-icon">🔍</div>
+        <h3>No operators found</h3>
+        <p>Try adjusting your search or removing a filter.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════ PROFILE VIEW ══════════════════════════════ -->
+<div id="profile-view">
+
+  <div class="profile-hero">
+    <div style="max-width:1100px;margin:0 auto;padding:0 5%;">
+      <div class="profile-back" onclick="closeProfile()">← Back to All Operators</div>
+      <div class="profile-identity">
+        <div class="profile-logo">ST</div>
+        <div class="profile-info">
+          <div class="profile-name">Serengeti Trail Adventures</div>
+          <div class="profile-location">📍 Sokoine Road, Arusha · Serengeti, Tarangire, Ngorongoro</div>
+          <div class="profile-badges">
+            <div class="profile-badge pb-elite" onclick="openBadgeModal('elite')" title="Click for details" style="cursor:pointer;">
+              <span class="profile-badge-icon">✦</span> Elite Escrow Performer
+            </div>
+            <div class="profile-badge pb-fleet" onclick="openBadgeModal('fleet')" title="Click for details" style="cursor:pointer;">
+              <span class="profile-badge-icon">✦</span> Top Guide & Fleet
+            </div>
+            <div class="profile-badge pb-verified" onclick="openBadgeModal('verified')" title="Click for details" style="cursor:pointer;">
+              <span class="profile-badge-icon">✓</span> SafariGo Verified
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="profile-tabs" style="max-width:none;padding:0 calc(5% + 0px);">
+      <div style="max-width:1100px;margin:0 auto;display:flex;width:100%;">
+        <div class="ptab active" onclick="switchTab('packages',this)">Safari Packages</div>
+        <div class="ptab" onclick="switchTab('reviews',this)">Reviews (89)</div>
+        <div class="ptab" onclick="switchTab('fleet',this)">Fleet & Guides</div>
+        <div class="ptab" onclick="switchTab('about',this)">About</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-body">
+    <div class="profile-grid">
+
+      <!-- LEFT — TAB CONTENT -->
+      <div>
+
+        <!-- PACKAGES TAB -->
+        <div class="tab-panel active" id="tab-packages">
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-title">Active Safari Packages</div>
+              <span style="font-size:0.72rem;color:var(--ink-soft);">All packages protected by SafariGo Escrow</span>
+            </div>
+            <div class="p-card-body" style="padding:0;">
+
+              <div class="pkg-card" style="margin:16px 18px;">
+                <div class="pkg-banner">
+                  <div class="pkg-banner-bg" style="background:linear-gradient(110deg,var(--green-deep),var(--earth));"></div>
+                  <div class="pkg-banner-price">
+                    <div class="pkg-price-amount">$1,450</div>
+                    <div class="pkg-price-per">per person</div>
+                  </div>
+                  <div class="pkg-banner-emoji">🦁</div>
+                </div>
+                <div class="pkg-body">
+                  <div class="pkg-name">Classic Serengeti & Ngorongoro — 5 Days</div>
+                  <div class="pkg-meta">
+                    <span class="pkg-meta-item">📅 5 days / 4 nights</span>
+                    <span class="pkg-meta-item">👥 2–8 pax</span>
+                    <span class="pkg-meta-item">🚗 Land Cruiser</span>
+                    <span class="pkg-meta-item">🏕️ Mid-range lodges</span>
+                  </div>
+                  <div class="pkg-includes">
+                    <span class="pkg-include">✓ TANAPA Permits</span>
+                    <span class="pkg-include">✓ Full Board</span>
+                    <span class="pkg-include">✓ Airport Transfer</span>
+                    <span class="pkg-include">✓ Certified Guide</span>
+                    <span class="pkg-include">✓ 4WD Safari Vehicle</span>
+                  </div>
+                  <div class="pkg-footer">
+                    <div class="pkg-availability">✓ Available June–August 2026</div>
+                    <button class="btn-book">Book This Safari →</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pkg-card" style="margin:0 18px 16px;">
+                <div class="pkg-banner">
+                  <div class="pkg-banner-bg" style="background:linear-gradient(110deg,#1c3246,#3a6080);"></div>
+                  <div class="pkg-banner-price">
+                    <div class="pkg-price-amount">$2,800</div>
+                    <div class="pkg-price-per">per person</div>
+                  </div>
+                  <div class="pkg-banner-emoji">🌅</div>
+                </div>
+                <div class="pkg-body">
+                  <div class="pkg-name">Great Migration Premium — 7 Days</div>
+                  <div class="pkg-meta">
+                    <span class="pkg-meta-item">📅 7 days / 6 nights</span>
+                    <span class="pkg-meta-item">👥 2–4 pax</span>
+                    <span class="pkg-meta-item">🚗 Private Land Cruiser</span>
+                    <span class="pkg-meta-item">🏕️ Luxury tented camps</span>
+                  </div>
+                  <div class="pkg-includes">
+                    <span class="pkg-include">✓ TANAPA Permits</span>
+                    <span class="pkg-include">✓ All-Inclusive</span>
+                    <span class="pkg-include">✓ Private Vehicle</span>
+                    <span class="pkg-include">✓ Hot Air Balloon option</span>
+                    <span class="pkg-include">✓ Bush Dinner</span>
+                  </div>
+                  <div class="pkg-footer">
+                    <div class="pkg-availability">✓ Limited spots — July/Aug 2026</div>
+                    <button class="btn-book">Book This Safari →</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pkg-card" style="margin:0 18px 16px;">
+                <div class="pkg-banner">
+                  <div class="pkg-banner-bg" style="background:linear-gradient(110deg,#3a1a30,#6a2a50);"></div>
+                  <div class="pkg-banner-price">
+                    <div class="pkg-price-amount">$3,400</div>
+                    <div class="pkg-price-per">per couple</div>
+                  </div>
+                  <div class="pkg-banner-emoji">💒</div>
+                </div>
+                <div class="pkg-body">
+                  <div class="pkg-name">Honeymoon Safari & Zanzibar — 8 Days</div>
+                  <div class="pkg-meta">
+                    <span class="pkg-meta-item">📅 8 days / 7 nights</span>
+                    <span class="pkg-meta-item">👥 2 pax (couple)</span>
+                    <span class="pkg-meta-item">✈️ Zanzibar flight included</span>
+                    <span class="pkg-meta-item">🏖️ Beach resort final days</span>
+                  </div>
+                  <div class="pkg-includes">
+                    <span class="pkg-include">✓ All Safari Permits</span>
+                    <span class="pkg-include">✓ Romantic setup</span>
+                    <span class="pkg-include">✓ Zanzibar transfer</span>
+                    <span class="pkg-include">✓ Welcome hamper</span>
+                  </div>
+                  <div class="pkg-footer">
+                    <div class="pkg-availability">✓ Available year-round</div>
+                    <button class="btn-book">Book This Safari →</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- REVIEWS TAB -->
+        <div class="tab-panel" id="tab-reviews">
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-title">Verified Guest Reviews</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:1.2rem;font-weight:800;color:var(--green-deep);">4.9</span>
+                <span style="color:var(--gold);font-size:0.9rem;">★★★★★</span>
+                <span style="font-size:0.72rem;color:var(--ink-soft);">89 reviews</span>
+              </div>
+            </div>
+            <div class="p-card-body" style="padding:0 22px;">
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="reviewer-info">
+                    <div class="reviewer-avatar">MK</div>
+                    <div>
+                      <div class="reviewer-name">Marcus K.</div>
+                      <div class="reviewer-meta">🇺🇸 United States <span>·</span> June 2026</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-verified-tag">✓ QR-Verified Guest</div>
+                  </div>
+                </div>
+                <p class="review-text">Absolutely world-class experience. Guide Juma knew every animal by individual markings and positioned the vehicle perfectly for 40 minutes watching a cheetah teach her cubs to hunt. The SafariGo escrow system gave me total peace of mind — I knew my $3,450 was protected every step of the way.</p>
+                <div class="review-trip-tag">🛣️ Trip: <span>Classic Serengeti 5-Day</span> · June 4–9, 2026</div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="reviewer-info">
+                    <div class="reviewer-avatar">PH</div>
+                    <div>
+                      <div class="reviewer-name">Petra H.</div>
+                      <div class="reviewer-meta">🇩🇪 Germany <span>·</span> May 2026</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-verified-tag">✓ QR-Verified Guest</div>
+                  </div>
+                </div>
+                <p class="review-text">I was nervous about wiring money to Tanzania — previous trips I had been scammed. SafariGo completely changed that. Seeing my funds held in escrow and released only as milestones were hit gave me genuine confidence. The migration was jaw-dropping and every commitment made was kept.</p>
+                <div class="review-trip-tag">🛣️ Trip: <span>Great Migration Premium 7-Day</span> · May 2026</div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="reviewer-info">
+                    <div class="reviewer-avatar">JA</div>
+                    <div>
+                      <div class="reviewer-name">James & Aisha T.</div>
+                      <div class="reviewer-meta">🇬🇧 United Kingdom <span>·</span> April 2026</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-verified-tag">✓ QR-Verified Guest</div>
+                  </div>
+                </div>
+                <p class="review-text">Our honeymoon was flawless. The surprise sunset bush dinner in the Serengeti was the most romantic thing either of us has ever experienced. The guide — Said — was outstanding. Highly recommend for couples. The QR check-ins felt seamless; we barely noticed them.</p>
+                <div class="review-trip-tag">🛣️ Trip: <span>Honeymoon Safari & Zanzibar 8-Day</span> · April 2026</div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="reviewer-info">
+                    <div class="reviewer-avatar">LW</div>
+                    <div>
+                      <div class="reviewer-name">Li Wei</div>
+                      <div class="reviewer-meta">🇨🇳 China <span>·</span> March 2026</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-verified-tag">✓ QR-Verified Guest</div>
+                  </div>
+                </div>
+                <p class="review-text">The park fees being paid directly to the government before I even arrived was impressive — no wondering if the money was misused. Guide spoke Mandarin, which was unexpected and very welcome. SafariGo's milestone system is brilliant for building trust across cultures.</p>
+                <div class="review-trip-tag">🛣️ Trip: <span>Classic Serengeti 5-Day</span> · March 2026</div>
+              </div>
+
+              <div style="padding:16px 0;text-align:center;">
+                <button style="padding:10px 24px;border-radius:8px;border:1.5px solid var(--cream-dark);background:white;font-size:0.82rem;font-weight:600;color:var(--ink-soft);cursor:pointer;">Load More Reviews (85 remaining)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLEET TAB -->
+        <div class="tab-panel" id="tab-fleet">
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-title">Safari Fleet</div>
+              <div class="trust-badge badge-fleet" style="font-size:0.68rem;padding:4px 12px;">✦ Top Guide & Fleet Certified</div>
+            </div>
+            <div class="p-card-body">
+              <div class="fleet-grid">
+                <div class="fleet-item"><div class="fleet-icon">🚗</div><div class="fleet-name">Toyota Land Cruiser 76 Series</div><div class="fleet-detail">8 vehicles · Pop-top roof · Full 4WD · Fridge & first aid onboard</div><span class="fleet-tag ft-ok">✓ Insured</span> <span class="fleet-tag ft-cert">Inspected 2026</span></div>
+                <div class="fleet-item"><div class="fleet-icon">🚙</div><div class="fleet-name">Toyota Land Cruiser 200</div><div class="fleet-detail">3 vehicles · Luxury interior · Used for premium/honeymoon packages</div><span class="fleet-tag ft-ok">✓ Insured</span> <span class="fleet-tag ft-cert">Inspected 2026</span></div>
+                <div class="fleet-item"><div class="fleet-icon">🚐</div><div class="fleet-name">Toyota HiAce Minibus</div><div class="fleet-detail">1 vehicle · Group transfers · Airport → Lodge shuttles</div><span class="fleet-tag ft-ok">✓ Insured</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-title">Certified Guides</div>
+              <span style="font-size:0.72rem;color:var(--ink-soft);">All guides QR-registered on SafariGo system</span>
+            </div>
+            <div class="p-card-body" style="padding:0 22px;">
+              <div class="guide-card">
+                <div class="guide-avatar">JH</div>
+                <div>
+                  <div class="guide-name">Juma Hassan</div>
+                  <div class="guide-spec">Lead Guide · 14 years experience · Serengeti & Ngorongoro specialist</div>
+                  <div class="guide-certs"><span class="guide-cert">TALA Certified</span><span class="guide-cert">First Aid</span><span class="guide-cert">Swahili / English / French</span><span class="guide-cert">4.9★ avg</span></div>
+                </div>
+              </div>
+              <div class="guide-card">
+                <div class="guide-avatar">SM</div>
+                <div>
+                  <div class="guide-name">Said Mwamba</div>
+                  <div class="guide-spec">Senior Guide · 9 years · Wildebeest Migration expert</div>
+                  <div class="guide-certs"><span class="guide-cert">TALA Certified</span><span class="guide-cert">First Aid</span><span class="guide-cert">Swahili / English / Mandarin</span><span class="guide-cert">4.8★ avg</span></div>
+                </div>
+              </div>
+              <div class="guide-card">
+                <div class="guide-avatar">AJ</div>
+                <div>
+                  <div class="guide-name">Amina Juma</div>
+                  <div class="guide-spec">Guide · 5 years · Honeymoon & family packages</div>
+                  <div class="guide-certs"><span class="guide-cert">TALA Certified</span><span class="guide-cert">First Aid</span><span class="guide-cert">Swahili / English</span><span class="guide-cert">4.7★ avg</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABOUT TAB -->
+        <div class="tab-panel" id="tab-about">
+          <div class="p-card">
+            <div class="p-card-header"><div class="p-card-title">About Serengeti Trail Adventures</div></div>
+            <div class="p-card-body">
+              <p style="font-size:0.875rem;color:var(--ink-soft);line-height:1.75;margin-bottom:16px;">Founded in 2014, Serengeti Trail Adventures is a family-owned tour operator based in Arusha, specializing in authentic wildlife experiences across Tanzania's northern circuit. We believe that a safari is not just a trip — it is a transformational encounter with the natural world.</p>
+              <p style="font-size:0.875rem;color:var(--ink-soft);line-height:1.75;margin-bottom:20px;">All our guides grew up in Tanzania and speak the land as their mother tongue. We operate 12 vehicles, employ 18 certified guides, and have zero disputes across 127 SafariGo-verified trips. We joined SafariGo's network in early 2025 and earned our Elite Escrow Performer badge in Q4 of the same year.</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div style="padding:14px;background:var(--cream);border-radius:10px;">
+                  <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;">BRELA Reg. No.</div>
+                  <div style="font-size:0.85rem;font-weight:700;color:var(--ink);">00847231</div>
+                </div>
+                <div style="padding:14px;background:var(--cream);border-radius:10px;">
+                  <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;">TALA License</div>
+                  <div style="font-size:0.85rem;font-weight:700;color:var(--ink);">TZ-TALA-2024-0391</div>
+                </div>
+                <div style="padding:14px;background:var(--cream);border-radius:10px;">
+                  <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;">Year Established</div>
+                  <div style="font-size:0.85rem;font-weight:700;color:var(--ink);">2014</div>
+                </div>
+                <div style="padding:14px;background:var(--cream);border-radius:10px;">
+                  <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;">Languages</div>
+                  <div style="font-size:0.85rem;font-weight:700;color:var(--ink);">Swahili, English, French, Mandarin</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /left -->
+
+      <!-- RIGHT SIDEBAR -->
+      <div>
+        <div class="book-cta">
+          <div class="book-cta-title">Ready to Book?</div>
+          <div class="book-cta-sub">All payments protected by SafariGo's 3-Milestone Escrow. Your money only moves when services are delivered.</div>
+          <button class="btn-book-full">Start Booking Process →</button>
+          <div class="book-cta-note">🔐 Zero fraud guarantee · Funds in escrow until QR-verified</div>
+        </div>
+
+        <div class="quick-stats">
+          <div class="qs-header"><div class="qs-header-title">Operator Stats</div></div>
+          <div class="qs-row"><div class="qs-key">Total Trips (SafariGo)</div><div class="qs-val">127</div></div>
+          <div class="qs-row"><div class="qs-key">Verified Reviews</div><div class="qs-val">89 reviews</div></div>
+          <div class="qs-row"><div class="qs-key">Avg. Rating</div><div class="qs-val" style="color:var(--earth);">★ 4.9 / 5.0</div></div>
+          <div class="qs-row"><div class="qs-key">Disputes</div><div class="qs-val" style="color:var(--badge-green);">0 (Zero)</div></div>
+          <div class="qs-row"><div class="qs-key">Fleet Size</div><div class="qs-val">12 vehicles</div></div>
+          <div class="qs-row"><div class="qs-key">Guides</div><div class="qs-val">18 certified</div></div>
+          <div class="qs-row"><div class="qs-key">Response Time</div><div class="qs-val">&lt; 2 hours</div></div>
+          <div class="qs-row"><div class="qs-key">Member Since</div><div class="qs-val">Jan 2025</div></div>
+        </div>
+
+        <div class="contact-card">
+          <div class="p-card-title" style="margin-bottom:12px;">Contact</div>
+          <div class="contact-row"><div class="contact-icon">📍</div><div class="contact-text">Sokoine Road, Arusha</div></div>
+          <div class="contact-row"><div class="contact-icon">📱</div><div class="contact-val">+255 754 XXX XXX</div></div>
+          <div class="contact-row"><div class="contact-icon">✉️</div><div class="contact-val">info@serengetitrail.co.tz</div></div>
+          <div class="contact-row"><div class="contact-icon">🌐</div><div class="contact-val">serengetitrail.co.tz</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════ BADGE MODAL ═══════════════════════════════ -->
+<div class="badge-modal-overlay" id="badge-modal" onclick="closeBadgeModal(event)">
+  <div class="badge-modal">
+    <button class="modal-close" onclick="closeBadgeModalDirect()">✕</button>
+    <div class="modal-badge-icon" id="modal-icon">🏅</div>
+    <div class="modal-badge-title" id="modal-title">Badge Title</div>
+    <div class="modal-badge-sub" id="modal-sub">Description</div>
+    <div class="modal-requirements" id="modal-reqs"></div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Safari<span>Go</span></div>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.3);margin-top:4px;">Trust Infrastructure for African Tourism</div>
+    </div>
+    <div style="display:flex;gap:1.5rem;">
+      <a href="safarigo-landing.html" style="font-size:0.78rem;color:rgba(255,255,255,0.38);">Home</a>
+      <a href="#" style="font-size:0.78rem;color:rgba(255,255,255,0.38);">For Tourists</a>
+      <a href="safarigo-operator.html" style="font-size:0.78rem;color:rgba(255,255,255,0.38);">For Operators</a>
+      <a href="safarigo-admin.html" style="font-size:0.78rem;color:rgba(255,255,255,0.38);">Admin</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2025 SafariGo. A project by Sado Faraji — Built with TEUS Technology, Tanzania.</div>
+</footer>
+
+<script>
+/* ── DIRECTORY: FILTER ─────────────────────────── */
+let activeRegion = 'all';
+let activeEliteFilter = false;
+
+function setRegion(region, el) {
+  activeRegion = region;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  filterCards();
+}
+function toggleBadgeFilter(type, el) {
+  activeEliteFilter = !activeEliteFilter;
+  el.classList.toggle('active', activeEliteFilter);
+  filterCards();
+}
+function filterCards() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const cards = document.querySelectorAll('.op-card');
+  let visible = 0;
+  cards.forEach(c => {
+    const region = c.dataset.region;
+    const badge = c.dataset.badge;
+    const text = c.textContent.toLowerCase();
+    const regionMatch = activeRegion === 'all' || region === activeRegion;
+    const badgeMatch = !activeEliteFilter || badge === 'elite';
+    const searchMatch = !q || text.includes(q);
+    const show = regionMatch && badgeMatch && searchMatch;
+    c.style.display = show ? 'block' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('result-count').innerHTML = `Showing <strong>${visible}</strong> verified operator${visible!==1?'s':''}`;
+  document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── PROFILE: OPEN / CLOSE ─────────────────────── */
+function openProfile(id) {
+  document.getElementById('dir-view').style.display = 'none';
+  const pv = document.getElementById('profile-view');
+  pv.style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeProfile() {
+  document.getElementById('profile-view').style.display = 'none';
+  document.getElementById('dir-view').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── PROFILE: TABS ─────────────────────────────── */
+function switchTab(name, el) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+/* ── BADGE MODAL ───────────────────────────────── */
+const badgeData = {
+  verified: {
+    icon: '🟢',
+    title: 'SafariGo Verified',
+    sub: 'The foundational badge, awarded to every operator who passes SafariGo\'s initial compliance check. It signals to tourists: "This is not a ghost company. The government and SafariGo both know this operator."',
+    reqs: [
+      {icon:'📄', text:'<strong>BRELA Registered</strong> — Active Certificate of Incorporation from Tanzania\'s Business Registrations and Licensing Agency'},
+      {icon:'🏷️', text:'<strong>TALA Licensed</strong> — Current tourism operator licence from the Ministry of Natural Resources and Tourism'},
+      {icon:'🏦', text:'<strong>Verified Bank Account</strong> — Confirmed payment channel for Milestone Escrow disbursements'},
+      {icon:'⚖️', text:'<strong>Escrow Agreement Signed</strong> — Operator has accepted SafariGo\'s Tiered Milestone Escrow terms and service-level agreement'},
+    ]
+  },
+  fleet: {
+    icon: '🔵',
+    title: 'Top Guide & Fleet',
+    sub: 'Awarded to operators who demonstrate that their vehicles and human capital meet a higher operational standard — giving tourists confidence in their physical safety throughout the trip.',
+    reqs: [
+      {icon:'🎓', text:'<strong>All Guides TALA-Certified</strong> — Every guide holds a valid, government-issued tourism guide certification'},
+      {icon:'🩺', text:'<strong>First Aid Certified</strong> — All guides have current First Aid & Emergency Response certification'},
+      {icon:'🚗', text:'<strong>Fleet Inspected</strong> — All safari vehicles have passed SafariGo\'s annual mechanical inspection checklist'},
+      {icon:'🛡️', text:'<strong>Passenger Liability Insurance</strong> — Active bima ya abiria covering all clients during safari operations'},
+    ]
+  },
+  elite: {
+    icon: '🏅',
+    title: 'Elite Escrow Performer',
+    sub: 'The highest badge on the platform. It cannot be applied for — it is earned exclusively through demonstrated excellence over a sustained track record of real trips through SafariGo.',
+    reqs: [
+      {icon:'📊', text:'<strong>20+ Completed SafariGo Trips</strong> — A minimum of 20 bookings fully processed through the SafariGo escrow system'},
+      {icon:'🚫', text:'<strong>Zero Disputes</strong> — Not a single transaction dispute or refund request in the operator\'s entire SafariGo history'},
+      {icon:'📱', text:'<strong>100% QR Compliance</strong> — All three milestone QR checkpoints scanned on time for every single trip'},
+      {icon:'⭐', text:'<strong>5-Star Guest Ratings</strong> — Sustained average rating above 4.8 across all QR-verified guest reviews'},
+    ]
+  }
+};
+
+function openBadgeModal(type) {
+  const d = badgeData[type];
+  document.getElementById('modal-icon').textContent = d.icon;
+  document.getElementById('modal-title').textContent = d.title;
+  document.getElementById('modal-sub').textContent = d.sub;
+  document.getElementById('modal-reqs').innerHTML = d.reqs.map(r =>
+    `<div class="modal-req"><span class="modal-req-icon">${r.icon}</span><p class="modal-req-text">${r.text}</p></div>`
+  ).join('');
+  document.getElementById('badge-modal').classList.add('open');
+}
+function closeBadgeModal(e) {
+  if (e.target === document.getElementById('badge-modal')) closeBadgeModalDirect();
+}
+function closeBadgeModalDirect() {
+  document.getElementById('badge-modal').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBadgeModalDirect(); });
+</script>
+</body>
+</html>
