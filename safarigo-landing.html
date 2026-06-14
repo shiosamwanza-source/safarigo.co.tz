@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SafariGo — Trust Infrastructure for African Tourism</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  /* ─── TOKENS ─────────────────────────────────────────────── */
+  :root {
+    --green-deep:   #1A3C2E;
+    --green-mid:    #2A5C46;
+    --green-light:  #3D7A5F;
+    --earth:        #C4813A;
+    --gold:         #E8B84B;
+    --gold-light:   #F5D882;
+    --cream:        #F7F2E8;
+    --cream-dark:   #EDE6D6;
+    --ink:          #1C1C1C;
+    --ink-soft:     #4A4A4A;
+    --white:        #FFFFFF;
+    --shadow:       0 4px 32px rgba(26,60,46,0.12);
+    --shadow-md:    0 8px 48px rgba(26,60,46,0.18);
+  }
+
+  /* ─── RESET & BASE ───────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+  h1,h2,h3,h4 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ─── NAV ────────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 5%;
+    background: rgba(26, 60, 46, 0.95);
+    backdrop-filter: blur(12px);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.3); }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--white); }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold) !important;
+    color: var(--green-deep) !important;
+    padding: 10px 22px !important;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  /* ─── HERO ───────────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--green-deep) 0%, var(--green-mid) 60%, #1e2e22 100%);
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(ellipse at 80% 20%, rgba(232,184,75,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 10% 80%, rgba(61,122,95,0.3) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  /* Texture dots */
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: center;
+    position: relative; z-index: 1;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(232,184,75,0.15);
+    border: 1px solid rgba(232,184,75,0.3);
+    color: var(--gold);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+    color: var(--white);
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+  .hero-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--green-deep);
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ─── MILESTONE JOURNEY (Hero Visual) ───────────────────── */
+  .hero-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .journey-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 36px 32px;
+    width: 100%;
+    max-width: 420px;
+    backdrop-filter: blur(16px);
+  }
+  .journey-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1.5rem;
+  }
+  .milestone-track {
+    position: relative;
+    padding-left: 32px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .milestone-line {
+    position: absolute;
+    left: 10px; top: 12px; bottom: 12px;
+    width: 2px;
+    background: rgba(255,255,255,0.1);
+  }
+  .milestone-progress {
+    position: absolute;
+    left: 10px; top: 12px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), var(--earth));
+    height: 0%;
+    transition: height 2s ease;
+  }
+  .milestone-step {
+    display: flex; align-items: flex-start;
+    gap: 14px;
+    padding: 16px 0;
+    position: relative;
+  }
+  .milestone-dot {
+    position: absolute;
+    left: -32px; top: 50%;
+    transform: translateY(-50%);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.4s ease;
+  }
+  .milestone-dot.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 16px rgba(232,184,75,0.5);
+  }
+  .milestone-dot.active::after {
+    content: '✓';
+    font-size: 0.6rem;
+    color: var(--green-deep);
+    font-weight: 900;
+  }
+  .milestone-content {}
+  .milestone-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 3px;
+  }
+  .milestone-desc {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.4;
+  }
+  .milestone-badge {
+    margin-left: auto;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(232,184,75,0.15);
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .journey-total {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .journey-total-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); }
+  .journey-total-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* ─── STATS BAR ──────────────────────────────────────────── */
+  .stats-bar {
+    background: var(--green-deep);
+    padding: 32px 5%;
+  }
+  .stats-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .stat-item {
+    text-align: center;
+    padding: 12px 20px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── SECTION BASE ───────────────────────────────────────── */
+  section { padding: 90px 5%; }
+  .section-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--earth);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    color: var(--green-deep);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+  .section-header { margin-bottom: 3.5rem; }
+
+  /* ─── PROBLEM ────────────────────────────────────────────── */
+  .problem { background: var(--cream-dark); }
+  .problem-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+  }
+  .problem-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 32px 28px;
+    border-top: 3px solid transparent;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .problem-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .problem-card:nth-child(1) { border-top-color: var(--earth); }
+  .problem-card:nth-child(2) { border-top-color: var(--gold); }
+  .problem-card:nth-child(3) { border-top-color: var(--green-light); }
+  .problem-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+  .problem-card:nth-child(1) .problem-icon { background: rgba(196,129,58,0.1); }
+  .problem-card:nth-child(2) .problem-icon { background: rgba(232,184,75,0.12); }
+  .problem-card:nth-child(3) .problem-icon { background: rgba(61,122,95,0.1); }
+  .problem-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  .problem-text {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  /* ─── PILLARS ────────────────────────────────────────────── */
+  .pillars { background: var(--white); }
+  .pillars-inner { max-width: 1200px; margin: 0 auto; }
+  .pillars-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 28px;
+  }
+  .pillar-card {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: default;
+  }
+  .pillar-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+  .pillar-header {
+    padding: 32px 28px 24px;
+    background: var(--green-deep);
+    position: relative;
+    overflow: hidden;
+  }
+  .pillar-header::after {
+    content: '';
+    position: absolute;
+    right: -20px; top: -20px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .pillar-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: rgba(232,184,75,0.2);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .pillar-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .pillar-sub {
+    font-size: 0.72rem;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .pillar-body {
+    padding: 28px;
+    background: var(--cream);
+  }
+  .pillar-text {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+  .pillar-feature {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .pillar-feature-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--earth);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .pillar-feature span {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* ─── HOW IT WORKS ───────────────────────────────────────── */
+  .how { background: var(--green-deep); }
+  .how-inner { max-width: 1000px; margin: 0 auto; }
+  .how .section-title { color: var(--white); }
+  .how .section-sub { color: rgba(255,255,255,0.6); }
+  .how-steps {
+    display: flex; flex-direction: column; gap: 0;
+    position: relative;
+    padding-left: 60px;
+  }
+  .how-vline {
+    position: absolute;
+    left: 20px; top: 24px; bottom: 24px;
+    width: 2px;
+    background: rgba(255,255,255,0.08);
+  }
+  .how-step {
+    display: grid; grid-template-columns: auto 1fr;
+    gap: 28px; align-items: start;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+  }
+  .how-step:last-child { border-bottom: none; }
+  .how-step-num {
+    position: absolute;
+    left: -60px; top: 24px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--green-deep);
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif;
+  }
+  .how-step-icon { font-size: 1.8rem; margin-top: 2px; }
+  .how-step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .how-step-text {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+  }
+  .how-step-release {
+    margin-top: 10px;
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(232,184,75,0.12);
+    border: 1px solid rgba(232,184,75,0.25);
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  /* ─── COMPARISON ─────────────────────────────────────────── */
+  .compare { background: var(--cream-dark); }
+  .compare-inner { max-width: 1200px; margin: 0 auto; }
+  .compare-table { width: 100%; border-collapse: collapse; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
+  .compare-table thead tr { background: var(--green-deep); }
+  .compare-table th {
+    padding: 18px 20px;
+    text-align: left;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .compare-table th:first-child { color: rgba(255,255,255,0.4); }
+  .compare-table th.highlight { color: var(--gold); }
+  .compare-table tbody tr { background: var(--white); border-bottom: 1px solid var(--cream-dark); }
+  .compare-table tbody tr:last-child { border-bottom: none; }
+  .compare-table tbody tr:hover { background: #faf8f3; }
+  .compare-table td {
+    padding: 18px 20px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+  .compare-table td:first-child { font-weight: 600; color: var(--ink); }
+  .compare-table td.highlight {
+    color: var(--green-deep);
+    font-weight: 600;
+  }
+  .compare-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--green-mid);
+  }
+  .compare-badge::before {
+    content: '✓';
+    width: 18px; height: 18px;
+    background: rgba(61,122,95,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem;
+    color: var(--green-mid);
+    flex-shrink: 0;
+  }
+
+  /* ─── DUAL CTA ───────────────────────────────────────────── */
+  .cta-section { background: var(--white); }
+  .cta-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+  }
+  .cta-card {
+    border-radius: 20px;
+    padding: 44px 40px;
+    position: relative; overflow: hidden;
+  }
+  .cta-card-tourist {
+    background: var(--green-deep);
+  }
+  .cta-card-tourist::before {
+    content: '🦁';
+    position: absolute;
+    right: 24px; top: 24px;
+    font-size: 4rem;
+    opacity: 0.12;
+  }
+  .cta-card-operator {
+    background: var(--earth);
+  }
+  .cta-card-operator::before {
+    content: '🏕️';
+    position: absolute;
+    right: 24px; top: 24px;
+    font-size: 4rem;
+    opacity: 0.15;
+  }
+  .cta-card-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 1rem;
+  }
+  .cta-card h3 {
+    font-size: 1.6rem;
+    color: var(--white);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1.25;
+  }
+  .cta-card p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin-bottom: 2rem;
+  }
+  .btn-white {
+    display: inline-block;
+    background: var(--white);
+    color: var(--green-deep);
+    padding: 13px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .btn-white:hover { opacity: 0.9; transform: translateY(-1px); }
+  .cta-card-operator .btn-white { color: var(--earth); }
+
+  /* ─── FOOTER ─────────────────────────────────────────────── */
+  footer {
+    background: var(--ink);
+    padding: 48px 5% 32px;
+    color: rgba(255,255,255,0.5);
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .footer-logo span { color: var(--white); }
+  .footer-tagline { font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-top: 4px; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.8rem; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy {
+    width: 100%;
+    text-align: center;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.2);
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ─── SCROLL REVEAL ──────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { justify-content: flex-start; }
+    .stats-inner { grid-template-columns: repeat(2,1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .cta-inner { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .compare-table { font-size: 0.78rem; }
+    .compare-table td, .compare-table th { padding: 12px 14px; }
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 2rem; }
+    .stats-inner { grid-template-columns: 1fr 1fr; }
+    section { padding: 60px 4%; }
+    .cta-card { padding: 32px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { transition: none; opacity: 1; transform: none; }
+    .milestone-progress { transition: none; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo" href="index.html" style="cursor:pointer;" onclick="window.location='index.html'">Safari<span>Go</span></div>
+  <div class="nav-links">
+    <a href="#problem">The Problem</a>
+    <a href="safarigo-operators.html">Operators</a>
+    <a href="safarigo-vision.html">TOS Vision</a>
+    <a href="#pillars">How It Works</a>
+    <a href="#compare">Why SafariGo</a>
+    <a href="safarigo-operator.html" class="nav-cta">Join as Operator</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Tanzania's Trust Infrastructure</div>
+      <h1>Book Any Safari.<br/>Pay with <em>Total Confidence.</em></h1>
+      <p class="hero-sub">SafariGo is the secure financial backbone of East African tourism — protecting tourists from fraud, giving operators instant liquidity, and bringing every transaction into the formal economy.</p>
+      <div class="hero-actions">
+        <a href="#join" class="btn-primary">Book a Safari →</a>
+        <a href="#pillars" class="btn-outline">How It Works</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="journey-card">
+        <div class="journey-label">Live Booking — Mt. Kilimanjaro Expedition</div>
+
+        <div class="milestone-track">
+          <div class="milestone-line"></div>
+          <div class="milestone-progress" id="milestoneProgress"></div>
+
+          <div class="milestone-step">
+            <div class="milestone-dot active" id="dot1"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Milestone 1 — Permit Release</div>
+              <div class="milestone-desc">TANAPA/TAWA park fees routed directly to GePG government gateway</div>
+            </div>
+            <div class="milestone-badge">Instant ✓</div>
+          </div>
+
+          <div class="milestone-step">
+            <div class="milestone-dot" id="dot2"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Milestone 2 — Lodge Lock-in</div>
+              <div class="milestone-desc">Accommodation released upon verified booking voucher upload</div>
+            </div>
+            <div class="milestone-badge" id="badge2">7 days out</div>
+          </div>
+
+          <div class="milestone-step">
+            <div class="milestone-dot" id="dot3"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Milestone 3 — Field Release</div>
+              <div class="milestone-desc">Final balance unlocked at 3 physical QR checkpoints during trip</div>
+            </div>
+            <div class="milestone-badge" id="badge3">During trip</div>
+          </div>
+        </div>
+
+        <div class="journey-total">
+          <div>
+            <div class="journey-total-label">Total Protected</div>
+            <div class="journey-total-amount" id="totalAmount">$0</div>
+          </div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.3); text-align:right;">
+            Secured by<br/><span style="color:rgba(232,184,75,0.7); font-weight:600;">SafariGo Escrow</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-num" data-target="3">0</span>
+      <div class="stat-label">Milestone Tiers Per Booking</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="50">0</span>
+      <div class="stat-label">Verified Operators at Launch</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="3">0</span>
+      <div class="stat-label">Mobile Money Rails Integrated</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="0" data-suffix="%" data-display="Zero">—</span>
+      <div class="stat-label">Payment Fraud on Verified Bookings</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">The Gap We're Closing</div>
+      <h2 class="section-title">Three Failures Costing Tanzania Tourism Billions</h2>
+      <p class="section-sub">Before SafariGo, every international booking carried three unresolved risks that neither side could fully escape.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card reveal reveal-delay-1">
+        <div class="problem-icon">🔒</div>
+        <div class="problem-title">Transactional Trust Deficit</div>
+        <p class="problem-text"><strong>B2C:</strong> International tourists wire thousands to unverified operators with no escrow, no verification trail, and no arbitration if services fail. <strong>B2B:</strong> Local operators are equally unprotected — last-minute tourist cancellations and foreign credit network chargebacks after services are already rendered leave operators with zero recourse.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-2">
+        <div class="problem-icon">💸</div>
+        <div class="problem-title">Payment Fragmentation & Liquidity Crisis</div>
+        <p class="problem-text">A severe integration gap persists between global credit rails (Visa, Mastercard, Amex) and local mobile wallets (M-Pesa, Tigo Pesa, Airtel Money). Legacy escrow models hold 100% of funds until trip conclusion — paralyzing operators who need upfront capital for non-refundable TANAPA/TAWA permits and lodge deposits weeks before the tourist even arrives.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-3">
+        <div class="problem-icon">📉</div>
+        <div class="problem-title">Revenue Leakage & Data Blindness</div>
+        <p class="problem-text">Vast percentages of safari bookings occur informally over WhatsApp — outside any audited framework — causing substantial state revenue leakage through uncollected VAT and Tourism Levies. Simultaneously, state ministries and wildlife authorities lack a single source of truth for real-time tourism data, leaving policy formation and strategic investment planning operating in the dark.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars" id="pillars">
+  <div class="pillars-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Core Architecture</div>
+      <h2 class="section-title">Three Pillars. One Unbreakable System.</h2>
+      <p class="section-sub">SafariGo is not a booking website. It is the trusted financial and verification layer that every booking website should run on.</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal reveal-delay-1">
+        <div class="pillar-header">
+          <div class="pillar-letter">A</div>
+          <div class="pillar-name">Tiered Milestone Escrow</div>
+          <div class="pillar-sub">The Core Innovation</div>
+        </div>
+        <div class="pillar-body">
+          <p class="pillar-text">Funds flow in structured phases tied to real operational events — not held hostage until the final day of the trip.</p>
+          <div class="pillar-feature"><div class="pillar-feature-dot"></div><span><strong>Instant:</strong> Government permit fees route directly to GePG on booking</span></div>
+          <div class="pillar-feature"><div class="pillar-feature-dot"></div><span><strong>Day 7–14:</strong> Lodge payment released on verified voucher upload</span></div>
+          <div class="pillar-feature"><div class="pillar-feature-dot"></div><span><strong>In-field:</strong> Operator balance released in micro-tiers at QR checkpoints</span></div>
+        </div>
+      </div>
+      <div class="pillar-card reveal reveal-delay-2">
+        <div class="pillar-header">
+          <div class="pillar-letter">B</div>
+          <div class="pillar-name">Multi-Point QR Verification</div>
+          <div class="pillar-sub">Proof of Delivery</div>
+        </div>
+        <div class="pillar-body">
+          <p class="pillar-text">Payment release is tied to physical, geo-located scan events at three checkpoints — eliminating the dispute window entirely.</p>
+          <div class="pillar-feature"><div class="pillar-feature-dot"></div><span><strong>Airport Pick-up Scan</strong> → 20% of field balance released</span></div>
+          <div class="pillar-feature"><div class="pillar-feature-dot"></div><span><strong>Park Gate Entry Scan</strong> → 40% of field balance released</span></div>
+          <div class="pillar-feature"><div class="pillar-feature-dot"></div><span><strong>Trip Completion Scan</strong> → Full settlement, ledger closed</span></div>
+        </div>
+      </div>
+      <div class="pillar-card reveal reveal-delay-3">
+        <div class="pillar-header">
+          <div class="pillar-letter">C</div>
+          <div class="pillar-name">B2B Trust Widget & API</div>
+          <div class="pillar-sub">Industry Infrastructure</div>
+        </div>
+        <div class="pillar-body">
+          <p class="pillar-text">Any verified operator can embed the SafariGo Trust Seal directly onto their own website or Instagram bio — bringing secure checkout everywhere in the ecosystem.</p>
+          <div class="pillar-feature"><div class="pillar-feature-dot"></div><span>One-line embed for independent tour operator websites</span></div>
+          <div class="pillar-feature"><div class="pillar-feature-dot"></div><span>Offline-capable PWA for guides in remote national parks</span></div>
+          <div class="pillar-feature"><div class="pillar-feature-dot"></div><span>AI-driven itinerary builder for context-aware package curation</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="how-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow" style="color:var(--gold);">The Journey</div>
+      <h2 class="section-title">From Booking to Completion — Every Step Secured</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.55);">A five-step journey where money only moves when real-world events happen.</p>
+    </div>
+
+    <div class="how-steps">
+      <div class="how-vline"></div>
+
+      <div class="how-step reveal">
+        <div class="how-step-num">01</div>
+        <div class="how-step-icon">🖥️</div>
+        <div>
+          <div class="how-step-title">Tourist Books via SafariGo Checkout</div>
+          <p class="how-step-text">Full payment is deposited into the SafariGo milestone escrow. The operator receives instant notification. Funds are protected — but not locked away uselessly.</p>
+        </div>
+      </div>
+
+      <div class="how-step reveal reveal-delay-1">
+        <div class="how-step-num">02</div>
+        <div class="how-step-icon">🏛️</div>
+        <div>
+          <div class="how-step-title">Government Fees Released Immediately</div>
+          <p class="how-step-text">The park permit portion routes directly to the TANAPA/TAWA GePG gateway. The operator has the capital they need before the tourist even packs a bag.</p>
+          <span class="how-step-release">Milestone 1 — Instant</span>
+        </div>
+      </div>
+
+      <div class="how-step reveal reveal-delay-2">
+        <div class="how-step-num">03</div>
+        <div class="how-step-icon">🏕️</div>
+        <div>
+          <div class="how-step-title">Lodge Payment Unlocked Pre-Arrival</div>
+          <p class="how-step-text">The operator uploads a verified accommodation voucher 7–14 days before the trip. The system validates it and releases the lodge deposit instantly.</p>
+          <span class="how-step-release">Milestone 2 — 7–14 Days Out</span>
+        </div>
+      </div>
+
+      <div class="how-step reveal reveal-delay-3">
+        <div class="how-step-num">04</div>
+        <div class="how-step-icon">📱</div>
+        <div>
+          <div class="how-step-title">QR Checkpoints Trigger Field Payments</div>
+          <p class="how-step-text">The guide scans the tourist's QR at airport, park gate, and trip completion. Each scan releases a tranche of the operator's balance — tied to an immutable geo-located timestamp.</p>
+          <span class="how-step-release">Milestone 3 — Real-Time</span>
+        </div>
+      </div>
+
+      <div class="how-step reveal">
+        <div class="how-step-num">05</div>
+        <div class="how-step-icon">✅</div>
+        <div>
+          <div class="how-step-title">Full Settlement. Ledger Closed.</div>
+          <p class="how-step-text">On the final scan, the booking ledger is closed, the tourist receives a digital trip certificate, and the operator's rating is updated on the platform.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section class="compare" id="compare">
+  <div class="compare-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Competitive Landscape</div>
+      <h2 class="section-title">SafariGo vs. The Alternatives</h2>
+      <p class="section-sub">We don't compete with Viator. We build the infrastructure that Viator can't — because they don't understand how East African tourism actually works.</p>
+    </div>
+    <div class="reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th class="highlight">SafariGo</th>
+            <th>Viator / GetYourGuide</th>
+            <th>WhatsApp Bookings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Financial Protection</td>
+            <td class="highlight"><span class="compare-badge">Tiered Milestone Escrow — cash flows for both sides</span></td>
+            <td>Full hold until trip ends — operator cash paralyzed</td>
+            <td>None — direct transfer with no recourse</td>
+          </tr>
+          <tr>
+            <td>Payment Rails</td>
+            <td class="highlight"><span class="compare-badge">Cards + M-Pesa + Tigo Pesa + Airtel + GePG</span></td>
+            <td>International cards only</td>
+            <td>Informal M-Pesa — no audit trail</td>
+          </tr>
+          <tr>
+            <td>Proof of Delivery</td>
+            <td class="highlight"><span class="compare-badge">Multi-point physical QR checkpoints, geo-locked</span></td>
+            <td>Post-trip reviews — no real-time verification</td>
+            <td>Word of mouth only</td>
+          </tr>
+          <tr>
+            <td>Itinerary Curation</td>
+            <td class="highlight"><span class="compare-badge">Context-aware AI — adapts to health, budget, preferences</span></td>
+            <td>Static pre-packaged group tours</td>
+            <td>Repetitive manual WhatsApp negotiation</td>
+          </tr>
+          <tr>
+            <td>Government Compliance</td>
+            <td class="highlight"><span class="compare-badge">GePG integration — VAT and levies tracked automatically</span></td>
+            <td>External — outside Tanzanian tax framework</td>
+            <td>Zero — fully informal</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- DUAL CTA -->
+<section class="cta-section" id="join">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="section-header reveal" style="text-align:center; max-width:600px; margin:0 auto 3.5rem;">
+      <div class="section-eyebrow">Get Started</div>
+      <h2 class="section-title">Who Are You?</h2>
+      <p class="section-sub" style="margin:0 auto;">SafariGo serves both sides of every safari. Choose your path.</p>
+    </div>
+    <div class="cta-inner">
+      <div class="cta-card cta-card-tourist reveal reveal-delay-1">
+        <div class="cta-card-label">For Tourists</div>
+        <h3>Plan Your Safari.<br/>Every Dollar Protected.</h3>
+        <p>Use our AI itinerary builder to find the perfect verified operator — then pay with confidence knowing every milestone is secured before a single shilling moves.</p>
+        <a href="#" class="btn-white">Explore Safaris →</a>
+      </div>
+      <div class="cta-card cta-card-operator reveal reveal-delay-2">
+        <div class="cta-card-label">For Tour Operators</div>
+        <h3>Get Verified.<br/>Get Direct Bookings.</h3>
+        <p>Stop losing 20–30% to middlemen. Join SafariGo's verified network, earn the Trust Seal, and receive structured milestone payments that keep your operations funded from day one.</p>
+        <a href="#" class="btn-white">Apply for Verification →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Safari<span>Go</span></div>
+      <div class="footer-tagline">Trust & Financial Infrastructure for African Tourism</div>
+    </div>
+    <div class="footer-links">
+      <a href="#">For Tourists</a>
+      <a href="#">For Operators</a>
+      <a href="#">API Docs</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-copy">
+    © 2025 SafariGo. A project by Sado Faraji — Built with TEUS Technology, Tanzania.
+  </div>
+</footer>
+
+<script>
+  // ── NAV SCROLL ─────────────────────────────────────────────
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ── MILESTONE ANIMATION ────────────────────────────────────
+  const steps = [
+    { dot: 'dot1', badge: null,     delay: 600,  amount: 420  },
+    { dot: 'dot2', badge: 'badge2', delay: 1800, amount: 2100 },
+    { dot: 'dot3', badge: 'badge3', delay: 3200, amount: 3800 },
+  ];
+  const progress = document.getElementById('milestoneProgress');
+  const amountEl = document.getElementById('totalAmount');
+
+  function animateAmount(target, duration) {
+    const start = parseInt(amountEl.textContent.replace(/\D/g, '')) || 0;
+    const startTime = performance.now();
+    function update(now) {
+      const elapsed = now - startTime;
+      const frac = Math.min(elapsed / duration, 1);
+      const val = Math.round(start + (target - start) * frac);
+      amountEl.textContent = '$' + val.toLocaleString();
+      if (frac < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const progressHeights = ['0%', '45%', '90%'];
+  steps.forEach((s, i) => {
+    setTimeout(() => {
+      const dot = document.getElementById(s.dot);
+      dot.classList.add('active');
+      progress.style.height = progressHeights[i];
+      animateAmount(s.amount, 600);
+      if (s.badge) {
+        const b = document.getElementById(s.badge);
+        if (b) { b.textContent = 'Released ✓'; b.style.background = 'rgba(61,122,95,0.2)'; b.style.color = '#5DB88A'; }
+      }
+    }, s.delay);
+  });
+
+  // ── SCROLL REVEAL ──────────────────────────────────────────
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── STATS COUNTER ──────────────────────────────────────────
+  const statNums = document.querySelectorAll('.stat-num[data-target]');
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = parseInt(el.dataset.target);
+        const display = el.dataset.display;
+        if (display) { el.textContent = display; return; }
+        const suffix = el.dataset.suffix || '';
+        let start = 0;
+        const inc = target / 40;
+        const timer = setInterval(() => {
+          start = Math.min(start + inc, target);
+          el.textContent = Math.round(start) + suffix;
+          if (start >= target) clearInterval(timer);
+        }, 30);
+        statObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(el => statObserver.observe(el));
+</script>
+</body>
+</html>
