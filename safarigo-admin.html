@@ -332,8 +332,28 @@
     <div class="sidebar-link" onclick="showView('qr', this)">
       <span class="icon">📱</span> QR Activity
     </div>
+    <div class="sidebar-link" onclick="showView('chat', this)">
+      <span class="icon">💬</span> Secure Chat
+      <span class="sidebar-badge" style="background:var(--success);">3</span>
+    </div>
     <div class="sidebar-link">
       <span class="icon">⚙️</span> Settings
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">AI Suite</div>
+    <div class="sidebar-link" onclick="showView('ai-marketing', this)">
+      <span class="icon">🎯</span> AI Marketing
+    </div>
+    <div class="sidebar-link" onclick="showView('ai-hr', this)">
+      <span class="icon">👥</span> AI HR & Guides
+    </div>
+    <div class="sidebar-link" onclick="showView('rewards', this)">
+      <span class="icon">🏆</span> Rewards Engine
+    </div>
+    <div class="sidebar-link" onclick="showView('marketing', this)">
+      <span class="icon">📣</span> National Marketing
     </div>
   </div>
 
@@ -804,6 +824,365 @@
     </div>
 
   </div>
+
+    <!-- ── SECURE CHAT ──────────────────────────────── -->
+    <div class="view" id="view-chat">
+      <div class="metrics" style="grid-template-columns:repeat(4,1fr);">
+        <div class="metric" data-icon="💬"><div class="metric-label">Active Conversations</div><div class="metric-value">24</div><div class="metric-delta up">↑ 3 new today</div></div>
+        <div class="metric" data-icon="📄"><div class="metric-label">Chat→Invoice Conversions</div><div class="metric-value">11</div><div class="metric-delta up">↑ 73% conversion rate</div></div>
+        <div class="metric" data-icon="📡"><div class="metric-label">Offline Messages Queued</div><div class="metric-value">4</div><div class="metric-delta neutral">Serengeti zone</div></div>
+        <div class="metric" data-icon="⚖️"><div class="metric-label">Dispute Evidence Logs</div><div class="metric-value">2</div><div class="metric-delta neutral">Audit trail active</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Live Chat Monitor — All Conversations</div>
+          <span style="font-size:0.72rem;color:var(--ink-soft);">Every message is timestamped · legally admissible audit trail</span>
+        </div>
+        <table>
+          <thead><tr><th>Conversation</th><th>Parties</th><th>Last Message</th><th>Status</th><th>Escrow Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>SGO-CHAT-441</strong><div class="td-sub">Serengeti Trail Adventures</div></td>
+              <td>Marcus K. 🇺🇸 ↔ Guide Juma</td>
+              <td>"Confirmed pickup 6AM tomorrow"<div class="td-sub">14 min ago</div></td>
+              <td><span class="badge badge-success">Active Trip</span></td>
+              <td><span style="font-size:0.75rem;color:var(--success);font-weight:600;">QR Verified — No action needed</span></td>
+            </tr>
+            <tr>
+              <td><strong>SGO-CHAT-438</strong><div class="td-sub">Kili Summit Co.</div></td>
+              <td>Petra H. 🇩🇪 ↔ Operator</td>
+              <td>"Can we add a porter upgrade?"<div class="td-sub">1 hour ago</div></td>
+              <td><span class="badge badge-gold">Negotiating</span></td>
+              <td><button class="btn-sm gold" style="font-size:0.7rem;padding:5px 12px;">Generate Invoice →</button></td>
+            </tr>
+            <tr>
+              <td><strong>SGO-CHAT-435</strong><div class="td-sub">Tanzania Wild Expeditions</div></td>
+              <td>Li Wei 🇨🇳 ↔ Operator</td>
+              <td>"Package confirmed. Ready to pay."<div class="td-sub">2 hours ago</div></td>
+              <td><span class="badge badge-blue">Invoice Sent</span></td>
+              <td><span style="font-size:0.75rem;color:var(--badge-blue);font-weight:600;">Awaiting Escrow Deposit</span></td>
+            </tr>
+            <tr>
+              <td><strong>SGO-CHAT-431</strong><div class="td-sub">Zanzibar Blue Horizons</div></td>
+              <td>Sophie M. 🇫🇷 ↔ Operator</td>
+              <td>[Offline — 3 messages queued]<div class="td-sub">Syncing when signal restored</div></td>
+              <td><span class="badge badge-warn">Offline Queue</span></td>
+              <td><span style="font-size:0.75rem;color:var(--warn);font-weight:600;">Will sync automatically</span></td>
+            </tr>
+            <tr>
+              <td><strong>SGO-CHAT-428</strong><div class="td-sub">Ngorongoro Crater Lodge</div></td>
+              <td>James T. 🇬🇧 ↔ Guide Said</td>
+              <td>"Amazing crater view, thank you!"<div class="td-sub">Yesterday</div></td>
+              <td><span class="badge badge-success">Trip Complete</span></td>
+              <td><span style="font-size:0.75rem;color:var(--success);font-weight:600;">Ledger Closed ✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── AI MARKETING ─────────────────────────────── -->
+    <div class="view" id="view-ai-marketing">
+      <div class="metrics" style="grid-template-columns:repeat(4,1fr);">
+        <div class="metric" data-icon="🎯"><div class="metric-label">Active AI Campaigns</div><div class="metric-value">14</div><div class="metric-delta up">↑ Across 9 operators</div></div>
+        <div class="metric" data-icon="📧"><div class="metric-label">Emails Sent (MTD)</div><div class="metric-value">1,247</div><div class="metric-delta up">↑ 34% open rate</div></div>
+        <div class="metric" data-icon="📱"><div class="metric-label">Social Posts Generated</div><div class="metric-value">83</div><div class="metric-delta neutral">IG + FB combined</div></div>
+        <div class="metric" data-icon="💰"><div class="metric-label">AI Marketing Revenue</div><div class="metric-value">$441</div><div class="metric-delta up">9 × $49/month</div></div>
+      </div>
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-header">
+          <div class="card-title">AI Campaign Performance by Operator</div>
+          <button class="btn-sm gold">Generate Report</button>
+        </div>
+        <table>
+          <thead><tr><th>Operator</th><th>Campaign Type</th><th>Emails Sent</th><th>Open Rate</th><th>Bookings Attributed</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Serengeti Trail Adventures</strong></td><td>Migration Season Promo</td><td>340</td><td><strong style="color:var(--success);">41%</strong></td><td>3 bookings ($11,450)</td><td><span class="badge badge-success">Running</span></td></tr>
+            <tr><td><strong>Kili Summit Co.</strong></td><td>Dry Season Climb Push</td><td>215</td><td><strong style="color:var(--success);">38%</strong></td><td>2 bookings ($8,400)</td><td><span class="badge badge-success">Running</span></td></tr>
+            <tr><td><strong>Zanzibar Blue Horizons</strong></td><td>Honeymoon Package</td><td>180</td><td>29%</td><td>1 booking ($2,900)</td><td><span class="badge badge-blue">Scheduled</span></td></tr>
+            <tr><td><strong>Tanzania Wild Expeditions</strong></td><td>Group Tour Outreach</td><td>290</td><td>31%</td><td>4 bookings ($9,200)</td><td><span class="badge badge-success">Running</span></td></tr>
+            <tr><td><strong>Ngorongoro Crater Lodge</strong></td><td>Conservation Stay Promo</td><td>222</td><td>36%</td><td>1 booking ($6,800)</td><td><span class="badge badge-warn">Paused — Review</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Recent AI-Generated Content Samples</div></div>
+        <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div style="background:var(--cream);border-radius:12px;padding:18px;">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:8px;">📧 AI Email — Serengeti Trail</div>
+            <div style="font-size:0.8rem;color:var(--ink);font-weight:600;margin-bottom:4px;">Subject: The Wildebeest Are Moving. Are You Ready?</div>
+            <div style="font-size:0.75rem;color:var(--ink-soft);line-height:1.6;">Between July and October, over 1.5 million wildebeest cross the Mara River in one of nature's greatest spectacles. Serengeti Trail Adventures has 4 remaining spots for premium migration safaris... <em style="color:var(--earth);">[AI-generated, operator-approved]</em></div>
+          </div>
+          <div style="background:var(--cream);border-radius:12px;padding:18px;">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--badge-blue);margin-bottom:8px;">📱 AI Social Post — Kili Summit</div>
+            <div style="font-size:0.8rem;color:var(--ink);font-weight:600;margin-bottom:4px;">Instagram Caption Draft:</div>
+            <div style="font-size:0.75rem;color:var(--ink-soft);line-height:1.6;">"5,895m. Above the clouds. Above the noise. Our July Kilimanjaro expedition has 2 spots remaining. 8 days. Zero compromises. SafariGo escrow-protected. 🏔️ #Kilimanjaro #Tanzania..." <em style="color:var(--badge-blue);">[AI-generated]</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AI HR ────────────────────────────────────── -->
+    <div class="view" id="view-ai-hr">
+      <div class="metrics" style="grid-template-columns:repeat(4,1fr);">
+        <div class="metric" data-icon="👥"><div class="metric-label">Guide Profiles Registered</div><div class="metric-value">142</div><div class="metric-delta up">↑ 23 new this month</div></div>
+        <div class="metric" data-icon="🤖"><div class="metric-label">AI Screenings Run</div><div class="metric-value">89</div><div class="metric-delta neutral">This season</div></div>
+        <div class="metric" data-icon="📅"><div class="metric-label">Interviews Scheduled</div><div class="metric-value">34</div><div class="metric-delta up">↑ By AI, zero manual</div></div>
+        <div class="metric" data-icon="💰"><div class="metric-label">AI HR Revenue</div><div class="metric-value">$232</div><div class="metric-delta neutral">8 × $29/month</div></div>
+      </div>
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-header">
+          <div class="card-title">Guide & Driver Talent Pool</div>
+          <button class="btn-sm primary">+ Add Candidate</button>
+        </div>
+        <table>
+          <thead><tr><th>Name</th><th>Type</th><th>Certifications</th><th>Languages</th><th>SafariGo Score</th><th>Availability</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Juma Hassan</strong></td><td>Lead Guide</td><td><span class="badge badge-blue">TALA</span> <span class="badge badge-blue">First Aid</span></td><td>SW / EN / FR</td><td><strong style="color:var(--success);">★ 4.9</strong></td><td>Jul–Dec 2026</td><td><span class="badge badge-success">Placed</span></td></tr>
+            <tr><td><strong>Rehema Ally</strong></td><td>Guide</td><td><span class="badge badge-blue">TALA</span> <span class="badge badge-blue">First Aid</span></td><td>SW / EN / DE</td><td><strong style="color:var(--success);">★ 4.7</strong></td><td>Aug–Nov 2026</td><td><span class="badge badge-gold">Interviewing</span></td></tr>
+            <tr><td><strong>Patrick Kimaro</strong></td><td>Driver</td><td><span class="badge badge-blue">Class B Licence</span> <span class="badge badge-blue">4WD Cert</span></td><td>SW / EN</td><td><strong style="color:var(--warn);">★ 4.3</strong></td><td>Immediate</td><td><span class="badge badge-blue">AI Screened</span></td></tr>
+            <tr><td><strong>Zawadi Mwanga</strong></td><td>Guide</td><td><span class="badge badge-blue">TALA</span></td><td>SW / EN / ZH</td><td>New</td><td>Sep 2026</td><td><span class="badge badge-warn">Pending Docs</span></td></tr>
+            <tr><td><strong>Hassan Nguruwe</strong></td><td>Senior Driver</td><td><span class="badge badge-blue">Class B</span> <span class="badge badge-blue">4WD Cert</span> <span class="badge badge-blue">First Aid</span></td><td>SW / EN</td><td><strong style="color:var(--success);">★ 4.6</strong></td><td>Available Now</td><td><span class="badge badge-success">Available</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">AI Screening Queue — Pending Review</div></div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
+          <div style="background:var(--cream);border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+            <div><div style="font-size:0.85rem;font-weight:700;color:var(--ink);">Amina Salehe — Guide Applicant</div><div style="font-size:0.72rem;color:var(--ink-soft);margin-top:2px;">TALA Certified · First Aid · Swahili, English, French · 6 yrs experience</div></div>
+            <div style="display:flex;gap:8px;"><button class="btn-sm primary" style="font-size:0.7rem;">Schedule Interview</button><button class="btn-sm" style="background:var(--cream-dark);color:var(--ink-soft);font-size:0.7rem;padding:6px 12px;border-radius:6px;border:none;">View CV</button></div>
+          </div>
+          <div style="background:var(--cream);border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+            <div><div style="font-size:0.85rem;font-weight:700;color:var(--ink);">David Mollel — Driver Applicant</div><div style="font-size:0.72rem;color:var(--ink-soft);margin-top:2px;">Class B Licence · 4WD · Swahili, English · 4 yrs safari driving</div></div>
+            <div style="display:flex;gap:8px;"><button class="btn-sm primary" style="font-size:0.7rem;">Schedule Interview</button><button class="btn-sm" style="background:var(--cream-dark);color:var(--ink-soft);font-size:0.7rem;padding:6px 12px;border-radius:6px;border:none;">View CV</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── REWARDS ENGINE ───────────────────────────── -->
+    <div class="view" id="view-rewards">
+      <div class="metrics" style="grid-template-columns:repeat(4,1fr);">
+        <div class="metric" data-icon="🏆"><div class="metric-label">Total Points Issued (MTD)</div><div class="metric-value">48,320</div><div class="metric-delta up">↑ +18% vs May</div></div>
+        <div class="metric" data-icon="🌿"><div class="metric-label">Eco-Points Earned</div><div class="metric-value">19,440</div><div class="metric-delta up">Carbon offset actions</div></div>
+        <div class="metric" data-icon="🔄"><div class="metric-label">Points Redeemed</div><div class="metric-value">12,100</div><div class="metric-delta neutral">Discounts + Vouchers</div></div>
+        <div class="metric" data-icon="💳"><div class="metric-label">Explorer Memberships</div><div class="metric-value">6</div><div class="metric-delta up">$19/year × 6 = $114</div></div>
+      </div>
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-header"><div class="card-title">Top Reward Earners — Tourist Leaderboard</div></div>
+        <table>
+          <thead><tr><th>Tourist</th><th>Total Points</th><th>Eco-Points</th><th>Badges Earned</th><th>Trips (SafariGo)</th><th>Membership</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Marcus K.</strong> 🇺🇸</td><td><strong style="color:var(--gold);">4,820</strong></td><td>1,200</td><td>🌿 Eco Traveller · 🦁 Safari Veteran</td><td>3</td><td><span class="badge badge-gold">Explorer ✦</span></td></tr>
+            <tr><td><strong>Petra H.</strong> 🇩🇪</td><td><strong style="color:var(--gold);">3,940</strong></td><td>2,100</td><td>🌿 Carbon Hero · 🏔️ Summit Achiever</td><td>2</td><td><span class="badge badge-gold">Explorer ✦</span></td></tr>
+            <tr><td><strong>James & Aisha T.</strong> 🇬🇧</td><td><strong style="color:var(--gold);">3,200</strong></td><td>800</td><td>💒 Honeymoon Traveller · 🌍 Impact Maker</td><td>1</td><td><span class="badge badge-blue">Standard</span></td></tr>
+            <tr><td><strong>Li Wei</strong> 🇨🇳</td><td><strong>2,410</strong></td><td>440</td><td>🌿 Eco Traveller</td><td>1</td><td><span class="badge badge-blue">Standard</span></td></tr>
+            <tr><td><strong>Sophie M.</strong> 🇫🇷</td><td><strong>1,880</strong></td><td>960</td><td>🌿 Carbon Hero</td><td>1</td><td><span class="badge badge-blue">Standard</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Points Configuration</div></div>
+        <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div style="background:var(--cream);border-radius:10px;padding:14px 16px;"><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:6px;">Eco-Certified Lodge Booking</div><div style="font-size:1.1rem;font-weight:700;color:var(--ink);">+500 pts</div></div>
+          <div style="background:var(--cream);border-radius:10px;padding:14px 16px;"><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:6px;">Carbon Offset at Checkout</div><div style="font-size:1.1rem;font-weight:700;color:var(--ink);">+300 pts</div></div>
+          <div style="background:var(--cream);border-radius:10px;padding:14px 16px;"><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:6px;">Community Marketplace Booking</div><div style="font-size:1.1rem;font-weight:700;color:var(--ink);">+200 pts</div></div>
+          <div style="background:var(--cream);border-radius:10px;padding:14px 16px;"><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:6px;">Trip Completion (Zero Issues)</div><div style="font-size:1.1rem;font-weight:700;color:var(--ink);">+400 pts</div></div>
+          <div style="background:var(--cream);border-radius:10px;padding:14px 16px;"><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:6px;">QR-Verified Review Submitted</div><div style="font-size:1.1rem;font-weight:700;color:var(--ink);">+150 pts</div></div>
+          <div style="background:var(--cream);border-radius:10px;padding:14px 16px;"><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:6px;">1,000 pts = Discount Value</div><div style="font-size:1.1rem;font-weight:700;color:var(--ink);">$10 off next safari</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NATIONAL MARKETING ──────────────────────── -->
+    <div class="view" id="view-marketing">
+      <div class="metrics" style="grid-template-columns:repeat(4,1fr);">
+        <div class="metric" data-icon="📣"><div class="metric-label">Active Campaigns</div><div class="metric-value">6</div><div class="metric-delta up">↑ Visit Tanzania + Zanzibar</div></div>
+        <div class="metric" data-icon="👁️"><div class="metric-label">Digital Impressions (MTD)</div><div class="metric-value">2.4M</div><div class="metric-delta up">↑ TikTok + IG + YouTube</div></div>
+        <div class="metric" data-icon="🔗"><div class="metric-label">Influencer Deep Links</div><div class="metric-value">18</div><div class="metric-delta up">↑ 6 active creators</div></div>
+        <div class="metric" data-icon="💰"><div class="metric-label">Impressions → Bookings</div><div class="metric-value">3.2%</div><div class="metric-delta up">↑ Above 2.1% industry avg</div></div>
+      </div>
+
+      <!-- CAMPAIGN TABLE -->
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-header">
+          <div class="card-title">Active National Campaigns</div>
+          <button class="btn-sm gold">+ New Campaign</button>
+        </div>
+        <table>
+          <thead><tr><th>Campaign</th><th>Partner</th><th>Channels</th><th>Impressions</th><th>Conversions</th><th>Bookings</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Visit Serengeti — Leave No Trace</strong><div class="td-sub">Carbon-Neutral Safari · EU market</div></td>
+              <td>TTB + TANAPA</td>
+              <td>IG · YouTube · Google</td>
+              <td>840K</td>
+              <td>3.6%</td>
+              <td><strong style="color:var(--success);">14 ($48,200)</strong></td>
+              <td><span class="badge badge-success">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>Zanzibar Honeymoon Escape</strong><div class="td-sub">AI-personalised couples targeting</div></td>
+              <td>ZATI + Zanzibar Blue</td>
+              <td>IG · TikTok · Facebook</td>
+              <td>620K</td>
+              <td>2.8%</td>
+              <td><strong style="color:var(--success);">9 ($26,100)</strong></td>
+              <td><span class="badge badge-success">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>Kilimanjaro Summit Challenge</strong><div class="td-sub">Adventure segment — USA/UK</div></td>
+              <td>Kili Summit Co.</td>
+              <td>YouTube Shorts · TikTok</td>
+              <td>380K</td>
+              <td>2.1%</td>
+              <td><strong>5 ($21,000)</strong></td>
+              <td><span class="badge badge-success">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>Migration Photo Safari</strong><div class="td-sub">Photographer segment · AI-personalised</div></td>
+              <td>Serengeti Trail Adv.</td>
+              <td>IG · Pinterest · Google</td>
+              <td>290K</td>
+              <td>4.1%</td>
+              <td><strong style="color:var(--success);">7 ($24,500)</strong></td>
+              <td><span class="badge badge-blue">Scaling</span></td>
+            </tr>
+            <tr>
+              <td><strong>Ngorongoro Crater Conservation</strong><div class="td-sub">Impact traveller · EU/Scandinavian</div></td>
+              <td>TTB + NGO Partners</td>
+              <td>IG · LinkedIn · Google</td>
+              <td>270K</td>
+              <td>1.8%</td>
+              <td><strong>4 ($18,200)</strong></td>
+              <td><span class="badge badge-warn">Optimising</span></td>
+            </tr>
+            <tr>
+              <td><strong>Visit Tanzania — Trust Seal Rollout</strong><div class="td-sub">B2B widget embed on gov tourism pages</div></td>
+              <td>TTB · Official gov sites</td>
+              <td>Web Widget · WhatsApp API</td>
+              <td>—</td>
+              <td>—</td>
+              <td><strong>22 (attributed)</strong></td>
+              <td><span class="badge badge-gold">B2B Embed</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+
+        <!-- INFLUENCER TRACKER -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Influencer Deep Links</div><span style="font-size:0.72rem;color:var(--ink-soft);">B2B Widget API in creator bios</span></div>
+          <div class="card-body" style="padding:0;">
+            <div class="op-card" style="border-radius:0;box-shadow:none;border-bottom:1px solid var(--cream);cursor:default;">
+              <div class="op-card-body" style="padding:14px 18px;">
+                <div class="op-card-header" style="margin-bottom:6px;">
+                  <div class="op-avatar-wrap" style="width:36px;height:36px;font-size:0.8rem;background:#e1306c;">JT</div>
+                  <div>
+                    <div class="op-card-name" style="font-size:0.85rem;">@JourneyWithTara</div>
+                    <div class="op-card-region">🇬🇧 UK · 1.2M followers · Safari content</div>
+                  </div>
+                  <span class="badge badge-success" style="margin-left:auto;">Active</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--ink-soft);margin-top:4px;">
+                  <span>Clicks: <strong style="color:var(--ink);">4,820</strong></span>
+                  <span>Bookings: <strong style="color:var(--success);">6</strong></span>
+                  <span>Revenue: <strong style="color:var(--ink);">$21,000</strong></span>
+                </div>
+              </div>
+            </div>
+            <div class="op-card" style="border-radius:0;box-shadow:none;border-bottom:1px solid var(--cream);cursor:default;">
+              <div class="op-card-body" style="padding:14px 18px;">
+                <div class="op-card-header" style="margin-bottom:6px;">
+                  <div class="op-avatar-wrap" style="width:36px;height:36px;font-size:0.8rem;background:#ff0050;">MR</div>
+                  <div>
+                    <div class="op-card-name" style="font-size:0.85rem;">@MarcosRoams</div>
+                    <div class="op-card-region">🇺🇸 USA · 890K followers · Wildlife photography</div>
+                  </div>
+                  <span class="badge badge-success" style="margin-left:auto;">Active</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--ink-soft);margin-top:4px;">
+                  <span>Clicks: <strong style="color:var(--ink);">3,210</strong></span>
+                  <span>Bookings: <strong style="color:var(--success);">4</strong></span>
+                  <span>Revenue: <strong style="color:var(--ink);">$14,800</strong></span>
+                </div>
+              </div>
+            </div>
+            <div class="op-card" style="border-radius:0;box-shadow:none;cursor:default;">
+              <div class="op-card-body" style="padding:14px 18px;">
+                <div class="op-card-header" style="margin-bottom:6px;">
+                  <div class="op-avatar-wrap" style="width:36px;height:36px;font-size:0.8rem;background:#ff9900;">SG</div>
+                  <div>
+                    <div class="op-card-name" style="font-size:0.85rem;">@SofiGoesGreen</div>
+                    <div class="op-card-region">🇩🇪 Germany · 640K followers · Eco-travel</div>
+                  </div>
+                  <span class="badge badge-blue" style="margin-left:auto;">Negotiating</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--ink-soft);margin-top:4px;">
+                  <span>Clicks: <strong style="color:var(--ink);">—</strong></span>
+                  <span>Bookings: <strong>—</strong></span>
+                  <span>Revenue: <strong>—</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI CONTENT PIPELINE -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">AI Content Pipeline</div><span style="font-size:0.72rem;color:var(--ink-soft);">Operator footage → market-ready assets</span></div>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:12px;">
+            <div style="background:var(--cream);border-radius:10px;padding:14px 16px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--ink);">Serengeti Sunrise Reel</div>
+                <span class="badge badge-success">Published</span>
+              </div>
+              <div style="font-size:0.72rem;color:var(--ink-soft);">Serengeti Trail Adventures · 38K views · 2.1K saves · Deep link: 140 clicks</div>
+            </div>
+            <div style="background:var(--cream);border-radius:10px;padding:14px 16px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--ink);">Ngorongoro Crater Animals</div>
+                <span class="badge badge-success">Published</span>
+              </div>
+              <div style="font-size:0.72rem;color:var(--ink-soft);">Ngorongoro Crater Lodge · 22K views · 980 saves · Deep link: 87 clicks</div>
+            </div>
+            <div style="background:var(--cream);border-radius:10px;padding:14px 16px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--ink);">Zanzibar Beach Sunset</div>
+                <span class="badge badge-gold">Processing</span>
+              </div>
+              <div style="font-size:0.72rem;color:var(--ink-soft);">Zanzibar Blue Horizons · AI editing in progress · ETA: 2 hours</div>
+            </div>
+            <div style="background:var(--cream);border-radius:10px;padding:14px 16px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--ink);">Kili Summit Summit Shorts</div>
+                <span class="badge badge-warn">Queued</span>
+              </div>
+              <div style="font-size:0.72rem;color:var(--ink-soft);">Kili Summit Co. · Raw footage uploaded · Pending AI processing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRUST SEAL EMBED STATS -->
+      <div class="card">
+        <div class="card-header"><div class="card-title">SafariGo Trust Seal — Government Embed Performance</div><span style="font-size:0.72rem;color:var(--ink-soft);">TTB · ZATI · Official Visit Tanzania & Zanzibar pages</span></div>
+        <table>
+          <thead><tr><th>Host Site</th><th>Seal Type</th><th>Page Views (MTD)</th><th>Seal Clicks</th><th>Click-to-Book Rate</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>visitanzania.go.tz</strong></td><td>Full Widget</td><td>142,000</td><td>8,420</td><td><strong style="color:var(--success);">5.9%</strong></td><td><span class="badge badge-success">Embedded ✓</span></td></tr>
+            <tr><td><strong>zanzibar-tourism.go.tz</strong></td><td>Full Widget</td><td>89,000</td><td>4,100</td><td><strong style="color:var(--success);">4.6%</strong></td><td><span class="badge badge-success">Embedded ✓</span></td></tr>
+            <tr><td><strong>tanzaniatourism.go.tz</strong></td><td>Badge Only</td><td>210,000</td><td>2,800</td><td>1.3%</td><td><span class="badge badge-warn">Upgrade Pending</span></td></tr>
+            <tr><td><strong>TTB Facebook Page</strong></td><td>Bio Link</td><td>320,000</td><td>6,100</td><td>1.9%</td><td><span class="badge badge-blue">Active</span></td></tr>
+            <tr><td><strong>ZATI Instagram</strong></td><td>Bio Deep Link</td><td>180,000</td><td>3,900</td><td>2.2%</td><td><span class="badge badge-blue">Active</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
 </div>
 
 <script>
@@ -817,6 +1196,11 @@
     fx: 'FX Rate Monitor',
     revenue: 'Revenue Analytics',
     qr: 'QR Scan Activity',
+    chat: 'Secure Chat Engine',
+    'ai-marketing': 'AI Content & Marketing Agent',
+    'ai-hr': 'AI HR & Recruitment Agent',
+    rewards: 'Gamified Rewards Engine',
+    marketing: 'National Marketing Layer',
   };
 
   function showView(name, el) {
