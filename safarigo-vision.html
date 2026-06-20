@@ -531,9 +531,28 @@ footer{
   .urgency-grid{grid-template-columns:1fr;}
   .eco-ring{width:300px;height:300px;}
 }
+
+/* ── VISION MICRO-ANIMATIONS ─────────────────────────── */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:9999;background:linear-gradient(90deg,#E8B84B,#C4813A,#E8B84B);background-size:200%;transform-origin:left;transform:scaleX(0);animation:gm 3s linear infinite;}
+@keyframes gm{0%{background-position:0%;}100%{background-position:200%;}}
+.cursor-spot{position:fixed;pointer-events:none;z-index:2;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(232,184,75,0.05) 0%,transparent 70%);transform:translate(-50%,-50%);transition:opacity .4s;opacity:0;}
+@media(hover:hover){.cursor-spot{opacity:1;}}
+.feat-card{transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s ease,border-color 0.25s !important;}
+.feat-card:hover{transform:translateY(-10px) !important;box-shadow:0 28px 70px rgba(0,0,0,0.35) !important;}
+.rev-card{transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.28s ease !important;}
+.rev-card:hover{transform:translateY(-8px) !important;box-shadow:0 20px 50px rgba(0,0,0,0.3) !important;}
+.stake-card{transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1),border-color 0.2s !important;}
+.stake-card:hover{transform:translateY(-6px) scale(1.02) !important;}
+.btn-gold,.btn-ghost{position:relative;overflow:hidden;}
+.btn-gold::after,.btn-ghost::after{content:'';position:absolute;top:-50%;left:-80%;width:50%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);transform:skewX(-20deg);transition:left 0.55s ease;pointer-events:none;}
+.btn-gold:hover::after,.btn-ghost:hover::after{left:130%;}
+.exp-country{transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),border-color 0.2s !important;}
+.exp-country:hover{transform:translateY(-6px) scale(1.04) !important;}
 </style>
 </head>
 <body>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor-spot" id="cursorSpot"></div>
 
 <!-- NAV -->
 <nav>
@@ -1356,6 +1375,55 @@ window.addEventListener('scroll', () => {
 window.addEventListener('scroll', () => {
   document.querySelector('nav').style.background =
     window.scrollY > 60 ? 'rgba(5,5,5,0.97)' : 'rgba(10,10,10,0.92)';
+});
+
+// ── SCROLL PROGRESS BAR ────────────────────────────
+const prog = document.getElementById('scrollProgress');
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  if(prog) prog.style.transform = `scaleX(${window.scrollY / max})`;
+}, {passive:true});
+
+// ── CURSOR SPOTLIGHT ───────────────────────────────
+const spot = document.getElementById('cursorSpot');
+document.addEventListener('mousemove', e => {
+  if(spot){ spot.style.left = e.clientX+'px'; spot.style.top = e.clientY+'px'; }
+}, {passive:true});
+
+// ── FEATURE CARD 3D TILT ───────────────────────────
+document.querySelectorAll('.feat-card, .rev-card, .stake-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width/2;
+    const y = e.clientY - r.top  - r.height/2;
+    const tX = -(y/r.height)*6;
+    const tY =  (x/r.width)*6;
+    card.style.transform = `translateY(-10px) rotateX(${tX}deg) rotateY(${tY}deg)`;
+    card.style.transition = 'transform 0.08s ease';
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.transition = 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+  });
+});
+
+// ── ECO-NODE PULSE ON HOVER ────────────────────────
+document.querySelectorAll('.eco-node-dot').forEach(dot => {
+  dot.addEventListener('mouseenter', () => {
+    dot.style.transform = 'scale(1.25)';
+    dot.style.transition = 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)';
+  });
+  dot.addEventListener('mouseleave', () => {
+    dot.style.transform = 'scale(1)';
+  });
+});
+
+// ── STAGGERED REVEAL ───────────────────────────────
+document.querySelectorAll('.reveal').forEach(el => {
+  // Already observed above — add stagger by sibling order
+  const siblings = [...(el.parentElement?.children || [])].filter(c => c.classList.contains('reveal'));
+  const idx = siblings.indexOf(el);
+  if(idx > 0) el.style.transitionDelay = (idx * 0.1) + 's';
 });
 </script>
 </body>
