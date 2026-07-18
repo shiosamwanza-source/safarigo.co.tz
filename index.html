@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="SafariGo — Tanzania's Trust & Financial Infrastructure for Tourism. Secure safari bookings with Tiered Milestone Escrow and QR verification."/>
-<meta name="keywords" content="SafariGo, Tanzania safari, tour operators, escrow, tourism, Arusha, Serengeti, Kilimanjaro"/>
+<meta name="description" content="SafariGo — Tanzania's National Tourism Infrastructure Platform & Tourism 5.0 Ecosystem. AI-driven, Escrow-secured, and IoT-integrated."/>
+<meta name="keywords" content="SafariGo, Tourism 5.0, Tanzania safari, National Tourism Data Exchange, Tiered Milestone Escrow, Sovereign Tourism, TANAPA, GePG"/>
 <meta name="author" content="Sado Faraji / TEUS Technology Tanzania"/>
-<meta property="og:title" content="SafariGo — Tourism Operating System of Tanzania"/>
-<meta property="og:description" content="Book any safari with total confidence. Every payment protected by Tiered Milestone Escrow."/>
+<meta property="og:title" content="SafariGo — Tourism 5.0 Operating System of Tanzania"/>
+<meta property="og:description" content="Unlocking Tanzania's $7.0B Tourism Potential through Digital Governance, AI, and Tiered Escrow."/>
 <meta property="og:type" content="website"/>
-<title>SafariGo — Tourism Operating System of Tanzania</title>
+<title>SafariGo — Tourism 5.0 Ecosystem & National Infrastructure</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --green-deep: #0F2A1F; /* Iliyofifia kidogo kwa modern look */
+    --green-deep: #0F2A1F; 
     --green-mid:  #2A5C46;
     --gold:       #E8B84B;
     --gold-bright:#F1C95A;
@@ -34,7 +34,6 @@
     overflow-x:hidden;
   }
 
-  /* Background texture & Ambient lighting */
   body::before{
     content:'';position:fixed;inset:0;z-index:-1;
     background:
@@ -74,12 +73,12 @@
     letter-spacing: 0.05em; transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--gold); }
-  @media(max-width: 768px) { .nav-links { display: none; } }}
+  @media(max-width: 768px) { .nav-links { display: none; } }
 
   /* MAIN WRAPPER */
   .wrapper{
     position:relative;z-index:1;
-    width:100%;max-width:1200px; /* Panepuka zaidi */
+    width:100%;max-width:1200px;
     margin: 0 auto;
     padding: 140px 5% 60px;
     display:flex;flex-direction:column;
@@ -104,8 +103,9 @@
   .logo-sub{
     font-size:0.75rem;font-weight:600;
     letter-spacing:0.2em;text-transform:uppercase;
-    color:rgba(255,255,255,0.4);
+    color:var(--gold);
     margin-bottom:2.5rem;
+    border: 1px solid var(--gold); padding: 4px 12px; border-radius: 20px; display: inline-block;
   }
   .tagline{
     font-family:'Playfair Display',serif;
@@ -142,7 +142,7 @@
   /* SECTION TITLES */
   .section-title {
     font-family:'Playfair Display',serif;
-    font-size: 1.5rem; color: #fff;
+    font-size: 1.8rem; color: #fff;
     margin-bottom: 0.5rem; text-align: center;
   }
   .section-sub {
@@ -151,7 +151,7 @@
     text-transform: uppercase; letter-spacing: 0.1em;
   }
 
-  /* SITE MAP GRID */
+  /* SITE MAP GRID - TOURISM 5.0 LAYERS */
   .sitemap{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -239,10 +239,10 @@
   }
   .featured-desc{font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:14px;}
 
-  /* MARKET CATEGORIES GRID (NEW) */
+  /* MARKET CATEGORIES GRID */
   .market-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* Changed to 3 for 6 items */
     gap: 20px;
     width: 100%;
     margin-bottom: 4rem;
@@ -297,12 +297,14 @@
   .site-card:nth-child(3){animation-delay:0.26s;}
   .site-card:nth-child(4){animation-delay:0.34s;}
   .site-card:nth-child(5){animation-delay:0.42s;}
-  .site-card:nth-child(6){animation-delay:0.50s;} /* Added delay for 6th card */
+  .site-card:nth-child(6){animation-delay:0.50s;}
   
   .market-card:nth-child(1){animation-delay:0.5s;}
   .market-card:nth-child(2){animation-delay:0.6s;}
   .market-card:nth-child(3){animation-delay:0.7s;}
   .market-card:nth-child(4){animation-delay:0.8s;}
+  .market-card:nth-child(5){animation-delay:0.9s;}
+  .market-card:nth-child(6){animation-delay:1.0s;}
   
   @keyframes cardIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
   
@@ -324,8 +326,8 @@
 <nav class="navbar">
   <a href="#" class="nav-logo">Safari<span>Go</span></a>
   <ul class="nav-links">
-    <li><a href="#platform">Platform</a></li>
-    <li><a href="#market">Market</a></li>
+    <li><a href="#platform">Ecosystem</a></li>
+    <li><a href="#market">Verticals</a></li>
     <li><a href="#operators">Operators</a></li>
     <li><a href="#">Login</a></li>
   </ul>
@@ -336,130 +338,152 @@
   <!-- HERO -->
   <div class="hero-content" id="platform">
     <div class="logo">Safari<span>Go</span></div>
-    <div class="logo-sub">Tourism Operating System · Tanzania</div>
+    <div class="logo-sub">Tourism 5.0 Operating System · Tanzania</div>
     <div class="tagline">
-      The <em>Trust & Financial Infrastructure</em><br/>East African Tourism Has Been Waiting For.
+      The <em>National Enterprise Digital Ecosystem</em><br/>Maximizing Tanzania's $7.0B Tourism Potential.
     </div>
     <div class="sub-tag">
-      Built by Sado Faraji & TEUS Technology, Tanzania. Select a section to explore.
+      Moving beyond booking platforms. Unifying Government, Private Sector, and Tourists via AI, IoT, Tiered Escrow, and National Data Exchange. Zero WhatsApp dependency.
     </div>
   </div>
 
   <!-- STATS -->
   <div class="stats-bar">
-    <div class="stat"><span class="stat-num">NALA</span><div class="stat-label">Cross-Border FX API</div></div>
-    <div class="stat"><span class="stat-num">3</span><div class="stat-label">Milestone Escrow Tiers</div></div>
-    <div class="stat"><span class="stat-num">TZS 0</span><div class="stat-label">Fraud Incidents</div></div>
-    <div class="stat"><span class="stat-num">GePG</span><div class="stat-label">Pre-Verification Live</div></div>
-    <div class="stat"><span class="stat-num">Multi</span><div class="stat-label">Tenant White-Labeling</div></div>
+    <div class="stat"><span class="stat-num">$7.0B</span><div class="stat-label">Sovereign Target</div></div>
+    <div class="stat"><span class="stat-num">15</span><div class="stat-label">Architecture Layers</div></div>
+    <div class="stat"><span class="stat-num">0%</span><div class="stat-label">Informal Leakage</div></div>
+    <div class="stat"><span class="stat-num">AI</span><div class="stat-label">Automation & IoT</div></div>
+    <div class="stat"><span class="stat-num">GePG</span><div class="stat-label">Real-Time Tax</div></div>
   </div>
 
-  <!-- SITE MAP -->
+  <!-- SITE MAP - TOURISM 5.0 ARCHITECTURE -->
   <div class="sitemap">
     <!-- FEATURED -->
     <a href="safarigo-landing.html" class="site-card featured" style="--card-color:var(--gold);">
-      <div class="featured-left"><div class="featured-icon">🌍</div></div>
+      <div class="featured-left"><div class="featured-icon">🏛️</div></div>
       <div class="featured-right">
-        <div class="featured-badge">Core Engine</div>
-        <div class="featured-title">SafariGo Hub & NALA API Gateway</div>
-        <div class="featured-desc">The enterprise-facing landing page. Integrated with NALA's cross-border payment gateway to convert international USD/EUR settlements into TZS, routed directly into our Tiered Milestone Escrow system.</div>
-        <div class="card-arrow">Enter Platform →</div>
+        <div class="featured-badge">Core Digital Highway</div>
+        <div class="featured-title">National Tourism Data Exchange (NTDX)</div>
+        <div class="featured-desc">The Digital Highway integrating BRELA, TRA, Immigration, TANAPA, Airlines, and Banks via API. Replaces WhatsApp with In-App Secure Chat, Digital Evidence, and Immutable Audit Trails.</div>
+        <div class="card-arrow">Enter Ecosystem →</div>
       </div>
     </a>
 
-    <!-- Operators Directory -->
-    <a href="safarigo-operators.html" class="site-card" style="--card-color:#2ecc71;">
-      <div class="card-icon">🏕️</div>
-      <div class="card-label">Directory</div>
-      <div class="card-title">Verified Operators & SaaS Widgets</div>
-      <div class="card-desc">Browse verified tour operators using SafariGo Trust Seal Widgets. Real-time profile fetching, QR-verified tracking, and multi-tenant routing.</div>
-      <div class="card-arrow">Browse →</div>
-    </a>
-
-    <!-- FINTECH ENGINE -->
+    <!-- Financial Intelligence -->
     <a href="safarigo-advance.html" class="site-card" style="--card-color:#3498db;">
       <div class="card-icon">⚡</div>
-      <div class="card-label">Liquidity Hack</div>
-      <div class="card-title">SafariGo Advance & GePG</div>
-      <div class="card-desc">B2B financial operations suite. Micro-advances to trusted operators for instant TANAPA/TAWA GePG permit clearances, bypassing international clearing lag.</div>
-      <div class="card-arrow">Manage Ukwasi →</div>
+      <div class="card-label">Layer 4: Financial Intelligence</div>
+      <div class="card-title">Tiered Escrow & GePG</div>
+      <div class="card-desc">Multi-point proof of service. Instant statutory remittance via GePG, 40% pre-arrival liquidity for operators, and automated micro-tier payouts.</div>
+      <div class="card-arrow">Manage Liquidity →</div>
     </a>
 
-    <!-- Operator Portal -->
+    <!-- AI & Automation -->
+    <a href="safarigo-vision.html" class="site-card" style="--card-color:#9b59b6;">
+      <div class="card-icon">🤖</div>
+      <div class="card-label">Layer 5 & 10: AI & BI</div>
+      <div class="card-title">AI Concierge & Digital Twin</div>
+      <div class="card-desc">Dynamic pricing, demand forecasting, and predictive maintenance. State ministries access real-time Tourism Digital Twins for macro-policy formation.</div>
+      <div class="card-arrow">View AI Architecture →</div>
+    </a>
+
+    <!-- Enterprise Operations -->
+    <a href="safarigo-operators.html" class="site-card" style="--card-color:#2ecc71;">
+      <div class="card-icon">🏕️</div>
+      <div class="card-label">Layer 3: Operations</div>
+      <div class="card-title">Enterprise Ops & Trust Seal</div>
+      <div class="card-desc">Context-Aware AI Itinerary builder, PMS, Fleet Management, and B2B Trust Seal Widgets. Operators retain 96.5% revenue, bypassing foreign OTAs.</div>
+      <div class="card-arrow">Browse Operators →</div>
+    </a>
+
+    <!-- Identity & Trust -->
     <a href="safarigo-operator.html" class="site-card" style="--card-color:var(--gold);">
-      <div class="card-icon">📋</div>
-      <div class="card-label">Onboarding</div>
-      <div class="card-title">Join as Operator</div>
-      <div class="card-desc">4-step compliance portal validating BRELA, TALA, and TIN documents while mapping client accounts to secure automated fiduciary escrow workflows.</div>
-      <div class="card-arrow">Apply →</div>
+      <div class="card-icon">🔐</div>
+      <div class="card-label">Layer 2: Identity & Trust</div>
+      <div class="card-title">Digital Tourist ID & KYC</div>
+      <div class="card-desc">Unifies passport, permits, and insurance into a single cryptographic token. Biometric MFA and SafariGo Trust Scores eliminate fraud risk instantly.</div>
+      <div class="card-arrow">Onboard Now →</div>
     </a>
 
-    <!-- Admin Dashboard -->
-    <a href="safarigo-admin.html" class="site-card" style="--card-color:#9b59b6;">
-      <div class="card-icon">📊</div>
-      <div class="card-label">Admin</div>
-      <div class="card-title">Admin Dashboard Console</div>
-      <div class="card-desc">Monitor active escrow pools, run real-time GePG pre-verification diagnostics, track offline dynamic cryptographic QR vouchers, and audit revenue streams.</div>
-      <div class="card-arrow">Dashboard →</div>
-    </a>
-
-    <!-- Vision / TOS Investor Pitch (RETURNED HERE) -->
-    <a href="safarigo-vision.html" class="site-card" style="--card-color:#e74c3c;">
-      <div class="card-icon">🏛️</div>
-      <div class="card-label">Strategic Vision</div>
-      <div class="card-title">TOS Investor Pitch</div>
-      <div class="card-desc">The full Tourism Operating System architecture overview. 10 structural pillars, 9 platform monetization models, custom white-label licensing frameworks, and national macro data metrics engine.</div>
-      <div class="card-arrow">View Vision →</div>
+    <!-- Smart Tourism -->
+    <a href="safarigo-admin.html" class="site-card" style="--card-color:#e74c3c;">
+      <div class="card-icon">🌍</div>
+      <div class="card-label">Layer 9: Smart Tourism</div>
+      <div class="card-title">IoT & Carbon Footprint</div>
+      <div class="card-desc">Geofenced payouts, smart locks, wildlife tracking, and automated carbon offset calculations. Gamified eco-tourism rewards for sustainable travel.</div>
+      <div class="card-arrow">Monitor Ecosystem →</div>
     </a>
   </div>
 
   <!-- MARKET CATEGORIES SECTION -->
   <div class="market-section" id="market">
-    <div class="section-title">Tanzania Tourism Market Segments</div>
-    <div class="section-sub">Classified under TALA Licensing Authority</div>
+    <div class="section-title">High-Yield Sectoral Integration</div>
+    <div class="section-sub">Comprehensive Multi-Circuit Domains</div>
     
     <div class="market-grid">
-      <!-- 1. Inbound Tour Operators -->
+      <!-- 1. Wildlife -->
       <div class="market-card">
         <span class="m-card-icon">🦁</span>
-        <div class="m-card-title">Safari & Wildlife Operators</div>
-        <div class="m-card-desc">Inbound operators receiving tourists for National Parks (Serengeti, Ngorongoro, Ruaha). Own 4x4 Safari Jeeps, coordinate lodges & guides.</div>
+        <div class="m-card-title">Wildlife & Photographic</div>
+        <div class="m-card-desc">Mainland circuit integration with TANAPA, TAWA, NCAA. Automates park fee splitting and offline-first QR voucher validation.</div>
         <div class="m-card-stat">
-          <span class="m-stat-num">1,200+</span>
-          <span class="m-stat-txt">Registered Companies</span>
+          <span class="m-stat-num">$2.1B</span>
+          <span class="m-stat-txt">Annual Direct Revenue</span>
         </div>
       </div>
 
-      <!-- 2. Mountain Trekking Operators -->
-      <div class="market-card">
-        <span class="m-card-icon">⛰️</span>
-        <div class="m-card-title">Mountain Trekking Operators</div>
-        <div class="m-card-desc">Specialists in Mt. Kilimanjaro & Meru expeditions. Provide certified guides, porters, chefs, and high-altitude safety gear (oxygen, vitamins).</div>
-        <div class="m-card-stat">
-          <span class="m-stat-num">400+</span>
-          <span class="m-stat-txt">Based in Moshi & Arusha</span>
-        </div>
-      </div>
-
-      <!-- 3. Travel Agencies -->
-      <div class="market-card">
-        <span class="m-card-icon">✈️</span>
-        <div class="m-card-title">Travel Agencies & Ticketing</div>
-        <div class="m-card-desc">IATA verified agents handling domestic/international flight tickets, charter flights, visa processing, and airport transfers.</div>
-        <div class="m-card-stat">
-          <span class="m-stat-num">250+</span>
-          <span class="m-stat-txt">Commercial Hubs (Dar/Arusha)</span>
-        </div>
-      </div>
-
-      <!-- 4. Beach & Coastal Operators -->
+      <!-- 2. Beach & Blue Economy -->
       <div class="market-card">
         <span class="m-card-icon">🏖️</span>
-        <div class="m-card-title">Beach & Coastal Operators</div>
-        <div class="m-card-desc">Zanzibar, Mafia, and Kilwa specialists. Coordinate water sports (Scuba, Snorkeling), Spice tours, and Stone Town cultural excursions.</div>
+        <div class="m-card-title">Zanzibar & Blue Economy</div>
+        <div class="m-card-desc">Multi-destination tracking across mainland & archipelago. Automates Zanzibar Infrastructure Tax and marine conservation fees.</div>
         <div class="m-card-stat">
           <span class="m-stat-num">300+</span>
-          <span class="m-stat-txt">Zanzibar & Coast Based</span>
+          <span class="m-stat-txt">Coastal Operators</span>
+        </div>
+      </div>
+
+      <!-- 3. High-Yield Hunting -->
+      <div class="market-card">
+        <span class="m-card-icon">🎯</span>
+        <div class="m-card-title">Trophy Hunting Concessions</div>
+        <div class="m-card-desc">Tracks high-value transactions matching international deposits against strict state quota systems and PH licensing.</div>
+        <div class="m-card-stat">
+          <span class="m-stat-num">$460</span>
+          <span class="m-stat-txt">Avg Daily Spend</span>
+        </div>
+      </div>
+
+      <!-- 4. Mountain Trekking -->
+      <div class="market-card">
+        <span class="m-card-icon">⛰️</span>
+        <div class="m-card-title">Mountain Trekking</div>
+        <div class="m-card-desc">Kilimanjaro & Meru specialists. IoT tracking for guides, SOS emergency response, and automated porter welfare payouts.</div>
+        <div class="m-card-stat">
+          <span class="m-stat-num">400+</span>
+          <span class="m-stat-txt">Registered Operators</span>
+        </div>
+      </div>
+
+      <!-- 5. Cultural Heritage -->
+      <div class="market-card">
+        <span class="m-card-icon">🥁</span>
+        <div class="m-card-title">Cultural & Love Rituals</div>
+        <div class="m-card-desc">Digitizing luxury matrimonial tourism, Swahili wellness, and authentic village experiences. Direct revenue to rural cooperatives.</div>
+        <div class="m-card-stat">
+          <span class="m-stat-num">100%</span>
+          <span class="m-stat-txt">Community Retention</span>
+        </div>
+      </div>
+
+      <!-- 6. Travel & Ticketing -->
+      <div class="market-card">
+        <span class="m-card-icon">✈️</span>
+        <div class="m-card-title">Agencies & Ticketing</div>
+        <div class="m-card-desc">IATA agents, charter flights, and airport transfers synced into one digital framework. Eliminates capital flight via local settlement.</div>
+        <div class="m-card-stat">
+          <span class="m-stat-num">250+</span>
+          <span class="m-stat-txt">Commercial Hubs</span>
         </div>
       </div>
     </div>
@@ -467,9 +491,9 @@
 
   <!-- FOOTER -->
   <div class="index-footer">
-    <strong>SafariGo</strong> · Tourism Operating System · Tanzania<br/>
-    Principal Strategist: <strong>Sado Faraji</strong> · Technology Partner: <strong>TEUS Technology, Tanzania</strong><br/>
-    © 2026 SafariGo. Enterprise-Grade MVP v1.2.0 (Market Segments Integrated)
+    <strong>SafariGo</strong> · Tourism 5.0 Ecosystem · Sovereign Digital Infrastructure<br/>
+    Architect: <strong>Sado Faraji</strong> · Technology Partner: <strong>TEUS Technology, Tanzania</strong> · Fintech: <strong>NALA Money</strong><br/>
+    © 2026 SafariGo. Enterprise-Grade MVP v2.0 (Tourism 5.0 Integrated)
   </div>
 
 </div>
@@ -481,7 +505,7 @@
     if(spot){ spot.style.left = e.clientX+'px'; spot.style.top = e.clientY+'px'; }
   }, {passive:true});
 
-  // Card 3D tilt effect (Applies to both Site Cards and Market Cards)
+  // Card 3D tilt effect
   document.querySelectorAll('.site-card, .market-card').forEach(card => {
     card.addEventListener('mousemove', e => {
       const r = card.getBoundingClientRect();
